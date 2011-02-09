@@ -8,7 +8,8 @@ namespace FluentIL
 {
     public class IL
     {
-        public static DynamicMethodBody NewMethod(Type returnType, params Type[] parameterTypes)
+        public static DynamicMethodBody NewMethod
+            (Type returnType, params Type[] parameterTypes)
         {
             DynamicMethodInfo result = new DynamicMethodInfo();
 
@@ -24,5 +25,6 @@ namespace FluentIL
         {
             return new DynamicMethodInfo();
         }
+
     }
 }

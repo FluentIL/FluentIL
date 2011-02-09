@@ -40,12 +40,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamicMethodBody.Branches.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DynamicMethodBody.Branches.tt</DependentUpon>
+    </Compile>
     <Compile Include="DynamicMethodBody.cs" />
+    <Compile Include="DynamicMethodBody.Emit.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DynamicMethodBody.Emit.tt</DependentUpon>
+    </Compile>
     <Compile Include="DynamicMethodInfo.cs" />
     <Compile Include="DynamicVariableInfo.cs" />
     <Compile Include="ForInfo.cs" />
+    <Compile Include="IfEmitter.cs" />
     <Compile Include="IL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DynamicMethodBody.Branches.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DynamicMethodBody.Branches.cs</LastGenOutput>
+    </None>
+    <None Include="DynamicMethodBody.Emit.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DynamicMethodBody.Emit.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace FluentIL
 {
-    public class DynamicMethodBody
+    public partial class DynamicMethodBody
     {
         DynamicMethodInfo _Info;
         internal DynamicMethodBody(DynamicMethodInfo info)
@@ -80,7 +80,7 @@ namespace FluentIL
         }
         #endregion
 
-        #region Common Opcdes
+        #region Common Opcodes
         
         public DynamicMethodBody Dup()
         {
@@ -223,7 +223,15 @@ namespace FluentIL
         #endregion
 
         #region Constants
-        
+        public DynamicMethodBody Ldstr(params string[] args)
+        {
+            foreach (var arg in args)
+            {
+                Emit(OpCodes.Ldstr, arg);
+            }
+            return this;
+        }
+
         public DynamicMethodBody LdcI4(params int[] args)
         {
             foreach (var arg in args)
@@ -279,25 +287,10 @@ namespace FluentIL
             return this;
         }
 
-        public DynamicMethodBody Emit(OpCode opcode, int arg)
-        {
-            _Info.AsDynamicMethod.GetILGenerator()
-                .Emit(opcode, arg);
-
-            return this;
-        }
-
-        public DynamicMethodBody Emit(OpCode opcode, Label label)
-        {
-            _Info.AsDynamicMethod.GetILGenerator()
-                .Emit(opcode, label);
-
-            return this;
-        }
+        
         #endregion
 
         #region Labels
-        
         public DynamicMethodBody MarkLabel(Label label)
         {
             _Info.AsDynamicMethod.GetILGenerator()
@@ -324,31 +317,7 @@ namespace FluentIL
         }
         #endregion
 
-        #region Comparasion
-        
-        public DynamicMethodBody Ble(string label)
-        {
-            return Ble(GetLabel(label));
-        }
-
-        DynamicMethodBody Ble(Label label)
-        {
-            return this.Emit(OpCodes.Ble, label);
-        }
-
-        public DynamicMethodBody Bge(string label)
-        {
-            return Bge(GetLabel(label));
-        }
-
-        DynamicMethodBody Bge(Label label)
-        {
-            return this.Emit(OpCodes.Bge, label);
-        }
-        #endregion
-
         #region For..Next
-
         readonly Stack<ForInfo> _Fors = new Stack<ForInfo>();
         public DynamicMethodBody For(string variable, int from, int to, int step = 1)
         {

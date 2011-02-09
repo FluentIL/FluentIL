@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConditionalStudies.cs" />
     <Compile Include="MathStudies.cs" />
     <Compile Include="DynamicMethodInfoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

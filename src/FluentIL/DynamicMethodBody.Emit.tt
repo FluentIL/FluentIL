@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Reflection.Emit;
+
+namespace FluentIL
+{
+	public partial class DynamicMethodBody
+	{
+<#		string [] types = new string [] {
+			"string", "int", "Label" };
+		foreach (var t in types)
+		{
+#>
+		public DynamicMethodBody Emit(OpCode opcode, <#=t#> arg)
+        {
+            _Info.AsDynamicMethod.GetILGenerator()
+                .Emit(opcode, arg);
+
+            return this;
+        }
+
+<#
+		}
+#>
+	}
+}
