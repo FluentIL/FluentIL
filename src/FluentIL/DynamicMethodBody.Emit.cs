@@ -24,6 +24,14 @@ namespace FluentIL
             return this;
         }
 
+		public DynamicMethodBody Emit(OpCode opcode, double arg)
+        {
+            _Info.AsDynamicMethod.GetILGenerator()
+                .Emit(opcode, arg);
+
+            return this;
+        }
+
 		public DynamicMethodBody Emit(OpCode opcode, Label arg)
         {
             _Info.AsDynamicMethod.GetILGenerator()

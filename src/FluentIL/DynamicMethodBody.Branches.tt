@@ -61,6 +61,15 @@ namespace FluentIL
 			emitter.EmitIf(OpCodes.C<#= opcode.Substring(1) #>);
 			return this;
 		}
+
+		public DynamicMethodBody IfNot<#= opcode.Substring(1) #>()
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			emitter.EmitIfNot(OpCodes.C<#= opcode.Substring(1) #>);
+			return this;
+		}
+
 <#		}#>
 		#endregion
 

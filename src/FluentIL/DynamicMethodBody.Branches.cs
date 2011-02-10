@@ -44,6 +44,15 @@ namespace FluentIL
 			emitter.EmitIf(OpCodes.Ceq);
 			return this;
 		}
+
+		public DynamicMethodBody IfNoteq()
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			emitter.EmitIfNot(OpCodes.Ceq);
+			return this;
+		}
+
 		#endregion
 
 		#region Beq_S
@@ -160,6 +169,15 @@ namespace FluentIL
 			emitter.EmitIf(OpCodes.Cgt);
 			return this;
 		}
+
+		public DynamicMethodBody IfNotgt()
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			emitter.EmitIfNot(OpCodes.Cgt);
+			return this;
+		}
+
 		#endregion
 
 		#region Bgt_S
@@ -198,6 +216,15 @@ namespace FluentIL
 			emitter.EmitIf(OpCodes.Cgt_Un);
 			return this;
 		}
+
+		public DynamicMethodBody IfNotgt_Un()
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			emitter.EmitIfNot(OpCodes.Cgt_Un);
+			return this;
+		}
+
 		#endregion
 
 		#region Bgt_Un_S
@@ -288,6 +315,15 @@ namespace FluentIL
 			emitter.EmitIf(OpCodes.Clt);
 			return this;
 		}
+
+		public DynamicMethodBody IfNotlt()
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			emitter.EmitIfNot(OpCodes.Clt);
+			return this;
+		}
+
 		#endregion
 
 		#region Blt_S
@@ -326,6 +362,15 @@ namespace FluentIL
 			emitter.EmitIf(OpCodes.Clt_Un);
 			return this;
 		}
+
+		public DynamicMethodBody IfNotlt_Un()
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			emitter.EmitIfNot(OpCodes.Clt_Un);
+			return this;
+		}
+
 		#endregion
 
 		#region Blt_Un_S

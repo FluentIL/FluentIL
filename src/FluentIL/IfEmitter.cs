@@ -27,6 +27,13 @@ namespace FluentIL
                 .Brfalse(_IfFalse);
         }
 
+        public void EmitIfNot(OpCode comparasionOpcode)
+        {
+            _Generator
+                .Emit(comparasionOpcode)
+                .Brtrue(_IfFalse);
+        }
+
         public void EmitElse()
         {
             _Generator

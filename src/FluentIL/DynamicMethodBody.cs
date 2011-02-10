@@ -34,6 +34,17 @@ namespace FluentIL
                     action();
         }
 
+        private void MultipleOperations(Func<DynamicMethodBody> action, params double[] args)
+        {
+            this.LdcR8(args);
+            if (args.Length == 1)
+                action();
+            else
+                for (int i = 0; i < args.Length - 1; i++)
+                    action();
+        }
+
+
         public DynamicMethodBody Add()
         {
             return this.Emit(OpCodes.Add);
@@ -45,6 +56,24 @@ namespace FluentIL
             return this;
         }
 
+        public DynamicMethodBody Add(int arg)
+        {
+            if (arg == 0) return this;
+            return this.LdcI4(arg).Add();
+        }
+
+        public DynamicMethodBody Add(params double[] args)
+        {
+            this.MultipleOperations(this.Add, args);
+            return this;
+        }
+
+        public DynamicMethodBody Add(double arg)
+        {
+            if (arg == 0) return this;
+            return this.LdcR8(arg).Add();
+        }
+
         public DynamicMethodBody Mul()
         {
             return this.Emit(OpCodes.Mul);
@@ -52,6 +81,22 @@ namespace FluentIL
 
 
         public DynamicMethodBody Mul(params int[] args)
+        {
+            this.MultipleOperations(this.Mul, args);
+            return this;
+        }
+
+        public DynamicMethodBody Mul(double factor)
+        {
+            if (factor == 1) 
+                return this;
+            if (factor == -1) 
+                return this.Neg();
+            return 
+                this.LdcR8(factor).Mul();
+        }
+
+        public DynamicMethodBody Mul(params double[] args)
         {
             this.MultipleOperations(this.Mul, args);
             return this;
@@ -81,6 +126,42 @@ namespace FluentIL
         #endregion
 
         #region Common Opcodes
+        
+        public DynamicMethodBody Neg()
+        {
+            return this.Emit(OpCodes.Neg);
+        }
+
+        public DynamicMethodBody ConvU1()
+        {
+            return this.Emit(OpCodes.Conv_U1);
+        }
+
+        public DynamicMethodBody ConvR8()
+        {
+            return this.Emit(OpCodes.Conv_R8);
+        }
+
+        public DynamicMethodBody LdelemI1()
+        {
+            return this.Emit(OpCodes.Ldelem_I1);
+        }
+        
+        public DynamicMethodBody StelemI1()
+        {
+            return this.Emit(OpCodes.Stelem_I1);
+        }
+
+        public DynamicMethodBody LdelemU1()
+        {
+            return this.Emit(OpCodes.Ldelem_U1);
+        }
+
+        
+        public DynamicMethodBody Pop()
+        {
+            return this.Emit(OpCodes.Pop);
+        }
         
         public DynamicMethodBody Dup()
         {
@@ -232,6 +313,22 @@ namespace FluentIL
             return this;
         }
 
+        public DynamicMethodBody LdcR8(params double[]  args)
+        {
+            for (int i = 0; i < args.Length; i++)
+                Emit(OpCodes.Ldc_R8, args[i]);
+
+            return this;
+        }
+
+        public DynamicMethodBody LdcR8(params float[] args)
+        {
+            for (int i = 0; i < args.Length; i++)
+                Emit(OpCodes.Ldc_R4, args[i]);
+
+            return this;
+        }
+
         public DynamicMethodBody LdcI4(params int[] args)
         {
             foreach (var arg in args)
@@ -360,6 +457,44 @@ namespace FluentIL
         }
         #endregion
 
+        #region 
+        public DynamicMethodBody EnsureLimits(int min, int max)
+        {
+            return this
+                .Dup()
+                .LdcI4(min)
+                .Iflt()
+                    .Pop()
+                    .LdcI4(min)
+                .Else()
+                    .Dup()
+                    .LdcI4(max)
+                    .Ifgt()
+                        .Pop()
+                        .LdcI4(max)
+                    .EndIf()
+                .EndIf();
+        }
+
+        public DynamicMethodBody EnsureLimits(double min, double max)
+        {
+            return this
+                .Dup()
+                .LdcR8(min)
+                .Iflt()
+                    .Pop()
+                    .LdcR8(min)
+                .Else()
+                    .Dup()
+                    .LdcR8(max)
+                    .Ifgt()
+                        .Pop()
+                        .LdcR8(max)
+                    .EndIf()
+                .EndIf();
+        }
+        #endregion
+
         #region static
         public static implicit operator DynamicMethod(DynamicMethodBody body)
         {
@@ -371,6 +506,36 @@ namespace FluentIL
             return body._Info;
         }
         #endregion
+
+        public DynamicMethodBody Repeater(int from, int to, int step,
+            Action<int, DynamicMethodBody> action
+            )
+        {
+            for (int i = from; i <= to; i += step)
+                action(i, this);
+
+            return this;
+        }
+
+        public DynamicMethodBody Repeater(int from, int to, int step, 
+            Func<int, DynamicMethodBody, bool> precondition,
+            Action<int, DynamicMethodBody> action
+            )
+        {
+            for (int i = from; i <= to; i += step)
+                if (precondition(i, this))
+                    action(i, this);
+
+            return this;
+        }
+
+        public DynamicMethodBody EmitIf(bool condition, Action<DynamicMethodBody> action)
+        {
+            if (condition)
+                action(this);
+
+            return this;
+        }
 
         public object Invoke(params object[] args)
         {

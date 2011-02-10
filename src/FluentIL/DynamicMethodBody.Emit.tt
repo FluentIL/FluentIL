@@ -9,7 +9,7 @@ namespace FluentIL
 	public partial class DynamicMethodBody
 	{
 <#		string [] types = new string [] {
-			"string", "int", "Label" };
+			"string", "int", "double", "Label" };
 		foreach (var t in types)
 		{
 #>
