@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
 
+
 namespace FluentIL
 {
 	public partial class DynamicMethodBody
@@ -18,6 +19,47 @@ namespace FluentIL
 		public DynamicMethodBody EndIf()
 		{
 			_IfEmitters.Pop().EmitEndIf();
+			return this;
+		}
+
+		private void SaveLeftSideToVariable(Type t)
+		{
+			var emitter = _IfEmitters.Peek();
+			var variable = emitter.LeftSideVarName;
+
+			if (!emitter.MultipleConditions)
+			{
+				if (GetVariableIndex(variable) == -1)
+				{
+					this._Info.WithVariable(typeof(int), variable);
+					this.AsDynamicMethod.GetILGenerator().DeclareLocal(t);
+				}
+				PreEmitActions.Push( () =>
+				{
+					Stloc(variable);
+					Ldloc(variable);
+				} );
+
+				emitter.MultipleConditions = true;
+			}
+		}
+
+		private DynamicMethodBody And(int right, OpCode opcode, bool not = false)
+		{
+			var emitter = _IfEmitters.Peek();
+			var variable = emitter.LeftSideVarName;
+			var a = PreEmitActions.Pop();
+
+			SaveLeftSideToVariable(typeof(int));
+
+			PreEmitActions.Push( () =>
+				{
+					a();
+					Ldloc(variable);
+					Ldc(right);
+					emitter.EmitIf(opcode, not);
+				}
+				);
 			return this;
 		}
 
@@ -45,12 +87,53 @@ namespace FluentIL
 			return this;
 		}
 
+		public DynamicMethodBody Ifeq(double right)
+		{
+			LdcR8(right);
+			return Ifeq();
+		}
+
+		public DynamicMethodBody Ifeq(int right)
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			PreEmitActions.Push( () => 
+				{
+					LdcI4(right);
+					emitter.EmitIf(OpCodes.Ceq);
+				}
+				);
+			return this; 
+		}
+
+		public DynamicMethodBody Andeq(int right)
+		{
+			return And(right, OpCodes.Ceq);
+		}
+
+		public DynamicMethodBody AndNoteq(int right)
+		{
+			return And(right, OpCodes.Ceq, true);
+		}
+
 		public DynamicMethodBody IfNoteq()
 		{
 			var emitter = new IfEmitter(this);
 			_IfEmitters.Push(emitter);
-			emitter.EmitIfNot(OpCodes.Ceq);
+			emitter.EmitIf(OpCodes.Ceq, true);
 			return this;
+		}
+
+		public DynamicMethodBody IfNoteq(double right)
+		{
+			LdcR8(right);
+			return IfNoteq();
+		}
+
+		public DynamicMethodBody IfNoteq(int right)
+		{
+			LdcI4(right);
+			return IfNoteq();
 		}
 
 		#endregion
@@ -170,12 +253,53 @@ namespace FluentIL
 			return this;
 		}
 
+		public DynamicMethodBody Ifgt(double right)
+		{
+			LdcR8(right);
+			return Ifgt();
+		}
+
+		public DynamicMethodBody Ifgt(int right)
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			PreEmitActions.Push( () => 
+				{
+					LdcI4(right);
+					emitter.EmitIf(OpCodes.Cgt);
+				}
+				);
+			return this; 
+		}
+
+		public DynamicMethodBody Andgt(int right)
+		{
+			return And(right, OpCodes.Cgt);
+		}
+
+		public DynamicMethodBody AndNotgt(int right)
+		{
+			return And(right, OpCodes.Cgt, true);
+		}
+
 		public DynamicMethodBody IfNotgt()
 		{
 			var emitter = new IfEmitter(this);
 			_IfEmitters.Push(emitter);
-			emitter.EmitIfNot(OpCodes.Cgt);
+			emitter.EmitIf(OpCodes.Cgt, true);
 			return this;
+		}
+
+		public DynamicMethodBody IfNotgt(double right)
+		{
+			LdcR8(right);
+			return IfNotgt();
+		}
+
+		public DynamicMethodBody IfNotgt(int right)
+		{
+			LdcI4(right);
+			return IfNotgt();
 		}
 
 		#endregion
@@ -217,12 +341,53 @@ namespace FluentIL
 			return this;
 		}
 
+		public DynamicMethodBody Ifgt_Un(double right)
+		{
+			LdcR8(right);
+			return Ifgt_Un();
+		}
+
+		public DynamicMethodBody Ifgt_Un(int right)
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			PreEmitActions.Push( () => 
+				{
+					LdcI4(right);
+					emitter.EmitIf(OpCodes.Cgt_Un);
+				}
+				);
+			return this; 
+		}
+
+		public DynamicMethodBody Andgt_Un(int right)
+		{
+			return And(right, OpCodes.Cgt_Un);
+		}
+
+		public DynamicMethodBody AndNotgt_Un(int right)
+		{
+			return And(right, OpCodes.Cgt_Un, true);
+		}
+
 		public DynamicMethodBody IfNotgt_Un()
 		{
 			var emitter = new IfEmitter(this);
 			_IfEmitters.Push(emitter);
-			emitter.EmitIfNot(OpCodes.Cgt_Un);
+			emitter.EmitIf(OpCodes.Cgt_Un, true);
 			return this;
+		}
+
+		public DynamicMethodBody IfNotgt_Un(double right)
+		{
+			LdcR8(right);
+			return IfNotgt_Un();
+		}
+
+		public DynamicMethodBody IfNotgt_Un(int right)
+		{
+			LdcI4(right);
+			return IfNotgt_Un();
 		}
 
 		#endregion
@@ -316,12 +481,53 @@ namespace FluentIL
 			return this;
 		}
 
+		public DynamicMethodBody Iflt(double right)
+		{
+			LdcR8(right);
+			return Iflt();
+		}
+
+		public DynamicMethodBody Iflt(int right)
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			PreEmitActions.Push( () => 
+				{
+					LdcI4(right);
+					emitter.EmitIf(OpCodes.Clt);
+				}
+				);
+			return this; 
+		}
+
+		public DynamicMethodBody Andlt(int right)
+		{
+			return And(right, OpCodes.Clt);
+		}
+
+		public DynamicMethodBody AndNotlt(int right)
+		{
+			return And(right, OpCodes.Clt, true);
+		}
+
 		public DynamicMethodBody IfNotlt()
 		{
 			var emitter = new IfEmitter(this);
 			_IfEmitters.Push(emitter);
-			emitter.EmitIfNot(OpCodes.Clt);
+			emitter.EmitIf(OpCodes.Clt, true);
 			return this;
+		}
+
+		public DynamicMethodBody IfNotlt(double right)
+		{
+			LdcR8(right);
+			return IfNotlt();
+		}
+
+		public DynamicMethodBody IfNotlt(int right)
+		{
+			LdcI4(right);
+			return IfNotlt();
 		}
 
 		#endregion
@@ -363,12 +569,53 @@ namespace FluentIL
 			return this;
 		}
 
+		public DynamicMethodBody Iflt_Un(double right)
+		{
+			LdcR8(right);
+			return Iflt_Un();
+		}
+
+		public DynamicMethodBody Iflt_Un(int right)
+		{
+			var emitter = new IfEmitter(this);
+			_IfEmitters.Push(emitter);
+			PreEmitActions.Push( () => 
+				{
+					LdcI4(right);
+					emitter.EmitIf(OpCodes.Clt_Un);
+				}
+				);
+			return this; 
+		}
+
+		public DynamicMethodBody Andlt_Un(int right)
+		{
+			return And(right, OpCodes.Clt_Un);
+		}
+
+		public DynamicMethodBody AndNotlt_Un(int right)
+		{
+			return And(right, OpCodes.Clt_Un, true);
+		}
+
 		public DynamicMethodBody IfNotlt_Un()
 		{
 			var emitter = new IfEmitter(this);
 			_IfEmitters.Push(emitter);
-			emitter.EmitIfNot(OpCodes.Clt_Un);
+			emitter.EmitIf(OpCodes.Clt_Un, true);
 			return this;
+		}
+
+		public DynamicMethodBody IfNotlt_Un(double right)
+		{
+			LdcR8(right);
+			return IfNotlt_Un();
+		}
+
+		public DynamicMethodBody IfNotlt_Un(int right)
+		{
+			LdcI4(right);
+			return IfNotlt_Un();
 		}
 
 		#endregion
@@ -437,6 +684,27 @@ namespace FluentIL
         }
 
 		#endregion
+
+
+		public DynamicMethodBody Ifge(int right)
+		{
+			return Ifgt(right - 1);
+		}
+
+		public DynamicMethodBody Ifle(int right)
+		{
+			return Iflt(right + 1);
+		}
+
+		public DynamicMethodBody Andle(int right)
+		{
+			return Andlt(right + 1);
+		}
+
+		public DynamicMethodBody AndNotle(int right)
+		{
+			return AndNotlt(right + 1);
+		}
 
 	}
 }

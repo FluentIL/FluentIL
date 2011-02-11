@@ -190,5 +190,64 @@ namespace FluentIL.Tests
             dm.Invoke(21).Should().Be(20);
             dm.Invoke(13).Should().Be(13);
         }
+
+        [Test]
+        public void MultipleConditions_Reference()
+        {
+            var dm = IL.NewMethod(typeof(bool), typeof(int))
+                .Ldarg(0)
+                .Dup()
+                .Ifge(10)
+                    .Ifle(20)
+                        .LdcI4(1)
+                    .Else()
+                        .LdcI4(0)
+                    .EndIf()
+                .Else()
+                    .Pop()
+                    .LdcI4(0)
+                .EndIf()
+                .Ret();
+
+            dm.Invoke(10).Should().Be(true);
+            dm.Invoke(9).Should().Be(false);
+            dm.Invoke(21).Should().Be(false);
+        }
+
+
+        [Test]
+        public void MultipleConditions()
+        {
+            var dm = IL.NewMethod(typeof(bool), typeof(int))
+                .Ldarg(0)
+                .Ifge(10).Andle(20)
+                    .LdcI4(1)
+                .Else()
+                    .LdcI4(0)
+                .EndIf()
+                .Ret();
+
+            dm.Invoke(10).Should().Be(true);
+            dm.Invoke(9).Should().Be(false);
+            dm.Invoke(21).Should().Be(false);
+        }
+
+        [Test]
+        public void MultipleConditions_2()
+        {
+            var dm = IL.NewMethod(typeof(bool), typeof(int))
+                .Ldarg(0)
+                .Ifge(10).AndNotgt(20)
+                    .LdcI4(1)
+                .Else()
+                    .LdcI4(0)
+                .EndIf()
+                .Ret();
+
+            dm.Invoke(10).Should().Be(true);
+            dm.Invoke(9).Should().Be(false);
+            dm.Invoke(21).Should().Be(false);
+        }
+
     }
 }

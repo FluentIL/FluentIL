@@ -125,55 +125,6 @@ namespace FluentIL
         }
         #endregion
 
-        #region Common Opcodes
-        
-        public DynamicMethodBody Neg()
-        {
-            return this.Emit(OpCodes.Neg);
-        }
-
-        public DynamicMethodBody ConvU1()
-        {
-            return this.Emit(OpCodes.Conv_U1);
-        }
-
-        public DynamicMethodBody ConvR8()
-        {
-            return this.Emit(OpCodes.Conv_R8);
-        }
-
-        public DynamicMethodBody LdelemI1()
-        {
-            return this.Emit(OpCodes.Ldelem_I1);
-        }
-        
-        public DynamicMethodBody StelemI1()
-        {
-            return this.Emit(OpCodes.Stelem_I1);
-        }
-
-        public DynamicMethodBody LdelemU1()
-        {
-            return this.Emit(OpCodes.Ldelem_U1);
-        }
-
-        
-        public DynamicMethodBody Pop()
-        {
-            return this.Emit(OpCodes.Pop);
-        }
-        
-        public DynamicMethodBody Dup()
-        {
-            return this.Emit(OpCodes.Dup);
-        }
-
-        public DynamicMethodBody Ret()
-        {
-            return this.Emit(OpCodes.Ret);
-        }
-        #endregion
-
         #region Locals (variables)
 
         public int GetVariableIndex(string varname)
@@ -304,6 +255,11 @@ namespace FluentIL
         #endregion
 
         #region Constants
+        public DynamicMethodBody Ldc(params string[] args)
+        {
+            return this.Ldstr(args);
+        }
+        
         public DynamicMethodBody Ldstr(params string[] args)
         {
             foreach (var arg in args)
@@ -313,6 +269,11 @@ namespace FluentIL
             return this;
         }
 
+        public DynamicMethodBody Ldc(params double[] args)
+        {
+            return this.LdcR8(args);
+        }
+        
         public DynamicMethodBody LdcR8(params double[]  args)
         {
             for (int i = 0; i < args.Length; i++)
@@ -321,12 +282,22 @@ namespace FluentIL
             return this;
         }
 
-        public DynamicMethodBody LdcR8(params float[] args)
+        public DynamicMethodBody Ldc(params float[] args)
+        {
+            return this.LdcR4(args);
+        }
+
+        public DynamicMethodBody LdcR4(params float[] args)
         {
             for (int i = 0; i < args.Length; i++)
                 Emit(OpCodes.Ldc_R4, args[i]);
 
             return this;
+        }
+        
+        public DynamicMethodBody Ldc(params int[] args)
+        {
+            return this.LdcI4(args);
         }
 
         public DynamicMethodBody LdcI4(params int[] args)
@@ -373,18 +344,6 @@ namespace FluentIL
             }
             return this;
         }
-        #endregion
-
-        #region Emit (basic)
-        public DynamicMethodBody Emit(OpCode opcode)
-        {
-            _Info.AsDynamicMethod.GetILGenerator()
-                .Emit(opcode);
-
-            return this;
-        }
-
-        
         #endregion
 
         #region Labels
@@ -457,7 +416,27 @@ namespace FluentIL
         }
         #endregion
 
-        #region 
+        #region Abs
+        public DynamicMethodBody AbsR8()
+        {
+            return  this
+                .Dup()
+                .Iflt(0.0)
+                    .Neg()
+                .EndIf();
+        }
+
+        public DynamicMethodBody AbsI4()
+        {
+            return this
+                .Dup()
+                .Iflt(0)
+                    .Neg()
+                .EndIf();
+        }
+        #endregion
+
+        #region EnsureLimits
         public DynamicMethodBody EnsureLimits(int min, int max)
         {
             return this

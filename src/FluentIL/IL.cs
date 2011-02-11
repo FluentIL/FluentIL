@@ -26,12 +26,5 @@ namespace FluentIL
             return new DynamicMethodInfo();
         }
 
-        public static int EnsureLimits(int value, int min, int max)
-        {
-            if (value < min) return min;
-            if (value > max) return max;
-            return value;
-        }
-
     }
 }

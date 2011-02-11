@@ -33,8 +33,6 @@ namespace ImageProcessing
         {
             #region filter analysis
             
-            int filterHeight = filter.Length / filterWidth;
-
             bool allwaysFilterNeg = true;
             bool neverFilterNeg = true;
             double negs = 0;
@@ -60,7 +58,7 @@ namespace ImageProcessing
                 .Returns(typeof(void))
 
                 .For("iDst", 0, src.Length - 1)
-                    .LdcR8(0.0)
+                    .Ldc(0.0)
                     .Dup()
                     .Stloc("pixelsAccum", "filterAccum")
 
@@ -72,28 +70,19 @@ namespace ImageProcessing
                                 .Ldarg("src")
                                 .Ldloc("iDst")
                                 .Add(IlApplier.ComputeOffset(index, filterWidth, stride, bytesPerPixel))
-
                                 .Dup()
-                                .LdcI4(-1)
-                                .Ifgt()
-                                    .Dup()
-                                    .LdcI4(src.Length)
-                                    .Iflt()
-                                        .LdelemU1()
-                                        .ConvR8()
-                                        .Mul(filter[index])
+                                .Ifge(0).Andlt(src.Length)
+                                    .LdelemU1()
+                                    .ConvR8()
+                                    .Mul(filter[index])
 
-                                        .Ldloc("pixelsAccum")
-                                        .Add()
-                                        .Stloc("pixelsAccum")
+                                    .Ldloc("pixelsAccum")
+                                    .Add()
+                                    .Stloc("pixelsAccum")
 
-                                        .Ldloc("filterAccum")
-                                        .Add(filter[index])
-                                        .Stloc("filterAccum")
-
-                                    .Else()
-                                        .Pop().Pop()
-                                    .EndIf()
+                                    .Ldloc("filterAccum")
+                                    .Add(filter[index])
+                                    .Stloc("filterAccum")
                                 .Else()
                                     .Pop().Pop()
                                 .EndIf();
@@ -106,15 +95,9 @@ namespace ImageProcessing
                     .Ldloc("pixelsAccum", "filterAccum")
 
                     .Dup()
-                    .LdcR8(0)
-                    .IfNoteq()
+                    .IfNoteq(0.0)
                         .EmitIf(!neverFilterNeg && allwaysFilterNeg, (r) => r.Neg())
-                        .EmitIf(!neverFilterNeg && !allwaysFilterNeg, (r) => r
-                            .Dup().LdcR8(0.0)
-                            .Iflt()
-                                .Neg()
-                            .EndIf()
-                        )
+                        .EmitIf(!neverFilterNeg && !allwaysFilterNeg, (r) => r.AbsR8())
                         .Div()
                     .Else()
                         .Pop()

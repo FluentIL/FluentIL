@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using ImageProcessing.Util;
+using System.Drawing.Imaging;
 
 namespace ImageProcessing
 {
@@ -24,6 +25,7 @@ namespace ImageProcessing
             Menu.MenuItems[0].MenuItems.Add(new MenuItem("&Open...",
                                      new EventHandler(MenuFileOpenOnClick),
                                      Shortcut.CtrlO));
+
 
 
             Menu.MenuItems.Add("Filter&CS");
@@ -117,7 +119,6 @@ namespace ImageProcessing
             Cursor.Current = cursorSave;   
         }
 
-        
         void MenuFileOpenOnClick(object sender, EventArgs ea)
         {
             OpenFileDialog dlg = new OpenFileDialog();
