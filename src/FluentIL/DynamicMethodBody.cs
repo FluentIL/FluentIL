@@ -436,6 +436,20 @@ namespace FluentIL
         }
         #endregion
 
+        #region extended Stloc
+        public DynamicMethodBody Stloc(double value, params string [] variables)
+        {
+            this.Ldc(value);
+
+            for (int i = 1; i < variables.Length; i++)
+                this.Dup();
+
+            this.Stloc(variables);
+
+            return this;
+        }
+        #endregion
+
         #region AddToVar
         public DynamicMethodBody AddToVar(string varname, int constant)
         {
@@ -533,6 +547,7 @@ namespace FluentIL
 
             return this;
         }
+
 
         public DynamicMethodBody EmitIf(bool condition, Action<DynamicMethodBody> action)
         {

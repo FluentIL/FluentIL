@@ -134,6 +134,44 @@ namespace FluentIL.Tests
             result.Should().Be(5050);
         }
 
+        [Test]
+        public void StLoc_SameInTwoVariables_Reference()
+        {
+            var result = IL.NewMethod()
+                .WithVariable(typeof(double), "a")
+                .WithVariable(typeof(double), "b")
+                .Returns(typeof(double))
+
+                .Ldc(10.0)
+                .Dup()
+                .Stloc("a", "b")
+
+                .Ldloc("a", "b")
+                .Add()
+                .Ret()
+                .Invoke();
+
+            result.Should().Be(20.0);
+        }
+
+        [Test]
+        public void StLoc_SameInTwoVariables()
+        {
+            var result = IL.NewMethod()
+                .WithVariable(typeof(double), "a")
+                .WithVariable(typeof(double), "b")
+                .Returns(typeof(double))
+
+                .Stloc(10.0, "a", "b")
+
+                .Ldloc("a", "b")
+                .Add()
+                .Ret()
+                .Invoke();
+
+            result.Should().Be(20.0);
+        }
+
 
     }
 }

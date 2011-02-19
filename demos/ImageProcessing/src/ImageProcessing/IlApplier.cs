@@ -58,10 +58,8 @@ namespace ImageProcessing
                 .Returns(typeof(void))
 
                 .For("iDst", 0, src.Length - 1)
-                    .Ldc(0.0)
-                    .Dup()
-                    .Stloc("pixelsAccum", "filterAccum")
-
+                    .Stloc(0.0, "pixelsAccum", "filterAccum")
+                    
                     .Repeater(0, filter.Length - 1, 1,
                         (ind, body) => filter[ind] != 0,
                         (index, body) =>
