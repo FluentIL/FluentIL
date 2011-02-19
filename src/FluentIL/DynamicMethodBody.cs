@@ -436,6 +436,32 @@ namespace FluentIL
         }
         #endregion
 
+        #region AddToVar
+        public DynamicMethodBody AddToVar(string varname, int constant)
+        {
+            return this
+                .Ldloc(varname)
+                .Add(constant)
+                .Stloc(varname);
+        }
+
+        public DynamicMethodBody AddToVar(string varname, double constant)
+        {
+            return this
+                .Ldloc(varname)
+                .Add(constant)
+                .Stloc(varname);
+        }
+
+        public DynamicMethodBody AddToVar(string varname)
+        {
+            return this
+                .Ldloc(varname)
+                .Add()
+                .Stloc(varname);
+        }
+        #endregion
+
         #region EnsureLimits
         public DynamicMethodBody EnsureLimits(int min, int max)
         {

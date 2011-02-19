@@ -246,6 +246,88 @@ namespace FluentIL.Tests
             result.Should().Be(15);
 
         }
+
+        [Test]
+        public void AddToVar_Reference()
+        {
+            var result = IL.NewMethod()
+                .WithVariable(typeof(int), "a")
+                .Returns(typeof(int))
+
+                .Ldc(10)
+                .Stloc("a")
+
+                .Ldloc("a")
+                .Add(15)
+                .Stloc("a")
+
+                .Ldloc("a")
+                .Ret()
+                .Invoke();
+
+            result.Should().Be(25);
+        }
+
+        [Test]
+        public void AddToVar_Reference2()
+        {
+            var result = IL.NewMethod()
+                .WithVariable(typeof(int), "a")
+                .Returns(typeof(int))
+
+                .Ldc(10)
+                .Stloc("a")
+
+                .Ldc(15)
+                .Ldloc("a")
+                .Add()
+                .Stloc("a")
+
+                .Ldloc("a")
+                .Ret()
+                .Invoke();
+
+            result.Should().Be(25);
+        }
+
+        [Test]
+        public void AddToVar_2()
+        {
+            var result = IL.NewMethod()
+                .WithVariable(typeof(int), "a")
+                .Returns(typeof(int))
+
+                .Ldc(10)
+                .Stloc("a")
+
+                .Ldc(15)
+                .AddToVar("a")
+
+                .Ldloc("a")
+                .Ret()
+                .Invoke();
+
+            result.Should().Be(25);
+        }
+
+        [Test]
+        public void AddToVar()
+        {
+            var result = IL.NewMethod()
+                .WithVariable(typeof(int), "a")
+                .Returns(typeof(int))
+
+                .Ldc(10)
+                .Stloc("a")
+
+                .AddToVar("a", 15)
+
+                .Ldloc("a")
+                .Ret()
+                .Invoke();
+
+            result.Should().Be(25);
+        }
     
     }
 }

@@ -75,14 +75,8 @@ namespace ImageProcessing
                                     .LdelemU1()
                                     .ConvR8()
                                     .Mul(filter[index])
-
-                                    .Ldloc("pixelsAccum")
-                                    .Add()
-                                    .Stloc("pixelsAccum")
-
-                                    .Ldloc("filterAccum")
-                                    .Add(filter[index])
-                                    .Stloc("filterAccum")
+                                    .AddToVar("pixelsAccum")
+                                    .AddToVar("filterAccum", filter[index])
                                 .Else()
                                     .Pop().Pop()
                                 .EndIf();
@@ -90,9 +84,7 @@ namespace ImageProcessing
                     )
 
                     .Ldarg("dest")
-                    .Ldloc("iDst")
-
-                    .Ldloc("pixelsAccum", "filterAccum")
+                    .Ldloc("iDst", "pixelsAccum", "filterAccum")
 
                     .Dup()
                     .IfNoteq(0.0)
