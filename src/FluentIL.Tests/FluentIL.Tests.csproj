@@ -53,6 +53,7 @@
     <Compile Include="DynamicMethodInfoTests.cs" />
     <Compile Include="NewTypeStudies.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SayHelloStudies.cs" />
     <Compile Include="VariableStudies.cs" />
   </ItemGroup>
   <ItemGroup>

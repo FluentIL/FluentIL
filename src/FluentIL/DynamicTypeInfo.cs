@@ -16,7 +16,7 @@ namespace FluentIL
         {
             this.TypeName = typeName;
         }
-        
+
         TypeBuilder TypeBuilderField = null;
         public TypeBuilder TypeBuilder
         {

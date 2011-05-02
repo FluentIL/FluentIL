@@ -21,7 +21,7 @@ namespace FluentIL
 			_IfEmitters.Pop().EmitEndIf();
 			return this;
 		}
-
+		
 		private void SaveLeftSideToVariable(Type t)
 		{
 			var emitter = _IfEmitters.Peek();
@@ -655,6 +655,32 @@ namespace FluentIL
         public DynamicMethodBody Brfalse(Label label)
         {
             return Emit(OpCodes.Brfalse, label);
+        }
+
+		#endregion
+
+		#region Brtrue_S
+		public DynamicMethodBody Brtrue_S(string label)
+        {
+            return Brtrue_S(GetLabel(label));
+        }
+
+        public DynamicMethodBody Brtrue_S(Label label)
+        {
+            return Emit(OpCodes.Brtrue_S, label);
+        }
+
+		#endregion
+
+		#region Brfalse_S
+		public DynamicMethodBody Brfalse_S(string label)
+        {
+            return Brfalse_S(GetLabel(label));
+        }
+
+        public DynamicMethodBody Brfalse_S(Label label)
+        {
+            return Emit(OpCodes.Brfalse_S, label);
         }
 
 		#endregion

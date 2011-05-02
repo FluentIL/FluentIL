@@ -20,7 +20,7 @@ namespace FluentIL.Tests
                 .WithMethod("Method").Returns(typeof(void))
                     .Ret()
                 .AsType;
-                    
+
             var instance = Activator.CreateInstance(t);
 
             instance.GetType().Name.Should().Be("One");

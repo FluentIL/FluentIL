@@ -29,7 +29,14 @@ namespace FluentIL
                 .Emit(comparasionOpcode)
                 .EmitIf(!not, (a) => a.Brfalse(_IfFalse))
                 .EmitIf(not, (a) => a.Brtrue(_IfFalse));
+        }
 
+
+        public void EmitBranch(bool not = false)
+        {
+            _Generator
+                .EmitIf(!not, (a) => a.Brfalse(_IfFalse))
+                .EmitIf(not, (a) => a.Brtrue(_IfFalse));
         }
         
         public void EmitElse()

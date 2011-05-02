@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
+using System.Reflection;
 
 namespace FluentIL
 {
@@ -35,6 +36,90 @@ namespace FluentIL
             return this._Info.DynamicTypeInfo.WithMethod(methodName);
         }
 
+        public DynamicMethodBody IfEmptyString(bool not)
+        {
+            var stringEmptyField = typeof(string).GetField("Empty");
+            var stringOp_EqualityMethod = typeof(string).GetMethod(
+                "op_Equality", new[] { typeof(string), typeof(string) });
+
+            var emitter = new IfEmitter(this);
+            _IfEmitters.Push(emitter);
+            this
+                .Ldsfld(stringEmptyField)
+                .Call(stringOp_EqualityMethod);
+
+            emitter.EmitBranch(not);
+            return this;
+        }
+
+        public DynamicMethodBody IfEmptyString()
+        {
+            return this.IfEmptyString(false);
+        }
+
+        public DynamicMethodBody IfNotEmptyString()
+        {
+            return this.IfEmptyString(true);
+        }
+
+        public DynamicMethodBody IfNull(bool not)
+        {
+            var emitter = new IfEmitter(this);
+            _IfEmitters.Push(emitter);
+            emitter.EmitBranch(!not);
+            return this;
+        }
+
+        public DynamicMethodBody IfNull()
+        {
+            return this.IfNull(false);
+        }
+
+        public DynamicMethodBody IfNotNull()
+        {
+            return this.IfNull(true);
+        }
+
+
+        public DynamicMethodBody Throw()
+        {
+            return this.Emit(OpCodes.Throw);
+        }
+
+        public DynamicMethodBody Throw<TException>(params Type[] types)
+            where TException : Exception
+        {
+            return this
+                .Newobj<TException>(types)
+                .Throw();
+        }
+
+        public DynamicMethodBody Ldsfld(FieldInfo fieldInfo)
+        {
+            return this.Emit(OpCodes.Ldsfld, fieldInfo);
+        }
+
+        public DynamicMethodBody Newobj(ConstructorInfo ctorInfo)
+        {
+            return this.Emit(OpCodes.Newobj, ctorInfo);
+        }
+
+        public DynamicMethodBody Newobj<T>(params Type[] types)
+        {
+            var ci = typeof(T).GetConstructor(types);
+            return this.Newobj(ci);
+        }
+
+        public DynamicMethodBody Call(MethodInfo methodInfo)
+        {
+            return this.Emit(OpCodes.Call, methodInfo);
+        }
+
+        public DynamicMethodBody Call<T>(string methodName, params Type[] types)
+        {
+            var mi = typeof(T).GetMethod(methodName, types);
+            return this.Call(mi);
+        }
 
         #region Basic Math Operations
         private void MultipleOperations(Func<DynamicMethodBody> action, params int[] args)
@@ -63,7 +148,7 @@ namespace FluentIL
             return this.Emit(OpCodes.Add);
         }
 
-        public DynamicMethodBody Add(params int [] args)
+        public DynamicMethodBody Add(params int[] args)
         {
             this.MultipleOperations(this.Add, args);
             return this;
@@ -101,11 +186,11 @@ namespace FluentIL
 
         public DynamicMethodBody Mul(double factor)
         {
-            if (factor == 1) 
+            if (factor == 1)
                 return this;
-            if (factor == -1) 
+            if (factor == -1)
                 return this.Neg();
-            return 
+            return
                 this.LdcR8(factor).Mul();
         }
 
@@ -152,7 +237,7 @@ namespace FluentIL
         }
 
 
-        public DynamicMethodBody Ldloc(params uint [] args)
+        public DynamicMethodBody Ldloc(params uint[] args)
         {
             foreach (var arg in args)
             {
@@ -226,8 +311,8 @@ namespace FluentIL
         #endregion
 
         #region Arguments (Parameters)
-        
-        public DynamicMethodBody Ldarg(params uint [] args)
+
+        public DynamicMethodBody Ldarg(params uint[] args)
         {
             foreach (var arg in args)
             {
@@ -257,7 +342,7 @@ namespace FluentIL
         public DynamicMethodBody Ldarg(params string[] args)
         {
             var parameters = _Info.Parameters.ToArray();
-            uint offset = (uint) (_Info.DynamicTypeInfo != null ? 1 : 0);
+            uint offset = (uint)(_Info.DynamicTypeInfo != null ? 1 : 0);
 
             foreach (var arg in args)
                 for (uint i = 0; i < parameters.Length; i++)
@@ -273,7 +358,7 @@ namespace FluentIL
         {
             return this.Ldstr(args);
         }
-        
+
         public DynamicMethodBody Ldstr(params string[] args)
         {
             foreach (var arg in args)
@@ -287,8 +372,8 @@ namespace FluentIL
         {
             return this.LdcR8(args);
         }
-        
-        public DynamicMethodBody LdcR8(params double[]  args)
+
+        public DynamicMethodBody LdcR8(params double[] args)
         {
             for (int i = 0; i < args.Length; i++)
                 Emit(OpCodes.Ldc_R8, args[i]);
@@ -308,7 +393,7 @@ namespace FluentIL
 
             return this;
         }
-        
+
         public DynamicMethodBody Ldc(params int[] args)
         {
             return this.LdcI4(args);
@@ -376,7 +461,7 @@ namespace FluentIL
 
             return this;
         }
-        
+
         readonly Dictionary<string, Label> _Labels = new Dictionary<string, Label>();
         Label GetLabel(string label)
         {
@@ -406,7 +491,7 @@ namespace FluentIL
                 .LdcI4(from)
                 .Stloc(variable)
                 .MarkLabel(lbl);
-               
+
             return this;
         }
 
@@ -433,7 +518,7 @@ namespace FluentIL
         #region Abs
         public DynamicMethodBody AbsR8()
         {
-            return  this
+            return this
                 .Dup()
                 .Iflt(0.0)
                     .Neg()
@@ -451,7 +536,7 @@ namespace FluentIL
         #endregion
 
         #region extended Stloc
-        public DynamicMethodBody Stloc(double value, params string [] variables)
+        public DynamicMethodBody Stloc(double value, params string[] variables)
         {
             this.Ldc(value);
 
@@ -550,7 +635,7 @@ namespace FluentIL
             return this;
         }
 
-        public DynamicMethodBody Repeater(int from, int to, int step, 
+        public DynamicMethodBody Repeater(int from, int to, int step,
             Func<int, DynamicMethodBody, bool> precondition,
             Action<int, DynamicMethodBody> action
             )
@@ -575,6 +660,6 @@ namespace FluentIL
         {
             return _Info.AsDynamicMethod.Invoke(null, args);
         }
-        
+
     }
 }

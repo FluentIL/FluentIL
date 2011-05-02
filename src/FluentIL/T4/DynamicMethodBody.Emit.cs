@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
+using System.Reflection;
 using System.Diagnostics;
 
 namespace FluentIL
@@ -60,6 +61,36 @@ namespace FluentIL
         }
 
 		public DynamicMethodBody Emit(OpCode opcode, Label arg)
+        {
+			ExecutePreEmitActions();
+			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			_Info.GetILGenerator()
+                .Emit(opcode, arg);
+
+            return this;
+        }
+
+		public DynamicMethodBody Emit(OpCode opcode, MethodInfo arg)
+        {
+			ExecutePreEmitActions();
+			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			_Info.GetILGenerator()
+                .Emit(opcode, arg);
+
+            return this;
+        }
+
+		public DynamicMethodBody Emit(OpCode opcode, ConstructorInfo arg)
+        {
+			ExecutePreEmitActions();
+			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			_Info.GetILGenerator()
+                .Emit(opcode, arg);
+
+            return this;
+        }
+
+		public DynamicMethodBody Emit(OpCode opcode, FieldInfo arg)
         {
 			ExecutePreEmitActions();
 			Debug.WriteLine("{0} {1}", opcode, arg.ToString());

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" total="23" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-02" time="12:11:05">
+  <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.4959" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0" machine-name="CXJ0126" user="elemar" user-domain="PROMOB" />
+  <culture-info current-culture="pt-BR" current-uiculture="pt-BR" />
+  <test-suite type="Assembly" name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" executed="True" result="Success" success="True" time="0.445" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="FluentIL" executed="True" result="Success" success="True" time="0.430" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.426" asserts="0">
+            <results>
+              <test-suite type="TestFixture" name="SayHelloStudies" executed="True" result="Success" success="True" time="0.424" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingEmptyParameterV1_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.110" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingEmptyParameterV1_PassingNotEmpty_ThrowsNothing" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingEmptyParameterV2_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.013" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingEmptyParameterV2_PassingNotEmpty_ThrowsNothing" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingNullParameterV1_PassingNotNull_ThrowsNothing" executed="True" result="Success" success="True" time="0.010" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingNullParameterV1_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingNullParameterV2_PassingNotNull_ThrowsNothing" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingNullParameterV2_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV1_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.064" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV1_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.011" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV1_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.012" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV2_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.015" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV2_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.011" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV2_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV3_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.011" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV3_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.010" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV3_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV4_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.011" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV4_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.010" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV4_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV5_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.011" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV5_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.010" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV5_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

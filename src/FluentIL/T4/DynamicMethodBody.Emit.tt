@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
+using System.Reflection;
 using System.Diagnostics;
 
 namespace FluentIL
@@ -30,7 +31,7 @@ namespace FluentIL
 
 
 <#		string [] types = new string [] {
-			"string", "int", "double", "Label" };
+			"string", "int", "double", "Label", "MethodInfo", "ConstructorInfo", "FieldInfo" };
 		foreach (var t in types)
 		{
 #>

@@ -10,7 +10,7 @@ namespace FluentIL
     public class DynamicMethodInfo
     {
         public DynamicMethodInfo(
-            DynamicTypeInfo dynamicTypeInfo, 
+            DynamicTypeInfo dynamicTypeInfo,
             string methodName
             )
             : this()
@@ -28,7 +28,7 @@ namespace FluentIL
         public string MethodName { get; private set; }
 
         #region DynamicMethod Gen
-        
+
         DynamicMethod _result;
         public DynamicMethod AsDynamicMethod
         {
@@ -42,8 +42,8 @@ namespace FluentIL
                     var parameterTypes = _Parameters.Select(p => p.Type)
                     .ToArray();
                     _result = new DynamicMethod(
-                        this.MethodName, 
-                        ReturnType, 
+                        this.MethodName,
+                        ReturnType,
                         parameterTypes
                         );
 
@@ -102,18 +102,18 @@ namespace FluentIL
             return this.Body;
         }
 
-        public object Invoke(params object [] args)
+        public object Invoke(params object[] args)
         {
             return this.AsDynamicMethod.Invoke(null, args);
         }
         #endregion
 
         #region Properties
-        
+
         public Type ReturnType { get; private set; }
-        
+
         public DynamicMethodBody Body { get; private set; }
-        
+
         readonly List<DynamicVariableInfo> _Parameters = new List<DynamicVariableInfo>();
         public IEnumerable<DynamicVariableInfo> Parameters
         {

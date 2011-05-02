@@ -11,7 +11,7 @@ using System.Reflection.Emit;
 			"Bgt", "Bgt_S", "Bgt_Un", "Bgt_Un_S", 
 			"Ble", "Ble_S", "Ble_Un", "Ble_Un_S", 
 			"Blt", "Blt_S", "Blt_Un", "Blt_Un_S", 
-			"Brtrue", "Brfalse",
+			"Brtrue", "Brfalse", "Brtrue_S", "Brfalse_S",
 			"Br", "Br_S" };
 #>
 
@@ -31,7 +31,7 @@ namespace FluentIL
 			_IfEmitters.Pop().EmitEndIf();
 			return this;
 		}
-
+		
 		private void SaveLeftSideToVariable(Type t)
 		{
 			var emitter = _IfEmitters.Peek();
