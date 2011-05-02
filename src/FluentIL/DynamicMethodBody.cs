@@ -22,6 +22,19 @@ namespace FluentIL
             }
         }
 
+        public Type AsType
+        {
+            get
+            {
+                return _Info.DynamicTypeInfo.AsType;
+            }
+        }
+
+        public DynamicMethodInfo WithMethod(string methodName)
+        {
+            return this._Info.DynamicTypeInfo.WithMethod(methodName);
+        }
+
 
         #region Basic Math Operations
         private void MultipleOperations(Func<DynamicMethodBody> action, params int[] args)
@@ -244,11 +257,12 @@ namespace FluentIL
         public DynamicMethodBody Ldarg(params string[] args)
         {
             var parameters = _Info.Parameters.ToArray();
+            uint offset = (uint) (_Info.DynamicTypeInfo != null ? 1 : 0);
 
             foreach (var arg in args)
                 for (uint i = 0; i < parameters.Length; i++)
                     if (parameters[i].Name == arg)
-                        Ldarg(i);
+                        Ldarg(i + offset);
 
             return this;
         }
@@ -349,7 +363,7 @@ namespace FluentIL
         #region Labels
         public DynamicMethodBody MarkLabel(Label label)
         {
-            _Info.AsDynamicMethod.GetILGenerator()
+            _Info.GetILGenerator()
                 .MarkLabel(label);
 
             return this;
@@ -357,7 +371,7 @@ namespace FluentIL
 
         public DynamicMethodBody MarkLabel(string label)
         {
-            _Info.AsDynamicMethod.GetILGenerator()
+            _Info.GetILGenerator()
                 .MarkLabel(GetLabel(label));
 
             return this;
@@ -367,7 +381,7 @@ namespace FluentIL
         Label GetLabel(string label)
         {
             if (!_Labels.ContainsKey(label))
-                _Labels.Add(label, _Info.AsDynamicMethod.GetILGenerator().DefineLabel());
+                _Labels.Add(label, _Info.GetILGenerator().DefineLabel());
 
             return _Labels[label];
         }
@@ -378,7 +392,7 @@ namespace FluentIL
         public DynamicMethodBody For(string variable, int from, int to, int step = 1)
         {
 
-            var ilgen = this.AsDynamicMethod.GetILGenerator();
+            var ilgen = this._Info.GetILGenerator();
             var lbl = ilgen.DefineLabel();
 
             _Fors.Push(new ForInfo(variable, from, to, step, lbl));

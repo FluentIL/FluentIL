@@ -3,15 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
+using System.Reflection;
 
 namespace FluentIL
 {
     public class DynamicMethodInfo
     {
+        public DynamicMethodInfo(
+            DynamicTypeInfo dynamicTypeInfo, 
+            string methodName
+            )
+            : this()
+        {
+            this.DynamicTypeInfo = dynamicTypeInfo;
+            this.MethodName = methodName;
+        }
+
         public DynamicMethodInfo()
         {
             this.Body = new DynamicMethodBody(this);
+            this.MethodName = "DynMethod";
         }
+
+        public string MethodName { get; private set; }
 
         #region DynamicMethod Gen
         
@@ -20,17 +34,50 @@ namespace FluentIL
         {
             get
             {
+                if (this.DynamicTypeInfo != null)
+                    throw new InvalidOperationException();
+
                 if (_result == null)
                 {
                     var parameterTypes = _Parameters.Select(p => p.Type)
                     .ToArray();
-                    _result = new DynamicMethod("DynMethod", ReturnType, parameterTypes);
+                    _result = new DynamicMethod(
+                        this.MethodName, 
+                        ReturnType, 
+                        parameterTypes
+                        );
 
                     var ilgen = _result.GetILGenerator();
                     foreach (var variable in this.Variables)
                         ilgen.DeclareLocal(variable.Type);
                 }
                 return _result;
+            }
+        }
+
+        internal DynamicTypeInfo DynamicTypeInfo { get; private set; }
+
+        MethodBuilder methodBuilder = null;
+
+        public ILGenerator GetILGenerator()
+        {
+            if (this.DynamicTypeInfo == null)
+                return this.AsDynamicMethod.GetILGenerator();
+            else
+            {
+                if (this.methodBuilder == null)
+                {
+                    var parameterTypes = _Parameters.Select(p => p.Type)
+                        .ToArray();
+
+                    methodBuilder = this.DynamicTypeInfo.TypeBuilder.DefineMethod(
+                        this.MethodName,
+                        MethodAttributes.Public | MethodAttributes.Virtual,
+                        CallingConventions.HasThis,
+                        ReturnType,
+                        parameterTypes);
+                }
+                return this.methodBuilder.GetILGenerator();
             }
         }
 

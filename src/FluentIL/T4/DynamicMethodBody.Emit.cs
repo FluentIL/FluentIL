@@ -21,7 +21,7 @@ namespace FluentIL
         {
 			ExecutePreEmitActions();
 			Debug.WriteLine(opcode);
-            _Info.AsDynamicMethod.GetILGenerator()
+            _Info.GetILGenerator()
                 .Emit(opcode);
 
             return this;
@@ -33,7 +33,7 @@ namespace FluentIL
         {
 			ExecutePreEmitActions();
 			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
-			_Info.AsDynamicMethod.GetILGenerator()
+			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -43,7 +43,7 @@ namespace FluentIL
         {
 			ExecutePreEmitActions();
 			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
-			_Info.AsDynamicMethod.GetILGenerator()
+			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -53,7 +53,7 @@ namespace FluentIL
         {
 			ExecutePreEmitActions();
 			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
-			_Info.AsDynamicMethod.GetILGenerator()
+			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -63,7 +63,7 @@ namespace FluentIL
         {
 			ExecutePreEmitActions();
 			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
-			_Info.AsDynamicMethod.GetILGenerator()
+			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;

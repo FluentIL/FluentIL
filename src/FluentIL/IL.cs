@@ -26,5 +26,16 @@ namespace FluentIL
             return new DynamicMethodInfo();
         }
 
+
+        public static DynamicTypeInfo NewType()
+        {
+            return NewType("NewType" + Guid.NewGuid().ToString());
+        }
+
+        public static DynamicTypeInfo NewType(string typeName)
+        {
+            return new DynamicTypeInfo(typeName);
+        }
+
     }
 }

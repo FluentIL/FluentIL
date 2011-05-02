@@ -42,7 +42,7 @@ namespace FluentIL
 				if (GetVariableIndex(variable) == -1)
 				{
 					this._Info.WithVariable(typeof(int), variable);
-					this.AsDynamicMethod.GetILGenerator().DeclareLocal(t);
+					this._Info.GetILGenerator().DeclareLocal(t);
 				}
 				PreEmitActions.Push( () =>
 				{

@@ -102,5 +102,17 @@ namespace FluentIL.Tests
             // assert
             result.Should().Be(expected);
         }
+
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AsDynamicMethod_WithNotNullDynamicTypeInfo_ThrowsInvalidOperationException()
+        {
+            // arrange
+            var dti = new DynamicTypeInfo("Type");
+            var dmi = new DynamicMethodInfo(dti, "Name");
+            // act
+            var result = dmi.AsDynamicMethod;
+            // assert
+        }
     }
 }
