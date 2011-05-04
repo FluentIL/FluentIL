@@ -76,6 +76,10 @@ namespace FluentIL
                         CallingConventions.HasThis,
                         ReturnType,
                         parameterTypes);
+                    
+                    var ilgen = methodBuilder.GetILGenerator();
+                    foreach (var variable in this.Variables)
+                        ilgen.DeclareLocal(variable.Type);
                 }
                 return this.methodBuilder.GetILGenerator();
             }

@@ -56,6 +56,36 @@ namespace FluentIL
             return Emit(OpCodes.Neg);
         }
 
+		public DynamicMethodBody Throw()
+        {
+            return Emit(OpCodes.Throw);
+        }
+
+		public DynamicMethodBody Div()
+        {
+            return Emit(OpCodes.Div);
+        }
+
+		public DynamicMethodBody Mul()
+        {
+            return Emit(OpCodes.Mul);
+        }
+
+		public DynamicMethodBody Add()
+        {
+            return Emit(OpCodes.Add);
+        }
+
+		public DynamicMethodBody Sub()
+        {
+            return Emit(OpCodes.Sub);
+        }
+
+		public DynamicMethodBody Rem()
+        {
+            return Emit(OpCodes.Rem);
+        }
+
 		#endregion
 	}
 }

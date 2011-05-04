@@ -81,11 +81,6 @@ namespace FluentIL
         }
 
 
-        public DynamicMethodBody Throw()
-        {
-            return this.Emit(OpCodes.Throw);
-        }
-
         public DynamicMethodBody Throw<TException>(params Type[] types)
             where TException : Exception
         {
@@ -122,19 +117,9 @@ namespace FluentIL
         }
 
         #region Basic Math Operations
-        private void MultipleOperations(Func<DynamicMethodBody> action, params int[] args)
+        private void MultipleOperations(Func<DynamicMethodBody> action, params Number[] args)
         {
-            this.LdcI4(args);
-            if (args.Length == 1)
-                action();
-            else
-                for (int i = 0; i < args.Length - 1; i++)
-                    action();
-        }
-
-        private void MultipleOperations(Func<DynamicMethodBody> action, params double[] args)
-        {
-            this.LdcR8(args);
+            this.Emit(args);
             if (args.Length == 1)
                 action();
             else
@@ -143,80 +128,61 @@ namespace FluentIL
         }
 
 
-        public DynamicMethodBody Add()
+        public DynamicMethodBody Ret(bool returnValue)
         {
-            return this.Emit(OpCodes.Add);
+            return this
+                .Ldc(returnValue ? 1 : 0)
+                .Ret();
         }
 
-        public DynamicMethodBody Add(params int[] args)
+        public DynamicMethodBody Rem(params Number[] args)
+        {
+            this.MultipleOperations(this.Rem, args);
+            return this;
+        }
+
+
+        public DynamicMethodBody Add(params Number[] args)
         {
             this.MultipleOperations(this.Add, args);
             return this;
         }
 
-        public DynamicMethodBody Add(int arg)
+        public DynamicMethodBody Add(Number arg)
         {
-            if (arg == 0) return this;
-            return this.LdcI4(arg).Add();
-        }
-
-        public DynamicMethodBody Add(params double[] args)
-        {
-            this.MultipleOperations(this.Add, args);
-            return this;
-        }
-
-        public DynamicMethodBody Add(double arg)
-        {
-            if (arg == 0) return this;
-            return this.LdcR8(arg).Add();
-        }
-
-        public DynamicMethodBody Mul()
-        {
-            return this.Emit(OpCodes.Mul);
+            return this.Emit(arg).Add();
         }
 
 
-        public DynamicMethodBody Mul(params int[] args)
-        {
-            this.MultipleOperations(this.Mul, args);
-            return this;
-        }
 
-        public DynamicMethodBody Mul(double factor)
+        public DynamicMethodBody Mul(params Number[] args)
         {
-            if (factor == 1)
+            if (args.Length == 1 && args[0] is ConstantDoubleNumber)
+            {
+                double factor = (args[0] as ConstantDoubleNumber).Value;
+                if (factor == 1)
+                    return this;
+                if (factor == -1)
+                    return this.Neg();
+                return
+                    this.LdcR8(factor).Mul();
+            }
+            else
+            {
+                this.MultipleOperations(this.Mul, args);
                 return this;
-            if (factor == -1)
-                return this.Neg();
-            return
-                this.LdcR8(factor).Mul();
+            }
         }
 
-        public DynamicMethodBody Mul(params double[] args)
-        {
-            this.MultipleOperations(this.Mul, args);
-            return this;
-        }
 
-        public DynamicMethodBody Div()
-        {
-            return this.Emit(OpCodes.Div);
-        }
-
-        public DynamicMethodBody Div(params int[] args)
+        public DynamicMethodBody Div(params Number[] args)
         {
             this.MultipleOperations(this.Div, args);
             return this;
         }
 
-        public DynamicMethodBody Sub()
-        {
-            return this.Emit(OpCodes.Sub);
-        }
 
-        public DynamicMethodBody Sub(params int[] args)
+        public DynamicMethodBody Sub(params Number[] args)
         {
             this.MultipleOperations(this.Sub, args);
             return this;
@@ -474,13 +440,24 @@ namespace FluentIL
 
         #region For..Next
         readonly Stack<ForInfo> _Fors = new Stack<ForInfo>();
-        public DynamicMethodBody For(string variable, int from, int to, int step = 1)
+
+        public DynamicMethodBody Emit(params Number[] numbers)
+        {
+            foreach (var number in numbers)
+                number.Emit(this);
+            return this;
+        }
+
+
+        public DynamicMethodBody For(string variable, Number from, Number to, int step = 1)
         {
 
             var ilgen = this._Info.GetILGenerator();
-            var lbl = ilgen.DefineLabel();
+            var beginLabel = ilgen.DefineLabel();
+            var comparasionLabel = ilgen.DefineLabel();
 
-            _Fors.Push(new ForInfo(variable, from, to, step, lbl));
+            _Fors.Push(new ForInfo(variable, from, to, step,
+                beginLabel, comparasionLabel));
             if (GetVariableIndex(variable) == -1)
             {
                 this._Info.WithVariable(typeof(int), variable);
@@ -488,9 +465,10 @@ namespace FluentIL
             }
 
             this
-                .LdcI4(from)
+                .Emit(from)
                 .Stloc(variable)
-                .MarkLabel(lbl);
+                .Br(comparasionLabel)
+                .MarkLabel(beginLabel);
 
             return this;
         }
@@ -500,16 +478,17 @@ namespace FluentIL
             var f = _Fors.Pop();
             this
                 .Ldloc(f.Variable)
-                .Add(f.Step)
+                .Ldc(f.Step)
+                .Add()
                 .Stloc(f.Variable)
-
+                .MarkLabel(f.ComparasionLabel)
                 .Ldloc(f.Variable)
-                .LdcI4(f.To);
+                .Emit(f.To);
 
-            if (f.From < f.To)
-                this.Ble(f.GoTo);
+            if (f.Step > 0)
+                this.Ble(f.BeginLabel);
             else
-                this.Bge(f.GoTo);
+                this.Bge(f.BeginLabel);
 
             return this;
         }
@@ -536,9 +515,9 @@ namespace FluentIL
         #endregion
 
         #region extended Stloc
-        public DynamicMethodBody Stloc(double value, params string[] variables)
+        public DynamicMethodBody Stloc(Number value, params string[] variables)
         {
-            this.Ldc(value);
+            this.Emit(value);
 
             for (int i = 1; i < variables.Length; i++)
                 this.Dup();
@@ -547,18 +526,11 @@ namespace FluentIL
 
             return this;
         }
+
         #endregion
 
         #region AddToVar
-        public DynamicMethodBody AddToVar(string varname, int constant)
-        {
-            return this
-                .Ldloc(varname)
-                .Add(constant)
-                .Stloc(varname);
-        }
-
-        public DynamicMethodBody AddToVar(string varname, double constant)
+        public DynamicMethodBody AddToVar(string varname, Number constant)
         {
             return this
                 .Ldloc(varname)
@@ -576,38 +548,20 @@ namespace FluentIL
         #endregion
 
         #region EnsureLimits
-        public DynamicMethodBody EnsureLimits(int min, int max)
+        public DynamicMethodBody EnsureLimits(Number min, Number max)
         {
             return this
                 .Dup()
-                .LdcI4(min)
+                .Emit(min)
                 .Iflt()
                     .Pop()
-                    .LdcI4(min)
+                    .Emit(min)
                 .Else()
                     .Dup()
-                    .LdcI4(max)
+                    .Emit(max)
                     .Ifgt()
                         .Pop()
-                        .LdcI4(max)
-                    .EndIf()
-                .EndIf();
-        }
-
-        public DynamicMethodBody EnsureLimits(double min, double max)
-        {
-            return this
-                .Dup()
-                .LdcR8(min)
-                .Iflt()
-                    .Pop()
-                    .LdcR8(min)
-                .Else()
-                    .Dup()
-                    .LdcR8(max)
-                    .Ifgt()
-                        .Pop()
-                        .LdcR8(max)
+                        .Emit(max)
                     .EndIf()
                 .EndIf();
         }

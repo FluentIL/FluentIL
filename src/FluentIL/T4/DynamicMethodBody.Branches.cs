@@ -44,7 +44,7 @@ namespace FluentIL
 			}
 		}
 
-		private DynamicMethodBody And(int right, OpCode opcode, bool not = false)
+		private DynamicMethodBody And(Number right, OpCode opcode, bool not = false)
 		{
 			var emitter = _IfEmitters.Peek();
 			var variable = emitter.LeftSideVarName;
@@ -56,7 +56,7 @@ namespace FluentIL
 				{
 					a();
 					Ldloc(variable);
-					Ldc(right);
+					Emit(right);
 					emitter.EmitIf(opcode, not);
 				}
 				);

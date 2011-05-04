@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1080]C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll</TopNode>
-  <SelectedNode>[0-1000]FluentIL.Tests.SayHelloStudies</SelectedNode>
+  <TopNode>[0-1088]C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll</TopNode>
+  <SelectedNode>[0-1028]FluentIL.Tests.VariableStudies.SumOf100To1_For</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
-    <Node UniqueName="[0-1080]C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" Expanded="true" />
-    <Node UniqueName="[0-1081]FluentIL" Expanded="true" />
-    <Node UniqueName="[0-1082]FluentIL.Tests" Expanded="true" />
-    <Node UniqueName="[0-1000]FluentIL.Tests.SayHelloStudies" Expanded="true" />
+    <Node UniqueName="[0-1088]C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" Expanded="true" />
+    <Node UniqueName="[0-1089]FluentIL" Expanded="true" />
+    <Node UniqueName="[0-1090]FluentIL.Tests" Expanded="true" />
+    <Node UniqueName="[0-1080]FluentIL.Tests.IsPrimeStudies" Expanded="true" />
+    <Node UniqueName="[0-1024]FluentIL.Tests.VariableStudies" Expanded="true" />
   </Nodes>
 </VisualState>
