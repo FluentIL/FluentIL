@@ -541,7 +541,10 @@ namespace FluentIL
 
         public DynamicMethodBody Expression(Expression expression)
         {
-            new ILEmitterVisitor(this).Visit(expression);
+            expression = new ExpressionSimplifierVisitor1().Visit(expression);
+            new ILEmitterVisitor(this).Visit(
+                expression
+                );
             return this;
         }
 
