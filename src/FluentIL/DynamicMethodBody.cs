@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using System.Reflection;
 using System.Linq.Expressions;
 using FluentIL.ExpressionInterpreter;
+using System.Diagnostics;
 
 namespace FluentIL
 {
@@ -433,6 +434,8 @@ namespace FluentIL
         #region Labels
         public DynamicMethodBody MarkLabel(Label label)
         {
+            Debug.Print("IL_{0}:", label.GetHashCode());
+
             _Info.GetILGenerator()
                 .MarkLabel(label);
 
@@ -441,6 +444,9 @@ namespace FluentIL
 
         public DynamicMethodBody MarkLabel(string label)
         {
+            var lbl = GetLabel(label);
+            Debug.Print("IL_{0}:", lbl.GetHashCode());
+
             _Info.GetILGenerator()
                 .MarkLabel(GetLabel(label));
 

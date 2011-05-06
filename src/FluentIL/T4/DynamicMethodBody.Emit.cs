@@ -21,7 +21,9 @@ namespace FluentIL
         public DynamicMethodBody Emit(OpCode opcode)
         {
 			ExecutePreEmitActions();
-			Debug.WriteLine(opcode);
+			#if DEBUG
+			Debug.WriteLine(string.Format("\t{0}", opcode));
+			#endif
             _Info.GetILGenerator()
                 .Emit(opcode);
 
@@ -33,7 +35,10 @@ namespace FluentIL
 		public DynamicMethodBody Emit(OpCode opcode, string arg)
         {
 			ExecutePreEmitActions();
-			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			#if DEBUG
+						Debug.WriteLine("\t{0} \"{1}\"", opcode, arg);
+						#endif
+			
 			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
@@ -43,7 +48,10 @@ namespace FluentIL
 		public DynamicMethodBody Emit(OpCode opcode, int arg)
         {
 			ExecutePreEmitActions();
-			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			#if DEBUG
+						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+						#endif
+			
 			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
@@ -53,7 +61,10 @@ namespace FluentIL
 		public DynamicMethodBody Emit(OpCode opcode, double arg)
         {
 			ExecutePreEmitActions();
-			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			#if DEBUG
+						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+						#endif
+			
 			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
@@ -63,7 +74,10 @@ namespace FluentIL
 		public DynamicMethodBody Emit(OpCode opcode, Label arg)
         {
 			ExecutePreEmitActions();
-			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			#if DEBUG
+						Debug.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
+						#endif
+			
 			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
@@ -73,7 +87,10 @@ namespace FluentIL
 		public DynamicMethodBody Emit(OpCode opcode, MethodInfo arg)
         {
 			ExecutePreEmitActions();
-			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			#if DEBUG
+						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+						#endif
+			
 			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
@@ -83,7 +100,10 @@ namespace FluentIL
 		public DynamicMethodBody Emit(OpCode opcode, ConstructorInfo arg)
         {
 			ExecutePreEmitActions();
-			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			#if DEBUG
+						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+						#endif
+			
 			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
@@ -93,7 +113,10 @@ namespace FluentIL
 		public DynamicMethodBody Emit(OpCode opcode, FieldInfo arg)
         {
 			ExecutePreEmitActions();
-			Debug.WriteLine("{0} {1}", opcode, arg.ToString());
+			#if DEBUG
+						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+						#endif
+			
 			_Info.GetILGenerator()
                 .Emit(opcode, arg);
 
