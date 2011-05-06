@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
+using System.Linq.Expressions;
 
 namespace FluentIL
 {
@@ -23,6 +24,11 @@ namespace FluentIL
         public static implicit operator Number(string varName)
         {
             return new VarNumber(varName);
+        }
+
+        public static implicit operator Number(Expression expression)
+        {
+            return new ExpressionNumber(expression);
         }
     }
 
@@ -66,10 +72,22 @@ namespace FluentIL
 
         public override void Emit(DynamicMethodBody generator)
         {
-            if (generator.GetVariableIndex(this.VarName) > -1)
-                generator.Ldloc(this.VarName);
-            else
-                generator.Ldarg(this.VarName);
+            generator.LdLocOrArg(this.VarName);
         }
+    }
+
+    public class ExpressionNumber : Number
+    {
+        public Expression Expression { get; private set; }
+        public ExpressionNumber(Expression expression)
+        {
+            this.Expression = expression;
+        }
+
+        public override void Emit(DynamicMethodBody generator)
+        {
+            generator.Expression(this.Expression);
+        }
+   
     }
 }

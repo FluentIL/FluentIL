@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
 using System.Reflection;
+using System.Linq.Expressions;
+using FluentIL.ExpressionInterpreter;
 
 namespace FluentIL
 {
@@ -78,6 +80,15 @@ namespace FluentIL
         public DynamicMethodBody IfNotNull()
         {
             return this.IfNull(true);
+        }
+
+        public DynamicMethodBody If(Expression expression)
+        {
+            var emitter = new IfEmitter(this);
+            _IfEmitters.Push(emitter);
+            this.Expression(expression);
+            emitter.EmitBranch(false);
+            return this;
         }
 
 
@@ -365,6 +376,14 @@ namespace FluentIL
             return this.LdcI4(args);
         }
 
+        public DynamicMethodBody LdLocOrArg(string name)
+        {
+            if (GetVariableIndex(name) > -1)
+                return this.Ldloc(name);
+            else
+                return this.Ldarg(name);
+        }
+
         public DynamicMethodBody LdcI4(params int[] args)
         {
             foreach (var arg in args)
@@ -514,6 +533,12 @@ namespace FluentIL
         }
         #endregion
 
+        public DynamicMethodBody Expression(Expression expression)
+        {
+            new ILEmitterVisitor(this).Visit(expression);
+            return this;
+        }
+
         #region extended Stloc
         public DynamicMethodBody Stloc(Number value, params string[] variables)
         {
@@ -614,6 +639,7 @@ namespace FluentIL
         {
             return _Info.AsDynamicMethod.Invoke(null, args);
         }
+
 
     }
 }

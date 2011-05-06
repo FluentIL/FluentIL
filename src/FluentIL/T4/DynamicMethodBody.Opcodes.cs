@@ -86,6 +86,11 @@ namespace FluentIL
             return Emit(OpCodes.Rem);
         }
 
+		public DynamicMethodBody Not()
+        {
+            return Emit(OpCodes.Not);
+        }
+
 		#endregion
 	}
 }

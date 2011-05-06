@@ -712,6 +712,23 @@ namespace FluentIL
 		#endregion
 
 
+		public DynamicMethodBody Cge()
+		{
+			return this
+				.Clt()
+				.Ldc(0)
+				.Ceq();
+		}
+		
+		
+		public DynamicMethodBody Cle()
+        {
+            return this
+                .Cgt()
+                .Ldc(0)
+                .Ceq();
+        }
+		
 		public DynamicMethodBody Ifge(int right)
 		{
 			return Ifgt(right - 1);
