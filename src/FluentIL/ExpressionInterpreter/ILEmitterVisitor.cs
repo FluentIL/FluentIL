@@ -96,6 +96,8 @@ namespace FluentIL.ExpressionInterpreter
                 IL.Ldc((double)node.Value);
             else if (node.Type == typeof(float))
                 IL.Ldc((float)node.Value);
+            else if (node.Type == typeof(bool))
+                IL.Ldc((bool)node.Value ? 1 : 0);
             else
                 throw new NotSupportedException();
 

@@ -41,7 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DynamicTypeInfo.cs" />
-    <Compile Include="ExpressionInterpreter\ExpressionSimplifierVisitor.cs" />
+    <None Include="ExpressionInterpreter\ExpressionSimplifierVisitor.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExpressionSimplifierVisitor1.cs</LastGenOutput>
+    </None>
+    <Compile Include="ExpressionInterpreter\ExpressionSimplifierVisitor1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExpressionSimplifierVisitor.tt</DependentUpon>
+    </Compile>
     <Compile Include="ExpressionInterpreter\ILEmitterVisitor.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="T4\DynamicMethodBody.Branches.cs">
