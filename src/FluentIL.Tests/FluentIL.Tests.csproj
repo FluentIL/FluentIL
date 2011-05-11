@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConditionalStudies.cs" />
+    <Compile Include="CounterStudies.cs" />
     <Compile Include="DynamicTypeInfoTests.cs" />
     <Compile Include="ExpressionStudies.cs" />
     <Compile Include="IsPrimeStudies.cs" />

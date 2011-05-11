@@ -48,6 +48,15 @@ namespace FluentIL
                         typeof(object),
                         _interfaces.ToArray()
                         );
+
+                    foreach (var field in _fields)
+	                {
+                        this.TypeBuilderField.DefineField(
+                            field.Key,
+                            field.Value,
+                            FieldAttributes.Private
+                            );
+	                }
                 }
 
                 return this.TypeBuilderField;
@@ -58,6 +67,24 @@ namespace FluentIL
         public DynamicTypeInfo Implements<TInterface>()
         {
             _interfaces.Add(typeof(TInterface));
+            return this;
+        }
+
+        List<KeyValuePair<string, Type>> _fields = new List<KeyValuePair<string, Type>>();
+        public DynamicTypeInfo WithField(string fieldName, Type fieldType)
+        {
+            _fields.Add(
+                new KeyValuePair<string, Type>(fieldName, fieldType)
+                );
+
+            if (this.TypeBuilderField != null)
+            {
+                this.TypeBuilderField.DefineField(
+                            fieldName,
+                            fieldType,
+                            FieldAttributes.Private
+                            );
+            }
             return this;
         }
 
