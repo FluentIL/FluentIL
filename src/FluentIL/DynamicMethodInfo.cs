@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace FluentIL
 {
@@ -90,12 +91,24 @@ namespace FluentIL
         #region DSL
         public DynamicMethodInfo WithParameter(Type parameterType, string parameterName = "")
         {
+#if DEBUG
+            Debug.Print("(param ({0}) [{1}] {2})", 
+                this.Parameters.Count() + (this.DynamicTypeInfo == null ? 0 : 1),
+                parameterType, 
+                String.IsNullOrEmpty(parameterName) ? "no-name" : parameterName);
+#endif
             this._Parameters.Add(new DynamicVariableInfo(parameterName, parameterType));
             return this;
         }
 
         public DynamicMethodInfo WithVariable(Type variableType, string variableName = "")
         {
+#if DEBUG
+            Debug.Print("(local ({0}) [{1}] {2})",
+                this.Variables.Count() ,
+                variableType,
+                String.IsNullOrEmpty(variableName) ? "no-name" : variableName);
+#endif
             this._Variables.Add(new DynamicVariableInfo(variableName, variableType));
             return this;
         }

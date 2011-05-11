@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1098]FluentIL.Tests.ExpressionStudies.EnsureLimits</TopNode>
-  <SelectedNode>[0-1082]FluentIL.Tests.MathStudies.TwoMulThree_3</SelectedNode>
+  <TopNode>[0-1103]FluentIL.Tests.ExpressionStudies.Equal_Passing2And2_ReturnsTrue</TopNode>
+  <SelectedNode>[0-1012]FluentIL.Tests.SayHelloStudies.SayHelloV2_PassingNull_ThrowsArgumentNullException</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
     <Node UniqueName="[0-1109]C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" Expanded="true" />
     <Node UniqueName="[0-1110]FluentIL" Expanded="true" />
     <Node UniqueName="[0-1111]FluentIL.Tests" Expanded="true" />
     <Node UniqueName="[0-1057]FluentIL.Tests.ConditionalStudies" Expanded="true" />
-    <Node UniqueName="[0-1031]FluentIL.Tests.DynamicTypeInfoTests" Expanded="true" />
     <Node UniqueName="[0-1089]FluentIL.Tests.ExpressionStudies" Expanded="true" />
-    <Node UniqueName="[0-1070]FluentIL.Tests.MathStudies" Expanded="true" />
-    <Node UniqueName="[0-1035]FluentIL.Tests.NewTypeStudies" Expanded="true" />
+    <Node UniqueName="[0-1049]FluentIL.Tests.IsPrimeStudies" Expanded="true" />
+    <Node UniqueName="[0-1000]FluentIL.Tests.SayHelloStudies" Expanded="true" />
     <Node UniqueName="[0-1024]FluentIL.Tests.VariableStudies" Expanded="true" />
   </Nodes>
 </VisualState>

@@ -5,8 +5,9 @@ using System.Text;
 using System.Linq.Expressions;
 
 <#
-	var types = new [] {"Add", "Subtract", "Multiply", "Divide", "GreaterThanOrEqual", "LessThanOrEqual"};
-	var operators = new [] {"+", "-", "*", "/", ">=", "<="};
+	var types = new [] {"Add", "Subtract", "Multiply", "Divide", 
+		"GreaterThanOrEqual", "LessThanOrEqual", "GreaterThan", "LessThan"};
+	var operators = new [] {"+", "-", "*", "/", ">=", "<=", ">", "<"};
 #>
 
 namespace FluentIL.ExpressionInterpreter
