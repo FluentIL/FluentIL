@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamicFieldInfo.cs" />
     <Compile Include="DynamicTypeInfo.cs" />
     <None Include="ExpressionInterpreter\ExpressionSimplifierVisitor.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

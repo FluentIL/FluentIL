@@ -22,44 +22,48 @@ namespace FluentIL
         {
             get
             {
-                if (this.TypeBuilderField == null)
-                {
-                    var assemblyName = new AssemblyName(
-                        string.Format("__assembly__{0}", DateTime.Now.Millisecond)
-                        );
-
-                    var assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(
-                        assemblyName,
-                        AssemblyBuilderAccess.RunAndSave
-                        );
-
-                    var moduleBuilder = assemblyBuilder.DefineDynamicModule(
-                        assemblyBuilder.GetName().Name,
-                        false
-                        );
-
-                    this.TypeBuilderField = moduleBuilder.DefineType(this.TypeName,
-                        TypeAttributes.Public |
-                        TypeAttributes.Class |
-                        TypeAttributes.AutoClass |
-                        TypeAttributes.AnsiClass |
-                        TypeAttributes.BeforeFieldInit |
-                        TypeAttributes.AutoLayout,
-                        typeof(object),
-                        _interfaces.ToArray()
-                        );
-
-                    foreach (var field in _fields)
-	                {
-                        this.TypeBuilderField.DefineField(
-                            field.Key,
-                            field.Value,
-                            FieldAttributes.Private
-                            );
-	                }
-                }
-
+                EnsureTypeBuilder();
                 return this.TypeBuilderField;
+            }
+        }
+
+        void EnsureTypeBuilder()
+        {
+            if (this.TypeBuilderField == null)
+            {
+                var assemblyName = new AssemblyName(
+                    string.Format("__assembly__{0}", DateTime.Now.Millisecond)
+                    );
+
+                var assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(
+                    assemblyName,
+                    AssemblyBuilderAccess.RunAndSave
+                    );
+
+                var moduleBuilder = assemblyBuilder.DefineDynamicModule(
+                    assemblyBuilder.GetName().Name,
+                    false
+                    );
+
+                this.TypeBuilderField = moduleBuilder.DefineType(this.TypeName,
+                    TypeAttributes.Public |
+                    TypeAttributes.Class |
+                    TypeAttributes.AutoClass |
+                    TypeAttributes.AnsiClass |
+                    TypeAttributes.BeforeFieldInit |
+                    TypeAttributes.AutoLayout,
+                    typeof(object),
+                    _interfaces.ToArray()
+                    );
+
+                foreach (var field in _fields)
+                {
+                    field.FieldBuilder = this.TypeBuilderField.DefineField(
+                        field.Name,
+                        field.Type,
+                        FieldAttributes.Private
+                        );
+                }
             }
         }
 
@@ -70,16 +74,21 @@ namespace FluentIL
             return this;
         }
 
-        List<KeyValuePair<string, Type>> _fields = new List<KeyValuePair<string, Type>>();
+        List<DynamicFieldInfo> _fields = new List<DynamicFieldInfo>();
         public DynamicTypeInfo WithField(string fieldName, Type fieldType)
         {
+            var value = new DynamicFieldInfo(
+                this,
+                fieldName, 
+                fieldType);
+
             _fields.Add(
-                new KeyValuePair<string, Type>(fieldName, fieldType)
+                value
                 );
 
             if (this.TypeBuilderField != null)
             {
-                this.TypeBuilderField.DefineField(
+                value.FieldBuilder = this.TypeBuilderField.DefineField(
                             fieldName,
                             fieldType,
                             FieldAttributes.Private
@@ -88,6 +97,13 @@ namespace FluentIL
             return this;
         }
 
+        public FieldInfo GetFieldInfo(string fieldName)
+        {
+            var result = _fields.First(f => f.Name.Equals(fieldName));
+            if (result == null) return null;
+            this.EnsureTypeBuilder();
+            return result.FieldBuilder;
+        }
 
         public DynamicMethodInfo WithMethod(string methodName)
         {

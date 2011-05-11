@@ -70,10 +70,53 @@ namespace FluentIL.Tests
 {
     using NUnit.Framework;
     using SharpTestsEx;
+    using System.Reflection.Emit;
 
     [TestFixture]
     public class CounterStudies
     {
+        [Test]
+        public void Counter_BasicILVersion()
+        {
+            var cti = IL.NewType()
+                .Implements<ICounter>()
+                .WithField("currentValue", typeof(int));
+
+            var field = cti.GetFieldInfo("currentValue");
+
+            cti
+                .WithMethod("Increment")
+                .Returns(typeof(void))
+                    .Throw<NotImplementedException>()
+                .WithMethod("Decrement")
+                .Returns(typeof(void))
+                    .Ldarg(0)
+                    .Dup()
+                    .Emit(OpCodes.Ldfld, field)
+                    .Ldc(1)
+                    .Sub()
+                    .Emit(OpCodes.Stfld, field)
+                    .Ret()
+                .WithMethod("GetCurrentValue")
+                .Returns(typeof(void))
+                    .Throw<NotImplementedException>();
+                
+
+            var counter = (ICounter)Activator.CreateInstance(cti.AsType);
+
+            counter.GetCurrentValue().Should().Be(0);
+            counter.Increment();
+            counter.GetCurrentValue().Should().Be(1);
+            counter.Decrement();
+            counter.GetCurrentValue().Should().Be(0);
+        }
         
+    }
+
+    public interface ICounter
+    {
+        void Increment();
+        void Decrement();
+        int GetCurrentValue();
     }
 }
