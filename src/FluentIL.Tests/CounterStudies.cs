@@ -87,9 +87,17 @@ namespace FluentIL.Tests
             cti
                 .WithMethod("Increment")
                 .Returns(typeof(void))
-                    .Throw<NotImplementedException>()
+                    .Emit(OpCodes.Nop)
+                    .Ldarg(0)
+                    .Dup()
+                    .Emit(OpCodes.Ldfld, field)
+                    .Ldc(1)
+                    .Add()
+                    .Emit(OpCodes.Stfld, field)
+                    .Ret()
                 .WithMethod("Decrement")
                 .Returns(typeof(void))
+                    .Emit(OpCodes.Nop)
                     .Ldarg(0)
                     .Dup()
                     .Emit(OpCodes.Ldfld, field)
@@ -98,9 +106,16 @@ namespace FluentIL.Tests
                     .Emit(OpCodes.Stfld, field)
                     .Ret()
                 .WithMethod("GetCurrentValue")
-                .Returns(typeof(void))
-                    .Throw<NotImplementedException>();
-                
+                .WithVariable(typeof(int))
+                .Returns(typeof(int))
+                    .Emit(OpCodes.Nop)
+                    .Ldarg(0)
+                    .Emit(OpCodes.Ldfld, field)
+                    .Stloc(0)
+                    .Br_S("IL_000a")
+                    .MarkLabel("IL_000a")
+                    .Ldloc(0)
+                    .Ret();
 
             var counter = (ICounter)Activator.CreateInstance(cti.AsType);
 
@@ -110,6 +125,97 @@ namespace FluentIL.Tests
             counter.Decrement();
             counter.GetCurrentValue().Should().Be(0);
         }
+
+        [Test]
+        public void Counter_ReplacingEmits()
+        {
+            var cti = IL.NewType()
+                .Implements<ICounter>()
+                .WithField("currentValue", typeof(int));
+
+            var field = cti.GetFieldInfo("currentValue");
+
+            cti
+                .WithMethod("Increment")
+                .Returns(typeof(void))
+                    .Nop()
+                    .Ldarg(0)
+                    .Dup()
+                    .Ldfld(field)
+                    .Ldc(1)
+                    .Add()
+                    .Stfld(field)
+                    .Ret()
+                .WithMethod("Decrement")
+                .Returns(typeof(void))
+                    .Nop()
+                    .Ldarg(0)
+                    .Dup()
+                    .Ldfld(field)
+                    .Ldc(1)
+                    .Sub()
+                    .Stfld(field)
+                    .Ret()
+                .WithMethod("GetCurrentValue")
+                .WithVariable(typeof(int))
+                .Returns(typeof(int))
+                    .Nop()
+                    .Ldarg(0)
+                    .Ldfld(field)
+                    .Stloc(0)
+                    .Br_S("IL_000a")
+                    .MarkLabel("IL_000a")
+                    .Ldloc(0)
+                    .Ret();
+
+            var counter = (ICounter)Activator.CreateInstance(cti.AsType);
+
+            counter.GetCurrentValue().Should().Be(0);
+            counter.Increment();
+            counter.GetCurrentValue().Should().Be(1);
+            counter.Decrement();
+            counter.GetCurrentValue().Should().Be(0);
+        }
+
+
+        [Test]
+        public void Counter_Simplifying()
+        {
+            var cti = IL.NewType()
+                .Implements<ICounter>()
+                .WithField("currentValue", typeof(int))
+                .WithMethod("Increment")
+                .Returns(typeof(void))
+                    .Ldarg(0)
+                    .Dup()
+                    .Ldfld("currentValue")
+                    .Add(1)
+                    .Stfld("currentValue")
+                    .Ret()
+                .WithMethod("Decrement")
+                .Returns(typeof(void))
+                    .Ldarg(0)
+                    .Dup()
+                    .Ldfld("currentValue")
+                    .Sub(1)
+                    .Stfld("currentValue")
+                    .Ret()
+                .WithMethod("GetCurrentValue")
+                .WithVariable(typeof(int))
+                .Returns(typeof(int))
+                    .Ldarg(0)
+                    .Ldfld("currentValue")
+                    .Ret();
+
+            var counter = (ICounter)Activator.CreateInstance(cti.AsType);
+
+            counter.GetCurrentValue().Should().Be(0);
+            counter.Increment();
+            counter.GetCurrentValue().Should().Be(1);
+            counter.Decrement();
+            counter.GetCurrentValue().Should().Be(0);
+        }
+
         
     }
 

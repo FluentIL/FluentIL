@@ -34,10 +34,36 @@ namespace FluentIL
             }
         }
 
+
         public DynamicMethodInfo WithMethod(string methodName)
         {
             return this._Info.DynamicTypeInfo.WithMethod(methodName);
         }
+
+        public DynamicMethodBody Ldfld(FieldInfo fldInfo)
+        {
+            this.Emit(OpCodes.Ldfld, fldInfo);
+            return this;
+        }
+
+        public DynamicMethodBody Ldfld(string fieldName)
+        {
+            var field = this._Info.DynamicTypeInfo.GetFieldInfo(fieldName);
+            return this.Ldfld(field);
+        }
+
+        public DynamicMethodBody Stfld(FieldInfo fldInfo)
+        {
+            this.Emit(OpCodes.Stfld, fldInfo);
+            return this;
+        }
+
+        public DynamicMethodBody Stfld(string fieldName)
+        {
+            var field = this._Info.DynamicTypeInfo.GetFieldInfo(fieldName);
+            return this.Stfld(field);
+        }
+
 
         public DynamicMethodBody IfEmptyString(bool not)
         {
