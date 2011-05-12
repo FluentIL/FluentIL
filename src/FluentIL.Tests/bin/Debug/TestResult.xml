@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-12" time="08:58:04">
+<test-results name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-12" time="10:07:20">
   <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.4959" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0" machine-name="CXJ0126" user="elemar" user-domain="PROMOB" />
   <culture-info current-culture="pt-BR" current-uiculture="pt-BR" />
-  <test-suite type="Assembly" name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" executed="True" result="Success" success="True" time="0.186" asserts="0">
+  <test-suite type="Assembly" name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" executed="True" result="Success" success="True" time="0.036" asserts="0">
     <results>
-      <test-suite type="Namespace" name="FluentIL" executed="True" result="Success" success="True" time="0.173" asserts="0">
+      <test-suite type="Namespace" name="FluentIL" executed="True" result="Success" success="True" time="0.035" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.170" asserts="0">
+          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.034" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="CounterStudies" executed="True" result="Success" success="True" time="0.168" asserts="0">
+              <test-suite type="TestFixture" name="CounterStudies" executed="True" result="Success" success="True" time="0.033" asserts="0">
                 <results>
-                  <test-case name="FluentIL.Tests.CounterStudies.Counter_Simplifying" executed="True" result="Success" success="True" time="0.155" asserts="0" />
+                  <test-case name="FluentIL.Tests.CounterStudies.Counter_Simplifying" executed="True" result="Success" success="True" time="0.032" asserts="0" />
                 </results>
               </test-suite>
             </results>

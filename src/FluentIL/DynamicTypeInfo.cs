@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Diagnostics;
 
 namespace FluentIL
 {
@@ -15,6 +16,10 @@ namespace FluentIL
         public DynamicTypeInfo(string typeName)
         {
             this.TypeName = typeName;
+#if DEBUG
+            Debug.Print(".class {0}", this.TypeName);
+#endif
+
         }
 
         TypeBuilder TypeBuilderField = null;
@@ -71,6 +76,9 @@ namespace FluentIL
         public DynamicTypeInfo Implements<TInterface>()
         {
             _interfaces.Add(typeof(TInterface));
+#if DEBUG
+            Debug.Print("implements {0}", typeof(TInterface));
+#endif
             return this;
         }
 
@@ -81,6 +89,10 @@ namespace FluentIL
                 this,
                 fieldName, 
                 fieldType);
+
+#if DEBUG
+            Debug.Print(".field ({0}) {1}", fieldType, fieldName);
+#endif
 
             _fields.Add(
                 value

@@ -43,6 +43,8 @@ namespace FluentIL
 			#if DEBUG
 			<#if (t=="Label") {#>
 			Debug.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
+			<#} else if (t=="FieldInfo") {#>
+			Debug.WriteLine("\t{0} {1}", opcode, arg.Name);
 			<#} else if (t=="string") {#>
 			Debug.WriteLine("\t{0} \"{1}\"", opcode, arg);
 			<#} else {#>

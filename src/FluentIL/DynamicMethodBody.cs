@@ -240,6 +240,17 @@ namespace FluentIL
             return -1;
         }
 
+        public int GetParameterIndex(string parametername)
+        {
+            var parameters = _Info.Parameters.ToArray();
+
+            for (int i = 0; i < parameters.Length; i++)
+                if (parameters[i].Name == parametername)
+                    return i;
+
+            return -1;
+        }
+
 
         public DynamicMethodBody Ldloc(params uint[] args)
         {
@@ -407,8 +418,19 @@ namespace FluentIL
         {
             if (GetVariableIndex(name) > -1)
                 return this.Ldloc(name);
-            else
+            else if (GetParameterIndex(name) > -1)
                 return this.Ldarg(name);
+            else 
+            {
+                return this
+                    .Ldarg(0)
+                    .Ldfld(name);
+            }
+        }
+
+        public DynamicMethodBody LdArgOrLoc(string name)
+        {
+            return this.LdLocOrArg(name);
         }
 
         public DynamicMethodBody LdcI4(params int[] args)

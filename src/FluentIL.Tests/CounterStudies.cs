@@ -201,7 +201,6 @@ namespace FluentIL.Tests
                     .Stfld("currentValue")
                     .Ret()
                 .WithMethod("GetCurrentValue")
-                .WithVariable(typeof(int))
                 .Returns(typeof(int))
                     .Ldarg(0)
                     .Ldfld("currentValue")

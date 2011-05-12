@@ -59,7 +59,7 @@ namespace FluentIL.ExpressionInterpreter
 
             }
             else
-            {
+            { 
                 result = base.VisitBinary(node);
                 if (node.NodeType == ExpressionType.Add)
                     IL.Add();

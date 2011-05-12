@@ -16,6 +16,10 @@ namespace FluentIL
             )
             : this()
         {
+#if DEBUG
+            Debug.Print(".method {0}", methodName);
+#endif
+
             this.DynamicTypeInfo = dynamicTypeInfo;
             this.MethodName = methodName;
         }
@@ -92,7 +96,7 @@ namespace FluentIL
         public DynamicMethodInfo WithParameter(Type parameterType, string parameterName = "")
         {
 #if DEBUG
-            Debug.Print("(param ({0}) [{1}] {2})", 
+            Debug.Print(".param ({0}) [{1}] {2}", 
                 this.Parameters.Count() + (this.DynamicTypeInfo == null ? 0 : 1),
                 parameterType, 
                 String.IsNullOrEmpty(parameterName) ? "no-name" : parameterName);
@@ -104,7 +108,7 @@ namespace FluentIL
         public DynamicMethodInfo WithVariable(Type variableType, string variableName = "")
         {
 #if DEBUG
-            Debug.Print("(local ({0}) [{1}] {2})",
+            Debug.Print(".local ({0}) [{1}] {2}",
                 this.Variables.Count() ,
                 variableType,
                 String.IsNullOrEmpty(variableName) ? "no-name" : variableName);
@@ -116,6 +120,10 @@ namespace FluentIL
         public DynamicMethodBody Returns(Type type)
         {
             this.ReturnType = type;
+#if DEBUG
+            Debug.Print("returns {0}", type);
+#endif
+
             return this.Body;
         }
 
