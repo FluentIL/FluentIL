@@ -420,7 +420,7 @@ namespace FluentIL
                 return this.Ldloc(name);
             else if (GetParameterIndex(name) > -1)
                 return this.Ldarg(name);
-            else 
+            else
             {
                 return this
                     .Ldarg(0)

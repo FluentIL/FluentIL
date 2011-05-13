@@ -101,7 +101,7 @@ namespace FluentIL
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+						Debug.WriteLine("\t{0} [{1}] {2}", opcode, arg.DeclaringType, arg);
 						#endif
 			
 			_Info.GetILGenerator()

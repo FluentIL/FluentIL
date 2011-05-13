@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicProxy", "DynamicProxy\DynamicProxy.csproj", "{AC72F15A-FF3A-46C8-9A82-E78AEC09EA64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicProxy.Tests", "DynamicProxy.Tests\DynamicProxy.Tests.csproj", "{C998297C-A7DD-4683-B6FE-16D66E96C605}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentIL", "..\..\..\src\FluentIL\FluentIL.csproj", "{3A793F01-7299-44F8-9BAF-0BACC23F4021}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC72F15A-FF3A-46C8-9A82-E78AEC09EA64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC72F15A-FF3A-46C8-9A82-E78AEC09EA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC72F15A-FF3A-46C8-9A82-E78AEC09EA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC72F15A-FF3A-46C8-9A82-E78AEC09EA64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C998297C-A7DD-4683-B6FE-16D66E96C605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C998297C-A7DD-4683-B6FE-16D66E96C605}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C998297C-A7DD-4683-B6FE-16D66E96C605}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C998297C-A7DD-4683-B6FE-16D66E96C605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A793F01-7299-44F8-9BAF-0BACC23F4021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A793F01-7299-44F8-9BAF-0BACC23F4021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A793F01-7299-44F8-9BAF-0BACC23F4021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A793F01-7299-44F8-9BAF-0BACC23F4021}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

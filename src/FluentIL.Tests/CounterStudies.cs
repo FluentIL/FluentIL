@@ -215,7 +215,7 @@ namespace FluentIL.Tests
             counter.GetCurrentValue().Should().Be(0);
         }
 
-        
+
     }
 
     public interface ICounter

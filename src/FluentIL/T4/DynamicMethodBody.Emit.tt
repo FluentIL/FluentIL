@@ -45,6 +45,8 @@ namespace FluentIL
 			Debug.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
 			<#} else if (t=="FieldInfo") {#>
 			Debug.WriteLine("\t{0} {1}", opcode, arg.Name);
+			<#} else if (t=="ConstructorInfo") {#>
+			Debug.WriteLine("\t{0} [{1}] {2}", opcode, arg.DeclaringType, arg);
 			<#} else if (t=="string") {#>
 			Debug.WriteLine("\t{0} \"{1}\"", opcode, arg);
 			<#} else {#>

@@ -87,7 +87,7 @@ namespace FluentIL
         {
             var value = new DynamicFieldInfo(
                 this,
-                fieldName, 
+                fieldName,
                 fieldType);
 
 #if DEBUG
