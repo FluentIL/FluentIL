@@ -1,17 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-13" time="13:33:13">
+<test-results name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" total="7" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-13" time="13:53:17">
   <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.4959" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0" machine-name="CXJ0126" user="elemar" user-domain="PROMOB" />
   <culture-info current-culture="pt-BR" current-uiculture="pt-BR" />
-  <test-suite type="Assembly" name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" executed="True" result="Success" success="True" time="0.259" asserts="0">
+  <test-suite type="Assembly" name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" executed="True" result="Success" success="True" time="0.487" asserts="0">
     <results>
-      <test-suite type="Namespace" name="DynamicProxy" executed="True" result="Success" success="True" time="0.245" asserts="0">
+      <test-suite type="Namespace" name="DynamicProxy" executed="True" result="Success" success="True" time="0.471" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.241" asserts="0">
+          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.466" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="ProxyBuilderTests" executed="True" result="Success" success="True" time="0.239" asserts="0">
+              <test-suite type="TestFixture" name="ProxyBuilderTests" executed="True" result="Success" success="True" time="0.461" asserts="0">
                 <results>
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_AfterExecute_MethodWithNoParameters" executed="True" result="Success" success="True" time="0.227" asserts="0" />
+                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_AfterExecute_Add" executed="True" result="Success" success="True" time="0.195" asserts="0" />
+                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_AfterExecute_MethodWithNoParameters" executed="True" result="Success" success="True" time="0.053" asserts="0" />
+                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_BasicProxyMonitorSupport" executed="True" result="Success" success="True" time="0.064" asserts="0" />
+                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_BeforeExecute_MethodWithNoParameters" executed="True" result="Success" success="True" time="0.047" asserts="0" />
+                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_CallingMethodsWithNoParameters_CallsConcreteImplementation" executed="True" result="Success" success="True" time="0.021" asserts="0" />
+                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_CallingMethodsWithParameters_CallsConcreteImplementation" executed="True" result="Success" success="True" time="0.024" asserts="0" />
+                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_PassingInterface_ReturnsInstanceOf" executed="True" result="Success" success="True" time="0.032" asserts="0" />
                 </results>
               </test-suite>
             </results>

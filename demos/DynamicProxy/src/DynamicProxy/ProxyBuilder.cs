@@ -67,11 +67,21 @@ namespace DynamicProxy
                 .Returns(method.ReturnType);
 
             if (monitor != null)
+            {
+                var beforeExecuteMi = typeof(IProxyMonitor)
+                    .GetMethod("BeforeExecute");
+
                 body
-                    .Ldarg(0).Dup()
+                    .Ldarg(0).Dup().Dup()
+                    .Ldfld("__proxymonitor")
+                    .Ldstr(method.Name)
+                    .Newarr(typeof(object), 0)
+                    .Call(beforeExecuteMi)
+
                     .Ldfld("__proxymonitor")
                     .Ldstr(method.Name)
                     ;
+            }
 
             body
                 .Ldarg(0)

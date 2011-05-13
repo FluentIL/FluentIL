@@ -145,6 +145,18 @@ namespace FluentIL
             return this.Emit(OpCodes.Newobj, ctorInfo);
         }
 
+        public DynamicMethodBody Newarr(Type type)
+        {
+            return this.Emit(OpCodes.Newarr, type);
+        }
+
+        public DynamicMethodBody Newarr(Type type, Number size)
+        {
+            return this
+                .Emit(size)
+                .Emit(OpCodes.Newarr, type);
+        }
+
         public DynamicMethodBody Newobj<T>(params Type[] types)
         {
             var ci = typeof(T).GetConstructor(types);
