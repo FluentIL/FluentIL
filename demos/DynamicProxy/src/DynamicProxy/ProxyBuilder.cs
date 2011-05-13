@@ -10,11 +10,15 @@ namespace DynamicProxy
 
     public static class ProxyBuilder
     {
-        public static T CreateProxy<T>(T concreteInstance)
+        public static T CreateProxy<T>(
+            T concreteInstance, 
+            IProxyMonitor monitor = null
+            )
         {
             var t = IL.NewType().Implements<T>();
 
             EmitConcreteInstanceSupport<T>(t);
+            EmitProxyMonitorSupport(t, monitor);
 
             foreach (var method in typeof(T).GetMethods())
                 EmitMethod(t, method);
@@ -67,6 +71,24 @@ namespace DynamicProxy
                     .Ldarg(0)
                     .Ldarg(1)
                     .Stfld("__concreteinstance")
+                    .Ret();
+        }
+
+        private static void EmitProxyMonitorSupport(
+            DynamicTypeInfo t, 
+            IProxyMonitor monitor
+            )
+        {
+            if (monitor == null) return;
+
+            t
+                .WithField("__proxymonitor", typeof(IProxyMonitor))
+                .WithMethod("__SetProxyMonitor")
+                .WithParameter(typeof(IProxyMonitor))
+                .Returns(typeof(void))
+                    .Ldarg(0)
+                    .Ldarg(1)
+                    .Stfld("__proxymonitor")
                     .Ret();
         }
     }
