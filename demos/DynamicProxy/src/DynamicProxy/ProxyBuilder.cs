@@ -7,6 +7,7 @@ namespace DynamicProxy
 {
     using FluentIL;
     using System.Reflection;
+    using System.Reflection.Emit;
 
     public static class ProxyBuilder
     {
@@ -88,7 +89,9 @@ namespace DynamicProxy
                     .GetMethod("AfterExecute");
 
                 body
-                    .Stloc(0).Ldloc(0)
+                    .Stloc(0)
+                    .Ldloc(0)
+                    .Box(method.ReturnType)
                     .Call(afterExecuteMi)
                     .Ldloc(0);
             }

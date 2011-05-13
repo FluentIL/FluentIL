@@ -48,7 +48,7 @@ namespace DynamicProxy.Tests
         }
 
         [Test]
-        public void Create_BasicProxyMonitorSupport()
+        public void CreateProxy_BasicProxyMonitorSupport()
         {
             // arrange
             var foo = new Foo();
@@ -61,6 +61,24 @@ namespace DynamicProxy.Tests
             // assert
             foo.AddHits.Should().Be(1);
             result.Should().Be(5);
+        }
+
+        [Test]
+        public void CreateProxy_AfterExecute_Add()
+        {
+            // arrange
+            var foo = new Foo();
+            var monitor = new DummyProxyMonitor();
+            //Assert.Fail(string.Format("LastResult {0}", monitor.AfterExecute_LastResult));
+            var target = ProxyBuilder.CreateProxy<IFoo>(
+                foo,
+                monitor
+                );
+            // act
+            var result = target.Add(2, 3);
+            // assert
+            monitor.AfterExecute_LastMethodName.Should().Be("Add");
+            monitor.AfterExecute_LastResult.Should().Be(5);
         }
     }
 

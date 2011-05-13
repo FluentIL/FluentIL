@@ -40,6 +40,14 @@ namespace FluentIL
             return this._Info.DynamicTypeInfo.WithMethod(methodName);
         }
 
+
+        public DynamicMethodBody Box(Type type)
+        {
+            if (type.IsSubclassOf(typeof(ValueType)))
+                this.Emit(OpCodes.Box, type);
+            return this;
+        }
+
         public DynamicMethodBody Ldfld(FieldInfo fldInfo)
         {
             this.Emit(OpCodes.Ldfld, fldInfo);

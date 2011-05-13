@@ -33,7 +33,7 @@ namespace FluentIL
 
 
 <#		string [] types = new string [] {
-			"string", "int", "double", "Label", "MethodInfo", "ConstructorInfo", "FieldInfo" };
+			"string", "int", "double", "Label", "MethodInfo", "ConstructorInfo", "FieldInfo", "Type" };
 		foreach (var t in types)
 		{
 #>

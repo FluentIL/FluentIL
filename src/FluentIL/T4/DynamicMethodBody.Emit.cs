@@ -123,5 +123,18 @@ namespace FluentIL
             return this;
         }
 
+		public DynamicMethodBody Emit(OpCode opcode, Type arg)
+        {
+			ExecutePreEmitActions();
+			#if DEBUG
+						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+						#endif
+			
+			_Info.GetILGenerator()
+                .Emit(opcode, arg);
+
+            return this;
+        }
+
 	}
 }
