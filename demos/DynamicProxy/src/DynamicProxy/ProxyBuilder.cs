@@ -38,7 +38,12 @@ namespace DynamicProxy
 
                 body
                     .Ldarg(0)
-                    .Ldfld("__concreteinstance")
+                    .Ldfld("__concreteinstance");
+
+                foreach (var param in method.GetParameters())
+                    body.Ldarg(param.Name);
+
+                body
                     .Call(method)
                     .Ret();
             }

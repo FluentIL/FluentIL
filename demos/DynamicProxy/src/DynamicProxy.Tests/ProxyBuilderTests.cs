@@ -23,7 +23,7 @@ namespace DynamicProxy.Tests
         }
 
         [Test]
-        public void CreateProxy_CallingMethods_CallsConcreteImplementation()
+        public void CreateProxy_CallingMethodsWithNoParameters_CallsConcreteImplementation()
         {
             // arrange
             var foo = new Foo();
@@ -32,6 +32,19 @@ namespace DynamicProxy.Tests
             target.MethodWithNoParameters();
             // assert
             foo.MethodWithNoParametersHits.Should().Be(1);
+        }
+
+        [Test]
+        public void CreateProxy_CallingMethodsWithParameters_CallsConcreteImplementation()
+        {
+            // arrange
+            var foo = new Foo();
+            var target = ProxyBuilder.CreateProxy<IFoo>(foo);
+            // act
+            var result = target.Add(2, 3);
+            // assert
+            foo.AddHits.Should().Be(1);
+            result.Should().Be(5);
         }
     }
 
