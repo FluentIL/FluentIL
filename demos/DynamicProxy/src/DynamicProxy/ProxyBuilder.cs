@@ -14,6 +14,17 @@ namespace DynamicProxy
         {
             var t = IL.NewType().Implements<T>();
 
+            t
+                .WithField("__concreteinstance", typeof(T))
+                .WithMethod("__SetConcreteInstance")
+                .WithParameter(typeof(T))
+                .Returns(typeof(void))
+                    .Ldarg(0)
+                    .Ldarg(1)
+                    .Stfld("__concreteinstance")
+                    .Ret();
+                ;
+
             foreach (var method in typeof(T).GetMethods())
             {
                 var ilmethod = t.WithMethod(method.Name);
@@ -23,12 +34,18 @@ namespace DynamicProxy
                         param.Name
                         );
 
-                ilmethod.Returns(method.ReturnType)
+                var body = ilmethod.Returns(method.ReturnType);
+
+                body
                     .Throw<NotImplementedException>()
                     .Ret();
             }
-            
-            return (T)Activator.CreateInstance(t.AsType);
+
+            var type = t.AsType;
+            var setup = type.GetMethod("SetConcreteInstance");
+            var result = (T)Activator.CreateInstance(type);
+            setup.Invoke(result, new object [] {instance});
+            return result;
         }
     }
 }
