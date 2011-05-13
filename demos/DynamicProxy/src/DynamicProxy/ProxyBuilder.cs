@@ -21,24 +21,36 @@ namespace DynamicProxy
             EmitProxyMonitorSupport(t, monitor);
 
             foreach (var method in typeof(T).GetMethods())
-                EmitMethod(t, method);
+                EmitMethod(t, method, monitor);
 
-            return CreateInstance<T>(concreteInstance, t);
+            return CreateInstance<T>(t, concreteInstance, monitor);
         }
 
         private static T CreateInstance<T>(
-            T concreteInstance, 
-            DynamicTypeInfo t
+            DynamicTypeInfo t,
+            T concreteInstance,
+            IProxyMonitor monitor = null
             )
         {
             var type = t.AsType;
-            var setup = type.GetMethod("__SetConcreteInstance");
             var result = (T)Activator.CreateInstance(type);
-            setup.Invoke(result, new object[] { concreteInstance });
+
+            var setupConcreteInstance = type.GetMethod("__SetConcreteInstance");
+            setupConcreteInstance.Invoke(result, new object[] { concreteInstance });
+
+            if (monitor != null)
+            {
+                var setupProxyMonitor = type.GetMethod("__SetProxyMonitor");
+                setupProxyMonitor.Invoke(result, new object[] { monitor });
+            }
             return result;
         }
 
-        private static void EmitMethod(DynamicTypeInfo t, MethodInfo method)
+        private static void EmitMethod(
+            DynamicTypeInfo t, 
+            MethodInfo method,
+            IProxyMonitor monitor = null
+            )
         {
             var ilmethod = t.WithMethod(method.Name);
             foreach (var param in method.GetParameters())
@@ -47,7 +59,18 @@ namespace DynamicProxy
                     param.Name
                     );
 
-            var body = ilmethod.Returns(method.ReturnType);
+            if (monitor != null)
+                ilmethod.WithVariable(method.ReturnType);
+            
+            var body = ilmethod
+                .Returns(method.ReturnType);
+
+            if (monitor != null)
+                body
+                    .Ldarg(0).Dup()
+                    .Ldfld("__proxymonitor")
+                    .Ldstr(method.Name)
+                    ;
 
             body
                 .Ldarg(0)
@@ -57,8 +80,20 @@ namespace DynamicProxy
                 body.Ldarg(param.Name);
 
             body
-                .Call(method)
-                .Ret();
+                .Call(method);
+
+            if (monitor != null)
+            {
+                var afterExecuteMi = typeof(IProxyMonitor)
+                    .GetMethod("AfterExecute");
+
+                body
+                    .Stloc(0).Ldloc(0)
+                    .Call(afterExecuteMi)
+                    .Ldloc(0);
+            }
+
+            body.Ret();
         }
 
         private static void EmitConcreteInstanceSupport<T>(DynamicTypeInfo t)

@@ -46,6 +46,39 @@ namespace DynamicProxy.Tests
             foo.AddHits.Should().Be(1);
             result.Should().Be(5);
         }
+
+        [Test]
+        public void Create_BasicProxyMonitorSupport()
+        {
+            // arrange
+            var foo = new Foo();
+            var target = ProxyBuilder.CreateProxy<IFoo>(
+                foo,
+                new DummyProxyMonitor()
+                );
+            // act
+            var result = target.Add(2, 3);
+            // assert
+            foo.AddHits.Should().Be(1);
+            result.Should().Be(5);
+        }
+    }
+
+    class DummyProxyMonitor : IProxyMonitor
+    {
+        public void BeforeExecute(string methodName, object[] p)
+        {
+            
+        }
+
+        public string AfterExecute_LastMethodName;
+        public object AfterExecute_LastResult;
+
+        public void AfterExecute(string methodName, object result)
+        {
+            AfterExecute_LastMethodName = methodName;
+            AfterExecute_LastResult = result;
+        }
     }
 
     class Foo : IFoo
@@ -145,6 +178,41 @@ namespace DynamicProxy.Tests
 //    ldarg.0
 //    ldarg.1
 //    stfld __concreteinstance
+//    ret
+//.method MethodWithNoParameters
+//returns System.Void
+//    ldarg.0
+//    ldfld __concreteinstance
+//    call Void MethodWithNoParameters()
+//    ret
+//.method Add
+//.param (1) [System.Int32] a
+//.param (2) [System.Int32] b
+//returns System.Int32
+//    ldarg.0
+//    ldfld __concreteinstance
+//    ldarg.1
+//    ldarg.2
+//    call Int32 Add(Int32, Int32)
+//    ret
+// ----------------------------------------------------
+//.class NewType5d217ee7-a7bf-4a78-a303-6a7d3d2ab1fc
+//implements DynamicProxy.Tests.IFoo
+//.field (DynamicProxy.Tests.IFoo) __concreteinstance
+//.method __SetConcreteInstance
+//.param (1) [DynamicProxy.Tests.IFoo] no-name
+//returns System.Void
+//    ldarg.0
+//    ldarg.1
+//    stfld __concreteinstance
+//    ret
+//.field (DynamicProxy.IProxyMonitor) __proxymonitor
+//.method __SetProxyMonitor
+//.param (1) [DynamicProxy.IProxyMonitor] no-name
+//returns System.Void
+//    ldarg.0
+//    ldarg.1
+//    stfld __proxymonitor
 //    ret
 //.method MethodWithNoParameters
 //returns System.Void
