@@ -135,3 +135,30 @@ namespace DynamicProxy.Tests
 //    ldfld __concreteinstance
 //    call Int32 Add(Int32, Int32)
 //    ret
+// ----------------------------------------------------
+//.class NewType457d494a-f83c-489b-b103-6258fb403c80
+//implements DynamicProxy.Tests.IFoo
+//.field (DynamicProxy.Tests.IFoo) __concreteinstance
+//.method __SetConcreteInstance
+//.param (1) [DynamicProxy.Tests.IFoo] no-name
+//returns System.Void
+//    ldarg.0
+//    ldarg.1
+//    stfld __concreteinstance
+//    ret
+//.method MethodWithNoParameters
+//returns System.Void
+//    ldarg.0
+//    ldfld __concreteinstance
+//    call Void MethodWithNoParameters()
+//    ret
+//.method Add
+//.param (1) [System.Int32] a
+//.param (2) [System.Int32] b
+//returns System.Int32
+//    ldarg.0
+//    ldfld __concreteinstance
+//    ldarg.1
+//    ldarg.2
+//    call Int32 Add(Int32, Int32)
+//    ret
