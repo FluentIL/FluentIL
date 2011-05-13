@@ -60,7 +60,7 @@ namespace DynamicProxy
                     param.Name
                     );
 
-            if (monitor != null)
+            if (monitor != null && method.ReturnType != typeof(void))
                 ilmethod.WithVariable(method.ReturnType);
             
             var body = ilmethod
@@ -88,12 +88,20 @@ namespace DynamicProxy
                 var afterExecuteMi = typeof(IProxyMonitor)
                     .GetMethod("AfterExecute");
 
+                if (method.ReturnType != typeof(void))
+                    body
+                        .Stloc(0)
+                        .Ldloc(0)
+                        .Box(method.ReturnType);
+                else
+                    body.Ldnull();
+                
+
                 body
-                    .Stloc(0)
-                    .Ldloc(0)
-                    .Box(method.ReturnType)
-                    .Call(afterExecuteMi)
-                    .Ldloc(0);
+                    .Call(afterExecuteMi);
+                    
+                if (method.ReturnType != typeof(void))    
+                    body.Ldloc(0);
             }
 
             body.Ret();

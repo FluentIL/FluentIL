@@ -80,6 +80,24 @@ namespace DynamicProxy.Tests
             monitor.AfterExecute_LastMethodName.Should().Be("Add");
             monitor.AfterExecute_LastResult.Should().Be(5);
         }
+
+        [Test]
+        public void CreateProxy_AfterExecute_MethodWithNoParameters()
+        {
+            // arrange
+            var foo = new Foo();
+            var monitor = new DummyProxyMonitor();
+            //Assert.Fail(string.Format("LastResult {0}", monitor.AfterExecute_LastResult));
+            var target = ProxyBuilder.CreateProxy<IFoo>(
+                foo,
+                monitor
+                );
+            // act
+            target.MethodWithNoParameters();
+            // assert
+            monitor.AfterExecute_LastMethodName.Should().Be("MethodWithNoParameters");
+            monitor.AfterExecute_LastResult.Should().Be(null);
+        }
     }
 
     class DummyProxyMonitor : IProxyMonitor
@@ -247,4 +265,59 @@ namespace DynamicProxy.Tests
 //    ldarg.1
 //    ldarg.2
 //    call Int32 Add(Int32, Int32)
+//    ret
+// ----------------------------------------------------
+//.class NewType32f43943-4daa-4393-8835-8dedbbe8f12c
+//implements DynamicProxy.Tests.IFoo
+//.field (DynamicProxy.Tests.IFoo) __concreteinstance
+//.method __SetConcreteInstance
+//.param (1) [DynamicProxy.Tests.IFoo] no-name
+//returns System.Void
+//    ldarg.0
+//    ldarg.1
+//    stfld __concreteinstance
+//    ret
+//.field (DynamicProxy.IProxyMonitor) __proxymonitor
+//.method __SetProxyMonitor
+//.param (1) [DynamicProxy.IProxyMonitor] no-name
+//returns System.Void
+//    ldarg.0
+//    ldarg.1
+//    stfld __proxymonitor
+//    ret
+//.method MethodWithNoParameters
+//.local (0) [System.Void] no-name
+//returns System.Void
+//    ldarg.0
+//    dup
+//    ldfld __proxymonitor
+//    ldstr "MethodWithNoParameters"
+//    ldarg.0
+//    ldfld __concreteinstance
+//    call Void MethodWithNoParameters()
+//    stloc.0
+//    ldloc.0
+//    box System.Void
+//    call Void AfterExecute(System.String, System.Object)
+//    ldloc.0
+//    ret
+//.method Add
+//.param (1) [System.Int32] a
+//.param (2) [System.Int32] b
+//.local (0) [System.Int32] no-name
+//returns System.Int32
+//    ldarg.0
+//    dup
+//    ldfld __proxymonitor
+//    ldstr "Add"
+//    ldarg.0
+//    ldfld __concreteinstance
+//    ldarg.1
+//    ldarg.2
+//    call Int32 Add(Int32, Int32)
+//    stloc.0
+//    ldloc.0
+//    box System.Int32
+//    call Void AfterExecute(System.String, System.Object)
+//    ldloc.0
 //    ret

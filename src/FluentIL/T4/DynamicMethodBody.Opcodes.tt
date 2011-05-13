@@ -15,7 +15,8 @@ namespace FluentIL
 			"Ret", "Dup", "Pop", "Ldelem_U1",
 			"Stelem_I1", "Ldelem_I1",
 			"Conv_R8", "Conv_U1", "Neg", "Throw",
-			"Div", "Mul", "Add", "Sub", "Rem", "Not", "Nop"
+			"Div", "Mul", "Add", "Sub", "Rem", "Not", "Nop",
+			"Ldnull"
 			};
 		foreach (var opcode in opcodes)
 		{
