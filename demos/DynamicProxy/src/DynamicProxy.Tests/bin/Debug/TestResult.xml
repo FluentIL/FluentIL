@@ -1,24 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" total="1" errors="1" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-13" time="09:36:58">
+<test-results name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-13" time="09:46:02">
   <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.4959" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0" machine-name="CXJ0126" user="elemar" user-domain="PROMOB" />
   <culture-info current-culture="pt-BR" current-uiculture="pt-BR" />
-  <test-suite type="Assembly" name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" executed="True" result="Failure" success="False" time="0.401" asserts="0">
+  <test-suite type="Assembly" name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" executed="True" result="Success" success="True" time="0.239" asserts="0">
     <results>
-      <test-suite type="Namespace" name="DynamicProxy" executed="True" result="Failure" success="False" time="0.386" asserts="0">
+      <test-suite type="Namespace" name="DynamicProxy" executed="True" result="Success" success="True" time="0.223" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Tests" executed="True" result="Failure" success="False" time="0.380" asserts="0">
+          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.221" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="ProxyBuilderTests" executed="True" result="Failure" success="False" time="0.295" asserts="0">
+              <test-suite type="TestFixture" name="ProxyBuilderTests" executed="True" result="Success" success="True" time="0.217" asserts="0">
                 <results>
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_CallingMethods_CallsConcreteImplementation" executed="True" result="Error" success="False" time="0.284" asserts="0">
-                    <failure>
-                      <message><![CDATA[System.NullReferenceException : Object reference not set to an instance of an object.]]></message>
-                      <stack-trace><![CDATA[at DynamicProxy.ProxyBuilder.CreateProxy[T](T instance) in C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy\ProxyBuilder.cs:line 47
-at DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_CallingMethods_CallsConcreteImplementation() in C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\ProxyBuilderTests.cs:line 30
-]]></stack-trace>
-                    </failure>
-                  </test-case>
+                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_CallingMethods_CallsConcreteImplementation" executed="True" result="Success" success="True" time="0.206" asserts="0" />
                 </results>
               </test-suite>
             </results>

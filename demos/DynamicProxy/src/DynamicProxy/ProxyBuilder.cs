@@ -37,12 +37,14 @@ namespace DynamicProxy
                 var body = ilmethod.Returns(method.ReturnType);
 
                 body
-                    .Throw<NotImplementedException>()
+                    .Ldarg(0)
+                    .Ldfld("__concreteinstance")
+                    .Call(method)
                     .Ret();
             }
 
             var type = t.AsType;
-            var setup = type.GetMethod("SetConcreteInstance");
+            var setup = type.GetMethod("__SetConcreteInstance");
             var result = (T)Activator.CreateInstance(type);
             setup.Invoke(result, new object [] {instance});
             return result;
