@@ -135,7 +135,7 @@ namespace DynamicProxy
             var parameters = method.GetParameters();
 
             return body
-                .Ldarg(0).Dup().Dup()
+                .Ldarg(0).Dup()
                 .Ldfld("__proxymonitor")
                 .Ldstr(method.Name)
                 .Newarr(typeof(object), parameters.Length)

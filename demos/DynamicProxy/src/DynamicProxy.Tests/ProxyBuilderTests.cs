@@ -135,6 +135,26 @@ namespace DynamicProxy.Tests
             monitor.BeforeExecute_LastParameters.Should().Have.SameSequenceAs(
                 2, 3);
         }
+
+        [Test]
+        public void CreateProxy_PassingExpressions()
+        {
+            // arrange
+            var foo = new Foo();
+            int cc = 0;
+            var target = ProxyBuilder.CreateProxy<IFoo>(
+                foo,
+                beforeExecuteAction: (s, o) =>
+                    cc += 2,
+                afterExecuteAction: (s, o) =>
+                    cc--
+                );
+            // act
+            target.Add(2, 3);
+            // assert
+            cc.Should().Be(1);
+        }
+
     }
 
     class DummyProxyMonitor : IProxyMonitor

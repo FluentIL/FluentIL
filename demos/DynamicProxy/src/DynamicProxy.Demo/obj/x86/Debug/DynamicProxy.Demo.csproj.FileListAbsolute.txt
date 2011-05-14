@@ -1,0 +1,10 @@
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\bin\Debug\DynamicProxy.Demo.exe
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\bin\Debug\DynamicProxy.Demo.pdb
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\bin\Debug\DynamicProxy.dll
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\bin\Debug\FluentIL.dll
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\bin\Debug\DynamicProxy.pdb
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\bin\Debug\FluentIL.pdb
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\obj\x86\Debug\DynamicProxy.Demo.exe
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\obj\x86\Debug\DynamicProxy.Demo.pdb
+C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Demo\bin\Debug\DynamicProxy.Demo.exe.config
