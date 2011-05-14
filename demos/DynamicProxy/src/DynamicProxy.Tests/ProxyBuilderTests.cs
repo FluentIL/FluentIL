@@ -116,6 +116,25 @@ namespace DynamicProxy.Tests
             monitor.BeforeExecute_LastMethodName.Should().Be("MethodWithNoParameters");
             //monitor.AfterExecute_LastResult.Should().Be(null);
         }
+
+        [Test]
+        public void CreateProxy_BeforeExecute_Add()
+        {
+            // arrange
+            var foo = new Foo();
+            var monitor = new DummyProxyMonitor();
+            //Assert.Fail(string.Format("LastResult {0}", monitor.AfterExecute_LastResult));
+            var target = ProxyBuilder.CreateProxy<IFoo>(
+                foo,
+                monitor
+                );
+            // act
+            target.Add(2, 3);
+            // assert
+            monitor.BeforeExecute_LastMethodName.Should().Be("Add");
+            monitor.BeforeExecute_LastParameters.Should().Have.SameSequenceAs(
+                2, 3);
+        }
     }
 
     class DummyProxyMonitor : IProxyMonitor

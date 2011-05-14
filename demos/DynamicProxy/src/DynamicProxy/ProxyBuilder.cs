@@ -60,12 +60,21 @@ namespace DynamicProxy
                     param.Name
                     );
 
-            if (monitor != null && method.ReturnType != typeof(void))
-                ilmethod.WithVariable(method.ReturnType);
+            var parameters = method.GetParameters();
+            if (monitor != null)
+            {
+                if (method.ReturnType != typeof(void))
+                    ilmethod.WithVariable(method.ReturnType);
+
+                if (parameters.Length > 0)
+                    ilmethod.WithVariable(typeof(object[]), "parameters");
+            }
             
+
             var body = ilmethod
                 .Returns(method.ReturnType);
 
+            
             if (monitor != null)
             {
                 var beforeExecuteMi = typeof(IProxyMonitor)
@@ -75,9 +84,26 @@ namespace DynamicProxy
                     .Ldarg(0).Dup().Dup()
                     .Ldfld("__proxymonitor")
                     .Ldstr(method.Name)
-                    .Newarr(typeof(object), 0)
-                    .Call(beforeExecuteMi)
+                    .Newarr(typeof(object), parameters.Length);
 
+                if (parameters.Length > 0)
+                {
+                    body
+                        .Stloc("parameters");
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        body
+                            .Ldloc("parameters")
+                            .Ldc(i)
+                            .Ldarg((uint)(i + 1))
+                            .Box(parameters[i].ParameterType)
+                            .Emit(OpCodes.Stelem_Ref);
+                    }
+                    body.Ldloc("parameters");
+                }
+
+                body
+                    .Call(beforeExecuteMi)
                     .Ldfld("__proxymonitor")
                     .Ldstr(method.Name)
                     ;
@@ -87,7 +113,7 @@ namespace DynamicProxy
                 .Ldarg(0)
                 .Ldfld("__concreteinstance");
 
-            foreach (var param in method.GetParameters())
+            foreach (var param in parameters)
                 body.Ldarg(param.Name);
 
             body
