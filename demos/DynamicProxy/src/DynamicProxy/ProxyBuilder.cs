@@ -13,6 +13,21 @@ namespace DynamicProxy
     {
         public static T CreateProxy<T>(
             T concreteInstance, 
+            Action<string, object []> beforeExecuteAction,
+            Action<string, object> afterExecuteAction
+            )
+        {
+            var monitor = new ExpressionProxyMonitor()
+            {
+                BeforeExecuteAction = beforeExecuteAction,
+                AfterExecuteAction = afterExecuteAction
+            };
+
+            return CreateProxy<T>(concreteInstance, monitor);
+        }
+        
+        public static T CreateProxy<T>(
+            T concreteInstance, 
             IProxyMonitor monitor = null
             )
         {
@@ -22,16 +37,6 @@ namespace DynamicProxy
                     .EmitProxyMonitorSupport(condition: monitor != null)
                     .EmitMethods<T>(monitor),
                 concreteInstance, monitor);
-        }
-
-        private static DynamicTypeInfo EmitMethods<T>(
-            this DynamicTypeInfo that,
-            IProxyMonitor monitor
-            )
-        {
-            foreach (var method in typeof(T).GetMethods())
-                EmitMethod(that, method, monitor);
-            return that;
         }
 
         private static T CreateInstance<T>(
@@ -52,6 +57,16 @@ namespace DynamicProxy
                 setupProxyMonitor.Invoke(result, new object[] { monitor });
             }
             return result;
+        }
+
+        private static DynamicTypeInfo EmitMethods<T>(
+            this DynamicTypeInfo that,
+            IProxyMonitor monitor
+            )
+        {
+            foreach (var method in typeof(T).GetMethods())
+                EmitMethod(that, method, monitor);
+            return that;
         }
 
         private static void EmitMethod(
