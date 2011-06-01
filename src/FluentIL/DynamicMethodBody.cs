@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Linq.Expressions;
 using FluentIL.ExpressionInterpreter;
 using System.Diagnostics;
+using FluentIL.ExpressionParser;
 
 namespace FluentIL
 {
@@ -38,6 +39,12 @@ namespace FluentIL
         public DynamicMethodInfo WithMethod(string methodName)
         {
             return this._Info.DynamicTypeInfo.WithMethod(methodName);
+        }
+
+        public DynamicMethodBody Parse(string expression)
+        {
+            Parser.Parse(expression, this);
+            return this;
         }
 
 
@@ -125,6 +132,17 @@ namespace FluentIL
             emitter.EmitBranch(false);
             return this;
         }
+
+        public DynamicMethodBody If(string expression)
+        {
+            var emitter = new IfEmitter(this);
+            _IfEmitters.Push(emitter);
+            Parser.Parse(expression, this);
+            emitter.EmitBranch(false);
+            return this;
+        }
+
+        
 
 
         public DynamicMethodBody Throw<TException>(params Type[] types)

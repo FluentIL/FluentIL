@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
   <TopNode>[0-1010]C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll</TopNode>
-  <SelectedNode>[0-1010]C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll</SelectedNode>
+  <SelectedNode>[0-1008]DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_BeforeExecute_Add</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
     <Node UniqueName="[0-1010]C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" Expanded="true" />

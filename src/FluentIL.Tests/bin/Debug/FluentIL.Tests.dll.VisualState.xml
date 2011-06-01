@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1113]C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll</TopNode>
-  <SelectedNode>[0-1043]FluentIL.Tests.NewTypeStudies.ClassWithMultAndDivMethodsImplementingInterface</SelectedNode>
+  <TopNode>[0-1146]C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll</TopNode>
+  <SelectedNode>[0-1145]FluentIL.Tests.ParserTests.ExpressionParse11</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
-    <Node UniqueName="[0-1113]C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" Expanded="true" />
-    <Node UniqueName="[0-1114]FluentIL" Expanded="true" />
-    <Node UniqueName="[0-1115]FluentIL.Tests" Expanded="true" />
-    <Node UniqueName="[0-1093]FluentIL.Tests.ExpressionStudies" Expanded="true" />
-    <Node UniqueName="[0-1074]FluentIL.Tests.MathStudies" Expanded="true" />
-    <Node UniqueName="[0-1039]FluentIL.Tests.NewTypeStudies" Expanded="true" />
-    <Node UniqueName="[0-1000]FluentIL.Tests.SayHelloStudies" Expanded="true" />
+    <Node UniqueName="[0-1146]C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" Expanded="true" />
+    <Node UniqueName="[0-1147]FluentIL" Expanded="true" />
+    <Node UniqueName="[0-1148]FluentIL.Tests" Expanded="true" />
+    <Node UniqueName="[0-1134]FluentIL.Tests.ParserTests" Expanded="true" />
   </Nodes>
 </VisualState>

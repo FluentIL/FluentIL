@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
 using System.Linq.Expressions;
+using FluentIL.ExpressionParser;
 
 namespace FluentIL
 {
@@ -23,7 +24,7 @@ namespace FluentIL
 
         public static implicit operator Number(string varName)
         {
-            return new VarNumber(varName);
+            return new ParseExpressionNumber(varName);
         }
 
         public static implicit operator Number(Expression expression)
@@ -62,17 +63,17 @@ namespace FluentIL
         }
     }
 
-    public class VarNumber : Number
+    public class ParseExpressionNumber : Number
     {
-        public string VarName { get; private set; }
-        public VarNumber(string varName)
+        public string Expression { get; private set; }
+        public ParseExpressionNumber(string expression)
         {
-            this.VarName = varName;
+            this.Expression = expression;
         }
 
         public override void Emit(DynamicMethodBody generator)
         {
-            generator.LdLocOrArg(this.VarName);
+            Parser.Parse(this.Expression, generator);
         }
     }
 

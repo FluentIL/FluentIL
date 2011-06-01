@@ -1,25 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" total="9" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-14" time="00:28:28">
+<test-results name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-14" time="14:32:32">
   <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.4959" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0" machine-name="CXJ0126" user="elemar" user-domain="PROMOB" />
   <culture-info current-culture="pt-BR" current-uiculture="pt-BR" />
-  <test-suite type="Assembly" name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" executed="True" result="Success" success="True" time="0.340" asserts="0">
+  <test-suite type="Assembly" name="C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy.Tests\bin\Debug\DynamicProxy.Tests.dll" executed="True" result="Success" success="True" time="0.300" asserts="0">
     <results>
-      <test-suite type="Namespace" name="DynamicProxy" executed="True" result="Success" success="True" time="0.332" asserts="0">
+      <test-suite type="Namespace" name="DynamicProxy" executed="True" result="Success" success="True" time="0.286" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.327" asserts="0">
+          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.281" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="ProxyBuilderTests" executed="True" result="Success" success="True" time="0.325" asserts="0">
+              <test-suite type="TestFixture" name="ProxyBuilderTests" executed="True" result="Success" success="True" time="0.269" asserts="0">
                 <results>
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_AfterExecute_Add" executed="True" result="Success" success="True" time="0.049" asserts="0" />
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_AfterExecute_MethodWithNoParameters" executed="True" result="Success" success="True" time="0.048" asserts="0" />
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_BasicProxyMonitorSupport" executed="True" result="Success" success="True" time="0.045" asserts="0" />
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_BeforeExecute_Add" executed="True" result="Success" success="True" time="0.049" asserts="0" />
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_BeforeExecute_MethodWithNoParameters" executed="True" result="Success" success="True" time="0.036" asserts="0" />
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_CallingMethodsWithNoParameters_CallsConcreteImplementation" executed="True" result="Success" success="True" time="0.014" asserts="0" />
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_CallingMethodsWithParameters_CallsConcreteImplementation" executed="True" result="Success" success="True" time="0.014" asserts="0" />
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_PassingExpressions" executed="True" result="Success" success="True" time="0.036" asserts="0" />
-                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_PassingInterface_ReturnsInstanceOf" executed="True" result="Success" success="True" time="0.013" asserts="0" />
+                  <test-case name="DynamicProxy.Tests.ProxyBuilderTests.CreateProxy_BeforeExecute_Add" executed="True" result="Success" success="True" time="0.259" asserts="0" />
                 </results>
               </test-suite>
             </results>

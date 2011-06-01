@@ -52,6 +52,12 @@
       <DependentUpon>ExpressionSimplifierVisitor.tt</DependentUpon>
     </Compile>
     <Compile Include="ExpressionInterpreter\ILEmitterVisitor.cs" />
+    <Compile Include="ExpressionParser\ExpressionScanner.cs" />
+    <Compile Include="ExpressionParser\Parser.cs" />
+    <Compile Include="ExpressionParser\Scanner.cs" />
+    <Compile Include="ExpressionParser\State.cs" />
+    <Compile Include="ExpressionParser\StateTable.cs" />
+    <Compile Include="ExpressionParser\Token.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="T4\DynamicMethodBody.Branches.cs">
       <AutoGen>True</AutoGen>

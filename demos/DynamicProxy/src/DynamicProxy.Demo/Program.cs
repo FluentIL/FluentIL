@@ -43,18 +43,4 @@ namespace DynamicProxy.Demo
         int Add(int a, int b);
         void SayHello();
     }
-
-    public class FooProxyMonitor : IProxyMonitor
-    {
-
-        public void BeforeExecute(string methodName, object[] p)
-        {
-            Console.WriteLine("Before");
-        }
-
-        public void AfterExecute(string methodName, object result)
-        {
-            Console.WriteLine("After");
-        }
-    }
 }

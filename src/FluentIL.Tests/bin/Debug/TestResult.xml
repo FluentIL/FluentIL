@@ -1,17 +1,218 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-13" time="09:54:32">
+<test-results name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" total="154" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-31" time="21:43:22">
   <environment nunit-version="2.5.9.10348" clr-version="2.0.50727.4959" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.5.9\bin\net-2.0" machine-name="CXJ0126" user="elemar" user-domain="PROMOB" />
   <culture-info current-culture="pt-BR" current-uiculture="pt-BR" />
-  <test-suite type="Assembly" name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" executed="True" result="Success" success="True" time="0.258" asserts="0">
+  <test-suite type="Assembly" name="C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll" executed="True" result="Success" success="True" time="2.342" asserts="0">
     <results>
-      <test-suite type="Namespace" name="FluentIL" executed="True" result="Success" success="True" time="0.243" asserts="0">
+      <test-suite type="Namespace" name="FluentIL" executed="True" result="Success" success="True" time="2.315" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.240" asserts="0">
+          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="2.313" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="NewTypeStudies" executed="True" result="Success" success="True" time="0.232" asserts="0">
+              <test-suite type="TestFixture" name="ConditionalStudies" executed="True" result="Success" success="True" time="0.516" asserts="0">
                 <results>
-                  <test-case name="FluentIL.Tests.NewTypeStudies.ClassWithMultAndDivMethodsImplementingInterface" executed="True" result="Success" success="True" time="0.222" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.EnsureLimits_Min10Max20_Expressions" executed="True" result="Success" success="True" time="0.281" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.EnsureLimits_Min10Max20_Reference" executed="True" result="Success" success="True" time="0.028" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.EnsureLimits_Min10Max20_Reference2" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.EnsureLimits_Min10Max20_Reference3" executed="True" result="Success" success="True" time="0.036" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.EnsureLimits_Min10Max20_Reference4" executed="True" result="Success" success="True" time="0.018" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.EnsureLimits_Min10Max20_Reference5" executed="True" result="Success" success="True" time="0.019" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.MultipleConditions" executed="True" result="Success" success="True" time="0.018" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.MultipleConditions_2" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.MultipleConditions_Reference" executed="True" result="Success" success="True" time="0.019" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.TwoNumbersAreEquals_TrueReturnsYesFalseReturnsNo" executed="True" result="Success" success="True" time="0.019" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.TwoNumbersAreEquals_TrueReturnsYesFalseReturnsNo_Reference" executed="True" result="Success" success="True" time="0.011" asserts="0" />
+                  <test-case name="FluentIL.Tests.ConditionalStudies.TwoNumbersAreEquals_TrueReturnsYesFalseReturnsNo_Reference2" executed="True" result="Success" success="True" time="0.013" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="CounterStudies" executed="True" result="Success" success="True" time="0.115" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.CounterStudies.Counter_BasicILVersion" executed="True" result="Success" success="True" time="0.056" asserts="0" />
+                  <test-case name="FluentIL.Tests.CounterStudies.Counter_ReplacingEmits" executed="True" result="Success" success="True" time="0.029" asserts="0" />
+                  <test-case name="FluentIL.Tests.CounterStudies.Counter_Simplifying" executed="True" result="Success" success="True" time="0.025" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="DynamicMethodInfoTests" executed="True" result="Success" success="True" time="0.059" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.DynamicMethodInfoTests.AsDynamicMethod_WithNotNullDynamicTypeInfo_ThrowsInvalidOperationException" executed="True" result="Success" success="True" time="0.014" asserts="0" />
+                  <test-case name="FluentIL.Tests.DynamicMethodInfoTests.ctor_implicitConvertionToDyamicMethod_ReturnTypeShouldBeVoid" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                  <test-case name="FluentIL.Tests.DynamicMethodInfoTests.ctor_implicitConvertionToDyamicMethod_ShouldHaveNoParameters" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                  <test-case name="FluentIL.Tests.DynamicMethodInfoTests.Returns_PassingAny_ShouldReturnSameValueOfBodyProperty" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.DynamicMethodInfoTests.Returns_PassingInt_ReturnTypeShouldBeInt" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.DynamicMethodInfoTests.WithParameter_OneTimePassingInt_DynamicMethodShouldHaveOneParamInt" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                  <test-case name="FluentIL.Tests.DynamicMethodInfoTests.WithParameter_PassingIntAnsString_DynamicMethodShouldHaveOneParamIntAndAnotherString" executed="True" result="Success" success="True" time="0.018" asserts="0" />
+                  <test-case name="FluentIL.Tests.DynamicMethodInfoTests.WithParameter_TwoTimesPassingInt_DynamicMethodShouldHaveOneParamInt" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="DynamicTypeInfoTests" executed="True" result="Success" success="True" time="0.011" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.DynamicTypeInfoTests.AsType_ReturnedTypeShouldBeInstantiableViaActivatorCreateInstance" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                  <test-case name="FluentIL.Tests.DynamicTypeInfoTests.AsType_ReturnsTypeWithSpecifiedName" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                  <test-case name="FluentIL.Tests.DynamicTypeInfoTests.TypeBuilder_InvokedTwoTimes_ReturnsSameValue" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="ExpressionParsingStudies" executed="True" result="Success" success="True" time="0.224" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing01" executed="True" result="Success" success="True" time="0.031" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing02" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing03" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing04" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing05" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing06" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing07" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing08" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing09" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing10" executed="True" result="Success" success="True" time="0.010" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing11" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing12" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing13" executed="True" result="Success" success="True" time="0.011" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing14" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing15" executed="True" result="Success" success="True" time="0.022" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing16" executed="True" result="Success" success="True" time="0.012" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionParsingStudies.Parsing17" executed="True" result="Success" success="True" time="0.013" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="ExpressionScannerTests" executed="True" result="Success" success="True" time="0.061" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression1" executed="True" result="Success" success="True" time="0.010" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression10" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression11" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression12" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression13" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression14" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression15" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression16" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression17" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression18" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression19" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression2" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression20" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression3" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression4" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression5" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression6" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression7" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression8" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionScannerTests.Expression9" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="ExpressionStudies" executed="True" result="Success" success="True" time="0.170" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.ExpressionStudies.ConditionAnd" executed="True" result="Success" success="True" time="0.015" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.ConditionOr" executed="True" result="Success" success="True" time="0.028" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.Divide100By5_Results20" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.DoubleFiveDividedByDoubleTwo_ResultsTwoPointFive" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.EightSubtractThree_ResultsFive" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.EnsureLimits" executed="True" result="Success" success="True" time="0.019" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.Equal_Passing2And2_ReturnsTrue" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.FiveDividedByTwo_ResultsTwo" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.GreaterThanOrEqual_Passing2And2_ReturnsTrue" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.GreaterThanOrEqual_Passing2And3_ReturnsFalse" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.GreaterThanOrEqual_Passing3And2_ReturnsTrue" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.LessThanOrEqual_Passing2And2_ReturnsTrue" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.LessThanOrEqual_Passing2And3_ReturnsTrue" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.LessThanOrEqual_Passing3And2_ReturnsFalse" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.Not_Equal_Passing2And2_ReturnsFalse" executed="True" result="Success" success="True" time="0.010" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.Paramenter5DividedBy2_ResultsTwoPointFive" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.TwoPlusResultOfTwoTimesThree_ResultsEight" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.TwoPlusTwo_ResultsFour" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                  <test-case name="FluentIL.Tests.ExpressionStudies.TwoTimesThree_ResultsSix" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="IsPrimeStudies" executed="True" result="Success" success="True" time="0.239" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.IsPrimeStudies.IsPrimeV1_Passing0_ReturnsFalse" executed="True" result="Success" success="True" time="0.039" asserts="0" />
+                  <test-case name="FluentIL.Tests.IsPrimeStudies.IsPrimeV1_Passing1_ReturnsFalse" executed="True" result="Success" success="True" time="0.029" asserts="0" />
+                  <test-case name="FluentIL.Tests.IsPrimeStudies.IsPrimeV1_Passing2_Returnstrue" executed="True" result="Success" success="True" time="0.028" asserts="0" />
+                  <test-case name="FluentIL.Tests.IsPrimeStudies.IsPrimeV1_Passing3_ReturnsTrue" executed="True" result="Success" success="True" time="0.029" asserts="0" />
+                  <test-case name="FluentIL.Tests.IsPrimeStudies.IsPrimeV1_Passing4_ReturnsFalse" executed="True" result="Success" success="True" time="0.028" asserts="0" />
+                  <test-case name="FluentIL.Tests.IsPrimeStudies.IsPrimeV2_PassingOk" executed="True" result="Success" success="True" time="0.031" asserts="0" />
+                  <test-case name="FluentIL.Tests.IsPrimeStudies.IsPrimeV3_PassingOk" executed="True" result="Success" success="True" time="0.045" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="MathStudies" executed="True" result="Success" success="True" time="0.149" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.MathStudies.AddToVar" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.AddToVar_2" executed="True" result="Success" success="True" time="0.011" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.AddToVar_Reference" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.AddToVar_Reference2" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.MinusOnePlus40" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.ThreeTimesFive" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoMulThree" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoMulThree_2" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoMulThree_3" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoPlusTwo" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoPlusTwo_2" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoPlusTwo_3" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoPlusTwo_4" executed="True" result="Success" success="True" time="0.004" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoPlusTwo_Reference" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoPlusTwoWithNamedParameters" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoPlusTwoWithParameters" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoPlusTwoWithParameters_2" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.MathStudies.TwoPlusTwoWithParameters_Reference" executed="True" result="Success" success="True" time="0.002" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="NewTypeStudies" executed="True" result="Success" success="True" time="0.056" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.NewTypeStudies.ClassWithMultAndDivMethods" executed="True" result="Success" success="True" time="0.015" asserts="0" />
+                  <test-case name="FluentIL.Tests.NewTypeStudies.ClassWithMultAndDivMethodsImplementingInterface" executed="True" result="Success" success="True" time="0.018" asserts="0" />
+                  <test-case name="FluentIL.Tests.NewTypeStudies.CreateTypeWithOneMethod" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.NewTypeStudies.TwoPlusTwoWithNamedParameters" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="ParserTests" executed="True" result="Success" success="True" time="0.064" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse01" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse02" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse03" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse04" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse05" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse06" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse07" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse08" executed="True" result="Success" success="True" time="0.035" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse09" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse10" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse11" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse12" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse13" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                  <test-case name="FluentIL.Tests.ParserTests.ExpressionParse14" executed="True" result="Success" success="True" time="0.001" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="SayHelloStudies" executed="True" result="Success" success="True" time="0.508" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingEmptyParameterV1_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.015" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingEmptyParameterV1_PassingNotEmpty_ThrowsNothing" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingEmptyParameterV2_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.015" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingEmptyParameterV2_PassingNotEmpty_ThrowsNothing" executed="True" result="Success" success="True" time="0.013" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingNullParameterV1_PassingNotNull_ThrowsNothing" executed="True" result="Success" success="True" time="0.013" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingNullParameterV1_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.021" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingNullParameterV2_PassingNotNull_ThrowsNothing" executed="True" result="Success" success="True" time="0.012" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.CheckingNullParameterV2_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.015" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV1_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.036" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV1_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.020" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV1_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.021" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV2_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.022" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV2_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.019" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV2_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.020" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV3_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.024" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV3_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.022" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV3_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.023" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV4_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.023" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV4_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.023" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV4_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.022" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV5_PassingElemar_ReturnsHelloElemar" executed="True" result="Success" success="True" time="0.023" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV5_PassingEmpty_ThrowsArgumentException" executed="True" result="Success" success="True" time="0.021" asserts="0" />
+                  <test-case name="FluentIL.Tests.SayHelloStudies.SayHelloV5_PassingNull_ThrowsArgumentNullException" executed="True" result="Success" success="True" time="0.028" asserts="0" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="VariableStudies" executed="True" result="Success" success="True" time="0.089" asserts="0">
+                <results>
+                  <test-case name="FluentIL.Tests.VariableStudies.StLoc_SameInTwoVariables" executed="True" result="Success" success="True" time="0.007" asserts="0" />
+                  <test-case name="FluentIL.Tests.VariableStudies.StLoc_SameInTwoVariables_Reference" executed="True" result="Success" success="True" time="0.009" asserts="0" />
+                  <test-case name="FluentIL.Tests.VariableStudies.SumOf100To1_For" executed="True" result="Success" success="True" time="0.018" asserts="0" />
+                  <test-case name="FluentIL.Tests.VariableStudies.SumOf1To100" executed="True" result="Success" success="True" time="0.018" asserts="0" />
+                  <test-case name="FluentIL.Tests.VariableStudies.SumOf1To100_For" executed="True" result="Success" success="True" time="0.019" asserts="0" />
+                  <test-case name="FluentIL.Tests.VariableStudies.SumOf1To100_Reference" executed="True" result="Success" success="True" time="0.003" asserts="0" />
                 </results>
               </test-suite>
             </results>

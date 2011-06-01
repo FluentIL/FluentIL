@@ -50,11 +50,14 @@
     <Compile Include="ConditionalStudies.cs" />
     <Compile Include="CounterStudies.cs" />
     <Compile Include="DynamicTypeInfoTests.cs" />
+    <Compile Include="ExpressionParsingStudies.cs" />
+    <Compile Include="ExpressionScannerTests.cs" />
     <Compile Include="ExpressionStudies.cs" />
     <Compile Include="IsPrimeStudies.cs" />
     <Compile Include="MathStudies.cs" />
     <Compile Include="DynamicMethodInfoTests.cs" />
     <Compile Include="NewTypeStudies.cs" />
+    <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SayHelloStudies.cs" />
     <Compile Include="VariableStudies.cs" />
