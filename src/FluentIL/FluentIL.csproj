@@ -12,6 +12,7 @@
     <AssemblyName>FluentIL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,6 +60,8 @@
     <Compile Include="ExpressionParser\StateTable.cs" />
     <Compile Include="ExpressionParser\Token.cs" />
     <Compile Include="Number.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Branches.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Calls.cs" />
     <Compile Include="T4\DynamicMethodBody.Branches.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -671,7 +671,6 @@ namespace FluentIL.ExpressionParser
             //ident--;
         }
 
-        int ident = 0;
         private void Begin(string p)
         {
             //Console.WriteLine("{0}{1}", new String(' ', ident), p);

@@ -24,12 +24,27 @@ namespace FluentIL
             this.MethodName = methodName;
         }
 
+        //public DynamicMethodInfo(
+        //    DynamicTypeInfo dynamicTypeInfo,
+        //    MethodInfo methodInfo)
+        //    : this(dynamicTypeInfo, methodInfo.Name)
+        //{
+            
+        //    var attributes = methodInfo.Attributes;
+        //    attributes -= MethodAttributes.Abstract;
+
+        //    this.methodBuilder = dynamicTypeInfo.TypeBuilder.DefineMethod(methodInfo.Name,
+        //        attributes, methodInfo.ReturnType, new Type[] { });
+        //}
+
         public DynamicMethodInfo()
         {
             this.Body = new DynamicMethodBody(this);
             this.MethodName = "DynMethod";
         }
 
+        
+        public Type Owner { get; private set; }
         public string MethodName { get; private set; }
 
         #region DynamicMethod Gen
@@ -46,11 +61,25 @@ namespace FluentIL
                 {
                     var parameterTypes = _Parameters.Select(p => p.Type)
                     .ToArray();
-                    _result = new DynamicMethod(
-                        this.MethodName,
-                        ReturnType,
-                        parameterTypes
-                        );
+
+                    if (Owner != null)
+                    {
+                        _result = new DynamicMethod(
+                            this.MethodName,
+                            ReturnType,
+                            parameterTypes,
+                            Owner,
+                            true
+                            );
+                    }
+                    else
+                    {
+                        _result = new DynamicMethod(
+                            this.MethodName,
+                            ReturnType,
+                            parameterTypes
+                            );
+                    }
 
                     var ilgen = _result.GetILGenerator();
                     foreach (var variable in this.Variables)
@@ -63,6 +92,8 @@ namespace FluentIL
         internal DynamicTypeInfo DynamicTypeInfo { get; private set; }
 
         MethodBuilder methodBuilder = null;
+
+        public MethodBuilder MethodBuilder { get { return this.methodBuilder; } }
 
         public ILGenerator GetILGenerator()
         {
@@ -77,7 +108,7 @@ namespace FluentIL
 
                     methodBuilder = this.DynamicTypeInfo.TypeBuilder.DefineMethod(
                         this.MethodName,
-                        MethodAttributes.Public | MethodAttributes.Virtual,
+                        this.MethodAttributes,
                         CallingConventions.HasThis,
                         ReturnType,
                         parameterTypes);
@@ -93,6 +124,25 @@ namespace FluentIL
         #endregion
 
         #region DSL
+        MethodAttributes MethodAttributes = MethodAttributes.Public | MethodAttributes.Virtual;
+        public DynamicMethodInfo TurnOnAttributes(MethodAttributes attributes)
+        {
+            this.MethodAttributes |= attributes;
+            return this;
+        }
+
+        public DynamicMethodInfo TurnOffAttributes(MethodAttributes attributes)
+        {
+            this.MethodAttributes &= ~attributes;
+            return this;
+        }
+
+        public DynamicMethodInfo WithOwner(Type owner)
+        {
+            this.Owner = owner;
+            return this;
+        }
+
         public DynamicMethodInfo WithParameter(Type parameterType, string parameterName = "")
         {
 #if DEBUG

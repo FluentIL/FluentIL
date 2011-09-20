@@ -264,5 +264,6 @@ namespace FluentIL.Tests
             il.Invoke(7).Should().Be(7);
             
         }
+
     }
 }

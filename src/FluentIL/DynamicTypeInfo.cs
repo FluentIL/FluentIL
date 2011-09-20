@@ -122,6 +122,50 @@ namespace FluentIL
             return new DynamicMethodInfo(this, methodName);
         }
 
+        public DynamicTypeInfo WithAutoProperty(
+            string propertyName,
+            Type propertyType
+            )
+        {
+            string fieldName = string.Format("_{0}", Guid.NewGuid());
+            this.WithField(fieldName, propertyType);
+
+            var property = this.TypeBuilder.DefineProperty(
+                propertyName,
+                PropertyAttributes.None,
+                propertyType,
+                new Type[] { }
+                );
+
+            var get_methodinfo = this.WithMethod(string.Format("get_{0}", propertyName))
+                .TurnOnAttributes(MethodAttributes.RTSpecialName)
+                .TurnOnAttributes(MethodAttributes.SpecialName);
+
+            var get_method = get_methodinfo
+                .Returns(propertyType)
+                .Ldarg(0) // this;
+                .Ldfld(fieldName)
+                .Ret();
+
+            property.SetGetMethod(get_methodinfo.MethodBuilder);
+
+            var set_methodinfo = this.WithMethod(string.Format("set_{0}", propertyName))
+                .TurnOnAttributes(MethodAttributes.RTSpecialName)
+                .TurnOnAttributes(MethodAttributes.SpecialName);
+
+            var set_method = set_methodinfo
+                .WithParameter(propertyType, "value")
+                .Returns(typeof(void))
+                .Ldarg(0) // this;
+                .Ldarg("value")
+                .Stfld(fieldName)
+                .Ret();
+
+            property.SetSetMethod(set_methodinfo.MethodBuilder);
+
+            return this;
+        }
+
         public Type AsType
         {
             get
@@ -129,5 +173,7 @@ namespace FluentIL
                 return this.TypeBuilder.CreateType();
             }
         }
+
+
     }
 }

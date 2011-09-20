@@ -55,6 +55,11 @@ namespace FluentIL
             return this;
         }
 
+        public DynamicMethodBody UnboxAny(Type type)
+        {
+            return this.Emit(OpCodes.Unbox_Any, type);
+        }
+
         public DynamicMethodBody Ldfld(FieldInfo fldInfo)
         {
             this.Emit(OpCodes.Ldfld, fldInfo);
@@ -80,67 +85,7 @@ namespace FluentIL
         }
 
 
-        public DynamicMethodBody IfEmptyString(bool not)
-        {
-            var stringEmptyField = typeof(string).GetField("Empty");
-            var stringOp_EqualityMethod = typeof(string).GetMethod(
-                "op_Equality", new[] { typeof(string), typeof(string) });
-
-            var emitter = new IfEmitter(this);
-            _IfEmitters.Push(emitter);
-            this
-                .Ldsfld(stringEmptyField)
-                .Call(stringOp_EqualityMethod);
-
-            emitter.EmitBranch(not);
-            return this;
-        }
-
-        public DynamicMethodBody IfEmptyString()
-        {
-            return this.IfEmptyString(false);
-        }
-
-        public DynamicMethodBody IfNotEmptyString()
-        {
-            return this.IfEmptyString(true);
-        }
-
-        public DynamicMethodBody IfNull(bool not)
-        {
-            var emitter = new IfEmitter(this);
-            _IfEmitters.Push(emitter);
-            emitter.EmitBranch(!not);
-            return this;
-        }
-
-        public DynamicMethodBody IfNull()
-        {
-            return this.IfNull(false);
-        }
-
-        public DynamicMethodBody IfNotNull()
-        {
-            return this.IfNull(true);
-        }
-
-        public DynamicMethodBody If(Expression expression)
-        {
-            var emitter = new IfEmitter(this);
-            _IfEmitters.Push(emitter);
-            this.Expression(expression);
-            emitter.EmitBranch(false);
-            return this;
-        }
-
-        public DynamicMethodBody If(string expression)
-        {
-            var emitter = new IfEmitter(this);
-            _IfEmitters.Push(emitter);
-            Parser.Parse(expression, this);
-            emitter.EmitBranch(false);
-            return this;
-        }
+        
 
         
 
@@ -181,16 +126,7 @@ namespace FluentIL
             return this.Newobj(ci);
         }
 
-        public DynamicMethodBody Call(MethodInfo methodInfo)
-        {
-            return this.Emit(OpCodes.Call, methodInfo);
-        }
-
-        public DynamicMethodBody Call<T>(string methodName, params Type[] types)
-        {
-            var mi = typeof(T).GetMethod(methodName, types);
-            return this.Call(mi);
-        }
+        
 
         #region Basic Math Operations
         private void MultipleOperations(Func<DynamicMethodBody> action, params Number[] args)

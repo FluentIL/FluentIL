@@ -225,6 +225,39 @@ public bool IsPrime(int number)
             checker.IsPrime(3).Should().Be(true);
             checker.IsPrime(4).Should().Be(false);
         }
+
+
+        public IPrimeChecker CreatePrimeCheckerV4()
+        {
+            var t = IL.NewType().Implements<IPrimeChecker>()
+                .WithMethod("IsPrime")
+                .WithVariable(typeof(int), "i")
+                .WithParameter(typeof(int), "number")
+                .Returns(typeof(bool))
+                    .If("number<=1")
+                        .Ret(false)
+                    .EndIf()
+                    .For("i", 2, "number/2")
+                        .If("(number%i)==0")
+                            .Ret(false)
+                        .EndIf()
+                    .Next()
+                    .Ret(true)
+                .AsType;
+
+            return (IPrimeChecker)Activator.CreateInstance(t);
+        }
+
+        [Test]
+        public void IsPrimeV4_PassingOk()
+        {
+            var checker = CreatePrimeCheckerV4();
+            checker.IsPrime(0).Should().Be(false);
+            checker.IsPrime(1).Should().Be(false);
+            checker.IsPrime(2).Should().Be(true);
+            checker.IsPrime(3).Should().Be(true);
+            checker.IsPrime(4).Should().Be(false);
+        }
     }
 
     public interface IPrimeChecker

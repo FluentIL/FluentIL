@@ -26,6 +26,7 @@ namespace FluentIL
             return new DynamicMethodInfo();
         }
 
+        
 
         public static DynamicTypeInfo NewType()
         {
