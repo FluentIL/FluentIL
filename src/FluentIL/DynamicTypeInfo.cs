@@ -122,14 +122,37 @@ namespace FluentIL
             return new DynamicMethodInfo(this, methodName);
         }
 
-        public DynamicTypeInfo WithAutoProperty(
+        //public DynamicTypeInfo WithProperty(
+        //    string propertyName,
+        //    Type propertyType,
+        //    Action<DynamicMethodBody> getmethod
+        //    )
+        //{
+        //    var property = this.TypeBuilder.DefineProperty(
+        //        propertyName,
+        //        PropertyAttributes.None,
+        //        propertyType,
+        //        new Type[] { }
+        //        );
+
+        //    var get_methodinfo = this.WithMethod(string.Format("get_{0}", propertyName))
+        //        .TurnOnAttributes(MethodAttributes.RTSpecialName)
+        //        .TurnOnAttributes(MethodAttributes.SpecialName);
+
+        //    getmethod(get_methodinfo.Returns(propertyType));
+
+        //    property.SetGetMethod(get_methodinfo.MethodBuilder);
+
+        //    return this;
+        //}
+
+        public DynamicTypeInfo WithProperty(
             string propertyName,
-            Type propertyType
+            Type propertyType,
+            Action<DynamicMethodBody> getmethod,
+            Action<DynamicMethodBody> setmethod = null
             )
         {
-            string fieldName = string.Format("_{0}", Guid.NewGuid());
-            this.WithField(fieldName, propertyType);
-
             var property = this.TypeBuilder.DefineProperty(
                 propertyName,
                 PropertyAttributes.None,
@@ -141,29 +164,44 @@ namespace FluentIL
                 .TurnOnAttributes(MethodAttributes.RTSpecialName)
                 .TurnOnAttributes(MethodAttributes.SpecialName);
 
-            var get_method = get_methodinfo
-                .Returns(propertyType)
-                .Ldarg(0) // this;
-                .Ldfld(fieldName)
-                .Ret();
-
+            getmethod(get_methodinfo.Returns(propertyType));
             property.SetGetMethod(get_methodinfo.MethodBuilder);
 
-            var set_methodinfo = this.WithMethod(string.Format("set_{0}", propertyName))
-                .TurnOnAttributes(MethodAttributes.RTSpecialName)
-                .TurnOnAttributes(MethodAttributes.SpecialName);
+            if (setmethod != null)
+            {
+                var set_methodinfo = this.WithMethod(string.Format("set_{0}", propertyName))
+                    .TurnOnAttributes(MethodAttributes.RTSpecialName)
+                    .TurnOnAttributes(MethodAttributes.SpecialName)
+                    .WithParameter(propertyType, "value");
 
-            var set_method = set_methodinfo
-                .WithParameter(propertyType, "value")
-                .Returns(typeof(void))
-                .Ldarg(0) // this;
-                .Ldarg("value")
-                .Stfld(fieldName)
-                .Ret();
-
-            property.SetSetMethod(set_methodinfo.MethodBuilder);
-
+                setmethod(set_methodinfo.Returns(typeof(void)));
+                property.SetSetMethod(set_methodinfo.MethodBuilder);
+            }
             return this;
+        }
+
+
+        public DynamicTypeInfo WithAutoProperty(
+            string propertyName,
+            Type propertyType
+            )
+        {
+            string fieldName = string.Format("_{0}", Guid.NewGuid());
+            return this
+                .WithField(fieldName, propertyType)
+                .WithProperty(
+                    propertyName,
+                    propertyType,
+                    (mget) => mget
+                        .Ldarg(0) // this;
+                        .Ldfld(fieldName)
+                        .Ret(),
+                    (mset) => mset
+                        .Ldarg(0) // this;
+                        .Ldarg("value")
+                        .Stfld(fieldName)
+                        .Ret()
+                        );
         }
 
         public Type AsType

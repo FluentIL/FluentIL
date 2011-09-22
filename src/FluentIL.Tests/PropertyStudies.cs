@@ -34,7 +34,43 @@ namespace FluentIL.Tests
             p.GetValue(f, null).Should().Be(10);
         }
 
-        
+        [Test]
+        public void EmitingTypeThatSupportsReadOnlyProperty()
+        {
+            var newType = IL.NewType()
+                .Implements<IFoo2>()
+                .WithProperty("ReadOnlyProperty", typeof(int), (m) => m
+                    .Ldc(10)
+                    .Ret()
+                    )
+                .AsType;
+
+            var f = (IFoo2)Activator.CreateInstance(newType);
+            f.ReadOnlyProperty.Should().Be(10);
+        }
+
+        [Test]
+        public void EmitingTypeThatSupportsReadOnlyPropertyWithoutInterface()
+        {
+            var newType = IL.NewType()
+                .WithProperty("ReadOnlyProperty", typeof(int), (m) => m
+                    .Ldc(10)
+                    .Ret()
+                    )
+                .AsType;
+
+            var f = Activator.CreateInstance(newType);
+            var p = newType.GetProperty("ReadOnlyProperty");
+            p.GetValue(f, null).Should().Be(10);
+        }
+
+
+
+        public interface IFoo2
+        {
+            int ReadOnlyProperty { get;  }
+        }
+
         public interface IFoo
         {
             int SomeProperty { get; set; }
