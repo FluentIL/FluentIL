@@ -1,9 +1,0 @@
-C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.dll
-C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.Tests.pdb
-C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.dll
-C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\nunit.framework.dll
-C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\SharpTestsEx.dll
-C:\git\FluentIL\src\FluentIL.Tests\bin\Debug\FluentIL.pdb
-C:\git\FluentIL\src\FluentIL.Tests\obj\Debug\ResolveAssemblyReference.cache
-C:\git\FluentIL\src\FluentIL.Tests\obj\Debug\FluentIL.Tests.dll
-C:\git\FluentIL\src\FluentIL.Tests\obj\Debug\FluentIL.Tests.pdb

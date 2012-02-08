@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection.Emit;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using FluentIL.ExpressionParser;
 
 namespace FluentIL
@@ -35,60 +30,61 @@ namespace FluentIL
 
     public class ConstantInt32Number : Number
     {
-        public int Value { get; private set; }
-
         public ConstantInt32Number(int value)
         {
-            this.Value = value;
+            Value = value;
         }
+
+        public int Value { get; private set; }
 
         public override void Emit(DynamicMethodBody generator)
         {
-            generator.Ldc(this.Value);
+            generator.Ldc(Value);
         }
     }
 
     public class ConstantDoubleNumber : Number
     {
-        public double Value { get; private set; }
-
         public ConstantDoubleNumber(double value)
         {
-            this.Value = value;
+            Value = value;
         }
+
+        public double Value { get; private set; }
 
         public override void Emit(DynamicMethodBody generator)
         {
-            generator.Ldc(this.Value);
+            generator.Ldc(Value);
         }
     }
 
     public class ParseExpressionNumber : Number
     {
-        public string Expression { get; private set; }
         public ParseExpressionNumber(string expression)
         {
-            this.Expression = expression;
+            Expression = expression;
         }
+
+        public string Expression { get; private set; }
 
         public override void Emit(DynamicMethodBody generator)
         {
-            Parser.Parse(this.Expression, generator);
+            Parser.Parse(Expression, generator);
         }
     }
 
     public class ExpressionNumber : Number
     {
-        public Expression Expression { get; private set; }
         public ExpressionNumber(Expression expression)
         {
-            this.Expression = expression;
+            Expression = expression;
         }
+
+        public Expression Expression { get; private set; }
 
         public override void Emit(DynamicMethodBody generator)
         {
-            generator.Expression(this.Expression);
+            generator.Expression(Expression);
         }
-
     }
 }

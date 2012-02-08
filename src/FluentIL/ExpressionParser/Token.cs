@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FluentIL.ExpressionParser
+﻿namespace FluentIL.ExpressionParser
 {
-    struct Token
+    internal struct Token
     {
-        public string Id { get; private set; }
-        public string Value { get; private set; }
-
         public Token(string id, string value)
             : this()
         {
@@ -17,22 +9,25 @@ namespace FluentIL.ExpressionParser
             Value = value;
         }
 
+        public string Id { get; private set; }
+        public string Value { get; private set; }
+
         public static bool operator ==(Token first, Token second)
         {
             return (first.Value == second.Value &&
-                first.Id == second.Id);
+                    first.Id == second.Id);
         }
 
         public static bool operator !=(Token first, Token second)
         {
             return (first.Value == second.Value &&
-                first.Id == second.Id);
+                    first.Id == second.Id);
         }
 
         public override bool Equals(object obj)
         {
             if (!(obj is Token)) return false;
-            return this == (Token)obj;
+            return this == (Token) obj;
         }
 
         public override int GetHashCode()
@@ -43,8 +38,8 @@ namespace FluentIL.ExpressionParser
         public override string ToString()
         {
             return string.Format("{0} ({1})",
-                this.Value,
-                this.Id);
+                                 Value,
+                                 Id);
         }
     }
 }

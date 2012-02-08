@@ -1,69 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Diagnostics;
+using System.Threading;
 
 namespace FluentIL
 {
     public class DynamicTypeInfo
     {
-        public string TypeName { get; private set; }
+        private readonly List<DynamicFieldInfo> fieldsField = new List<DynamicFieldInfo>();
+        private readonly List<Type> interfacesField = new List<Type>();
+        private TypeBuilder typeBuilderField;
 
         public DynamicTypeInfo(string typeName)
         {
-            this.TypeName = typeName;
+            TypeName = typeName;
 #if DEBUG
-            Debug.Print(".class {0}", this.TypeName);
+            Debug.Print(".class {0}", TypeName);
 #endif
-
         }
 
-        TypeBuilder TypeBuilderField = null;
+        public string TypeName { get; private set; }
+
         public TypeBuilder TypeBuilder
         {
             get
             {
                 EnsureTypeBuilder();
-                return this.TypeBuilderField;
+                return typeBuilderField;
             }
         }
 
-        void EnsureTypeBuilder()
+        public Type AsType
         {
-            if (this.TypeBuilderField == null)
+            get { return TypeBuilder.CreateType(); }
+        }
+
+        private void EnsureTypeBuilder()
+        {
+            if (typeBuilderField == null)
             {
                 var assemblyName = new AssemblyName(
                     string.Format("__assembly__{0}", DateTime.Now.Millisecond)
                     );
 
-                var assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(
+                AssemblyBuilder assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(
                     assemblyName,
                     AssemblyBuilderAccess.RunAndSave
                     );
 
-                var moduleBuilder = assemblyBuilder.DefineDynamicModule(
+                ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(
                     assemblyBuilder.GetName().Name,
                     false
                     );
 
-                this.TypeBuilderField = moduleBuilder.DefineType(this.TypeName,
-                    TypeAttributes.Public |
-                    TypeAttributes.Class |
-                    TypeAttributes.AutoClass |
-                    TypeAttributes.AnsiClass |
-                    TypeAttributes.BeforeFieldInit |
-                    TypeAttributes.AutoLayout,
-                    typeof(object),
-                    _interfaces.ToArray()
+                typeBuilderField = moduleBuilder.DefineType(TypeName,
+                                                            TypeAttributes.Public |
+                                                            TypeAttributes.Class |
+                                                            TypeAttributes.AutoClass |
+                                                            TypeAttributes.AnsiClass |
+                                                            TypeAttributes.BeforeFieldInit |
+                                                            TypeAttributes.AutoLayout,
+                                                            typeof (object),
+                                                            interfacesField.ToArray()
                     );
 
-                foreach (var field in _fields)
+                foreach (DynamicFieldInfo field in fieldsField)
                 {
-                    field.FieldBuilder = this.TypeBuilderField.DefineField(
+                    field.FieldBuilder = typeBuilderField.DefineField(
                         field.Name,
                         field.Type,
                         FieldAttributes.Private
@@ -72,18 +78,18 @@ namespace FluentIL
             }
         }
 
-        List<Type> _interfaces = new List<Type>();
         public DynamicTypeInfo Implements<TInterface>()
         {
-            _interfaces.Add(typeof(TInterface));
+            interfacesField.Add(typeof (TInterface));
 #if DEBUG
-            Debug.Print("implements {0}", typeof(TInterface));
+            Debug.Print("implements {0}", typeof (TInterface));
 #endif
             return this;
         }
 
-        List<DynamicFieldInfo> _fields = new List<DynamicFieldInfo>();
+// ReSharper disable InconsistentNaming
         public DynamicTypeInfo WithField(string fieldName, Type fieldType)
+// ReSharper restore InconsistentNaming
         {
             var value = new DynamicFieldInfo(
                 this,
@@ -94,26 +100,26 @@ namespace FluentIL
             Debug.Print(".field ({0}) {1}", fieldType, fieldName);
 #endif
 
-            _fields.Add(
+            fieldsField.Add(
                 value
                 );
 
-            if (this.TypeBuilderField != null)
+            if (typeBuilderField != null)
             {
-                value.FieldBuilder = this.TypeBuilderField.DefineField(
-                            fieldName,
-                            fieldType,
-                            FieldAttributes.Private
-                            );
+                value.FieldBuilder = typeBuilderField.DefineField(
+                    fieldName,
+                    fieldType,
+                    FieldAttributes.Private
+                    );
             }
             return this;
         }
 
         public FieldInfo GetFieldInfo(string fieldName)
         {
-            var result = _fields.First(f => f.Name.Equals(fieldName));
+            DynamicFieldInfo result = fieldsField.First(f => f.Name.Equals(fieldName));
             if (result == null) return null;
-            this.EnsureTypeBuilder();
+            EnsureTypeBuilder();
             return result.FieldBuilder;
         }
 
@@ -122,30 +128,6 @@ namespace FluentIL
             return new DynamicMethodInfo(this, methodName);
         }
 
-        //public DynamicTypeInfo WithProperty(
-        //    string propertyName,
-        //    Type propertyType,
-        //    Action<DynamicMethodBody> getmethod
-        //    )
-        //{
-        //    var property = this.TypeBuilder.DefineProperty(
-        //        propertyName,
-        //        PropertyAttributes.None,
-        //        propertyType,
-        //        new Type[] { }
-        //        );
-
-        //    var get_methodinfo = this.WithMethod(string.Format("get_{0}", propertyName))
-        //        .TurnOnAttributes(MethodAttributes.RTSpecialName)
-        //        .TurnOnAttributes(MethodAttributes.SpecialName);
-
-        //    getmethod(get_methodinfo.Returns(propertyType));
-
-        //    property.SetGetMethod(get_methodinfo.MethodBuilder);
-
-        //    return this;
-        //}
-
         public DynamicTypeInfo WithProperty(
             string propertyName,
             Type propertyType,
@@ -153,29 +135,29 @@ namespace FluentIL
             Action<DynamicMethodBody> setmethod = null
             )
         {
-            var property = this.TypeBuilder.DefineProperty(
+            PropertyBuilder property = TypeBuilder.DefineProperty(
                 propertyName,
                 PropertyAttributes.None,
                 propertyType,
-                new Type[] { }
+                new Type[] {}
                 );
 
-            var get_methodinfo = this.WithMethod(string.Format("get_{0}", propertyName))
+            DynamicMethodInfo getMethodinfo = WithMethod(string.Format("get_{0}", propertyName))
                 .TurnOnAttributes(MethodAttributes.RTSpecialName)
                 .TurnOnAttributes(MethodAttributes.SpecialName);
 
-            getmethod(get_methodinfo.Returns(propertyType));
-            property.SetGetMethod(get_methodinfo.MethodBuilder);
+            getmethod(getMethodinfo.Returns(propertyType));
+            property.SetGetMethod(getMethodinfo.MethodBuilder);
 
             if (setmethod != null)
             {
-                var set_methodinfo = this.WithMethod(string.Format("set_{0}", propertyName))
+                DynamicMethodInfo setMethodinfo = WithMethod(string.Format("set_{0}", propertyName))
                     .TurnOnAttributes(MethodAttributes.RTSpecialName)
                     .TurnOnAttributes(MethodAttributes.SpecialName)
                     .WithParameter(propertyType, "value");
 
-                setmethod(set_methodinfo.Returns(typeof(void)));
-                property.SetSetMethod(set_methodinfo.MethodBuilder);
+                setmethod(setMethodinfo.Returns(typeof (void)));
+                property.SetSetMethod(setMethodinfo.MethodBuilder);
             }
             return this;
         }
@@ -187,31 +169,20 @@ namespace FluentIL
             )
         {
             string fieldName = string.Format("_{0}", Guid.NewGuid());
-            return this
-                .WithField(fieldName, propertyType)
+            return WithField(fieldName, propertyType)
                 .WithProperty(
                     propertyName,
                     propertyType,
-                    (mget) => mget
-                        .Ldarg(0) // this;
-                        .Ldfld(fieldName)
-                        .Ret(),
-                    (mset) => mset
-                        .Ldarg(0) // this;
-                        .Ldarg("value")
-                        .Stfld(fieldName)
-                        .Ret()
-                        );
+                    mget => mget
+                                  .Ldarg(0) // this;
+                                  .Ldfld(fieldName)
+                                  .Ret(),
+                    mset => mset
+                                  .Ldarg(0) // this;
+                                  .Ldarg("value")
+                                  .Stfld(fieldName)
+                                  .Ret()
+                );
         }
-
-        public Type AsType
-        {
-            get
-            {
-                return this.TypeBuilder.CreateType();
-            }
-        }
-
-
     }
 }

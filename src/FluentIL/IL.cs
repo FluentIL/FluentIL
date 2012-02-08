@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection.Emit;
 
 namespace FluentIL
 {
@@ -11,9 +7,9 @@ namespace FluentIL
         public static DynamicMethodBody NewMethod
             (Type returnType, params Type[] parameterTypes)
         {
-            DynamicMethodInfo result = new DynamicMethodInfo();
+            var result = new DynamicMethodInfo();
 
-            foreach (var param in parameterTypes)
+            foreach (Type param in parameterTypes)
                 result.WithParameter(param);
 
             result.Returns(returnType);
@@ -26,7 +22,6 @@ namespace FluentIL
             return new DynamicMethodInfo();
         }
 
-        
 
         public static DynamicTypeInfo NewType()
         {
@@ -37,6 +32,5 @@ namespace FluentIL
         {
             return new DynamicTypeInfo(typeName);
         }
-
     }
 }

@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using System.Reflection;
 using FluentIL.ExpressionParser;
 
+// ReSharper disable CheckNamespace
 namespace FluentIL
+// ReSharper restore CheckNamespace
 {
     partial class DynamicMethodBody
     {
         public DynamicMethodBody IfEmptyString(bool not)
         {
-            var stringEmptyField = typeof(string).GetField("Empty");
-            var stringOp_EqualityMethod = typeof(string).GetMethod(
-                "op_Equality", new[] { typeof(string), typeof(string) });
+            FieldInfo stringEmpty = typeof (string).GetField("Empty");
+            MethodInfo stringOpEqualityMethod = typeof (string).GetMethod(
+                "op_Equality", new[] {typeof (string), typeof (string)});
 
             var emitter = new IfEmitter(this);
             _IfEmitters.Push(emitter);
-            this
-                .Ldsfld(stringEmptyField)
-                .Call(stringOp_EqualityMethod);
+            Ldsfld(stringEmpty)
+                .Call(stringOpEqualityMethod);
 
             emitter.EmitBranch(not);
             return this;
@@ -27,12 +25,12 @@ namespace FluentIL
 
         public DynamicMethodBody IfEmptyString()
         {
-            return this.IfEmptyString(false);
+            return IfEmptyString(false);
         }
 
         public DynamicMethodBody IfNotEmptyString()
         {
-            return this.IfEmptyString(true);
+            return IfEmptyString(true);
         }
 
         public DynamicMethodBody IfNull(bool not)
@@ -45,19 +43,19 @@ namespace FluentIL
 
         public DynamicMethodBody IfNull()
         {
-            return this.IfNull(false);
+            return IfNull(false);
         }
 
         public DynamicMethodBody IfNotNull()
         {
-            return this.IfNull(true);
+            return IfNull(true);
         }
 
         public DynamicMethodBody If(Expression expression)
         {
             var emitter = new IfEmitter(this);
             _IfEmitters.Push(emitter);
-            this.Expression(expression);
+            Expression(expression);
             emitter.EmitBranch(false);
             return this;
         }

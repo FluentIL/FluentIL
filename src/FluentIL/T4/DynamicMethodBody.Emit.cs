@@ -24,7 +24,7 @@ namespace FluentIL
 			#if DEBUG
 			Debug.WriteLine(string.Format("\t{0}", opcode));
 			#endif
-            _Info.GetILGenerator()
+            infoField.GetILGenerator()
                 .Emit(opcode);
 
             return this;
@@ -39,7 +39,7 @@ namespace FluentIL
 						Debug.WriteLine("\t{0} \"{1}\"", opcode, arg);
 						#endif
 			
-			_Info.GetILGenerator()
+			infoField.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -52,7 +52,7 @@ namespace FluentIL
 						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
 						#endif
 			
-			_Info.GetILGenerator()
+			infoField.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -65,7 +65,7 @@ namespace FluentIL
 						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
 						#endif
 			
-			_Info.GetILGenerator()
+			infoField.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -78,7 +78,7 @@ namespace FluentIL
 						Debug.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
 						#endif
 			
-			_Info.GetILGenerator()
+			infoField.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -91,7 +91,7 @@ namespace FluentIL
 						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
 						#endif
 			
-			_Info.GetILGenerator()
+			infoField.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -104,7 +104,7 @@ namespace FluentIL
 						Debug.WriteLine("\t{0} [{1}] {2}", opcode, arg.DeclaringType, arg);
 						#endif
 			
-			_Info.GetILGenerator()
+			infoField.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -117,7 +117,7 @@ namespace FluentIL
 						Debug.WriteLine("\t{0} {1}", opcode, arg.Name);
 						#endif
 			
-			_Info.GetILGenerator()
+			infoField.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;
@@ -130,7 +130,7 @@ namespace FluentIL
 						Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
 						#endif
 			
-			_Info.GetILGenerator()
+			infoField.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;

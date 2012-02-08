@@ -1,44 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection.Emit;
-using System.Reflection;
-using System.Linq.Expressions;
-using FluentIL.ExpressionInterpreter;
 using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Reflection.Emit;
+using FluentIL.ExpressionInterpreter;
 using FluentIL.ExpressionParser;
 
 namespace FluentIL
 {
     public partial class DynamicMethodBody
     {
-        DynamicMethodInfo _Info;
+        private readonly DynamicMethodInfo infoField;
+
         internal DynamicMethodBody(DynamicMethodInfo info)
         {
-            this._Info = info;
+            infoField = info;
         }
 
         public DynamicMethod AsDynamicMethod
         {
-            get
-            {
-                return _Info.AsDynamicMethod;
-            }
+            get { return infoField.AsDynamicMethod; }
         }
 
         public Type AsType
         {
-            get
-            {
-                return _Info.DynamicTypeInfo.AsType;
-            }
+            get { return infoField.DynamicTypeInfo.AsType; }
         }
 
 
         public DynamicMethodInfo WithMethod(string methodName)
         {
-            return this._Info.DynamicTypeInfo.WithMethod(methodName);
+            return infoField.DynamicTypeInfo.WithMethod(methodName);
         }
 
         public DynamicMethodBody Parse(string expression)
@@ -50,88 +44,194 @@ namespace FluentIL
 
         public DynamicMethodBody Box(Type type)
         {
-            if (type.IsSubclassOf(typeof(ValueType)))
-                this.Emit(OpCodes.Box, type);
+            if (type.IsSubclassOf(typeof (ValueType)))
+                Emit(OpCodes.Box, type);
             return this;
         }
 
         public DynamicMethodBody UnboxAny(Type type)
         {
-            return this.Emit(OpCodes.Unbox_Any, type);
+            return Emit(OpCodes.Unbox_Any, type);
         }
 
         public DynamicMethodBody Ldfld(FieldInfo fldInfo)
         {
-            this.Emit(OpCodes.Ldfld, fldInfo);
+            Emit(OpCodes.Ldfld, fldInfo);
             return this;
         }
 
         public DynamicMethodBody Ldfld(string fieldName)
         {
-            var field = this._Info.DynamicTypeInfo.GetFieldInfo(fieldName);
-            return this.Ldfld(field);
+            FieldInfo field = infoField.DynamicTypeInfo.GetFieldInfo(fieldName);
+            return Ldfld(field);
         }
 
         public DynamicMethodBody Stfld(FieldInfo fldInfo)
         {
-            this.Emit(OpCodes.Stfld, fldInfo);
+            Emit(OpCodes.Stfld, fldInfo);
             return this;
         }
 
         public DynamicMethodBody Stfld(string fieldName)
         {
-            var field = this._Info.DynamicTypeInfo.GetFieldInfo(fieldName);
-            return this.Stfld(field);
+            FieldInfo field = infoField.DynamicTypeInfo.GetFieldInfo(fieldName);
+            return Stfld(field);
         }
-
-
-        
-
-        
 
 
         public DynamicMethodBody Throw<TException>(params Type[] types)
             where TException : Exception
         {
-            return this
-                .Newobj<TException>(types)
+            return Newobj<TException>(types)
                 .Throw();
         }
 
         public DynamicMethodBody Ldsfld(FieldInfo fieldInfo)
         {
-            return this.Emit(OpCodes.Ldsfld, fieldInfo);
+            return Emit(OpCodes.Ldsfld, fieldInfo);
         }
 
         public DynamicMethodBody Newobj(ConstructorInfo ctorInfo)
         {
-            return this.Emit(OpCodes.Newobj, ctorInfo);
+            return Emit(OpCodes.Newobj, ctorInfo);
         }
 
         public DynamicMethodBody Newarr(Type type)
         {
-            return this.Emit(OpCodes.Newarr, type);
+            return Emit(OpCodes.Newarr, type);
         }
 
         public DynamicMethodBody Newarr(Type type, Number size)
         {
-            return this
-                .Emit(size)
+            return Emit(size)
                 .Emit(OpCodes.Newarr, type);
         }
 
         public DynamicMethodBody Newobj<T>(params Type[] types)
         {
-            var ci = typeof(T).GetConstructor(types);
-            return this.Newobj(ci);
+            ConstructorInfo ci = typeof (T).GetConstructor(types);
+            return Newobj(ci);
         }
 
-        
+        public DynamicMethodBody Expression(Expression expression)
+        {
+            expression = new ExpressionSimplifierVisitor().Visit(expression);
+            new ILEmitterVisitor(this).Visit(
+                expression
+                );
+            return this;
+        }
+
+        public DynamicMethodBody Repeater(int from, int to, int step,
+                                          Action<int, DynamicMethodBody> action
+            )
+        {
+            for (int i = from; i <= to; i += step)
+                action(i, this);
+
+            return this;
+        }
+
+        public DynamicMethodBody Repeater(int from, int to, int step,
+                                          Func<int, DynamicMethodBody, bool> precondition,
+                                          Action<int, DynamicMethodBody> action
+            )
+        {
+            for (int i = from; i <= to; i += step)
+                if (precondition(i, this))
+                    action(i, this);
+
+            return this;
+        }
+
+
+        public DynamicMethodBody EmitIf(bool condition, Action<DynamicMethodBody> action)
+        {
+            if (condition)
+                action(this);
+
+            return this;
+        }
+
+        public object Invoke(params object[] args)
+        {
+            return infoField.AsDynamicMethod.Invoke(null, args);
+        }
+
+        #region extended Stloc
+
+        public DynamicMethodBody Stloc(Number value, params string[] variables)
+        {
+            Emit(value);
+
+            for (int i = 1; i < variables.Length; i++)
+                Dup();
+
+            Stloc(variables);
+
+            return this;
+        }
+
+        #endregion
+
+        #region AddToVar
+
+        public DynamicMethodBody AddToVar(string varname, Number constant)
+        {
+            return Ldloc(varname)
+                .Add(constant)
+                .Stloc(varname);
+        }
+
+        public DynamicMethodBody AddToVar(string varname)
+        {
+            return Ldloc(varname)
+                .Add()
+                .Stloc(varname);
+        }
+
+        #endregion
+
+        #region EnsureLimits
+
+        public DynamicMethodBody EnsureLimits(Number min, Number max)
+        {
+            return Dup()
+                .Emit(min)
+                .Iflt()
+                .Pop()
+                .Emit(min)
+                .Else()
+                .Dup()
+                .Emit(max)
+                .Ifgt()
+                .Pop()
+                .Emit(max)
+                .EndIf()
+                .EndIf();
+        }
+
+        #endregion
+
+        #region static
+
+        public static implicit operator DynamicMethod(DynamicMethodBody body)
+        {
+            return body.infoField;
+        }
+
+        public static implicit operator DynamicMethodInfo(DynamicMethodBody body)
+        {
+            return body.infoField;
+        }
+
+        #endregion
 
         #region Basic Math Operations
+
         private void MultipleOperations(Func<DynamicMethodBody> action, params Number[] args)
         {
-            this.Emit(args);
+            Emit(args);
             if (args.Length == 1)
                 action();
             else
@@ -142,70 +242,82 @@ namespace FluentIL
 
         public DynamicMethodBody Ret(bool returnValue)
         {
-            return this
-                .Ldc(returnValue ? 1 : 0)
+            return Ldc(returnValue ? 1 : 0)
                 .Ret();
         }
-
+       
+// ReSharper disable MethodOverloadWithOptionalParameter
         public DynamicMethodBody Rem(params Number[] args)
+// ReSharper restore MethodOverloadWithOptionalParameter
         {
-            this.MultipleOperations(this.Rem, args);
+            if (args == null) throw new ArgumentNullException("args");
+            MultipleOperations(Rem, args);
             return this;
         }
 
 
+// ReSharper disable MethodOverloadWithOptionalParameter
         public DynamicMethodBody Add(params Number[] args)
+// ReSharper restore MethodOverloadWithOptionalParameter
         {
-            this.MultipleOperations(this.Add, args);
+            if (args == null) throw new ArgumentNullException("args");
+            MultipleOperations(Add, args);
             return this;
         }
 
         public DynamicMethodBody Add(Number arg)
         {
-            return this.Emit(arg).Add();
+            return Emit(arg).Add();
         }
 
-
-
+        private const double EPSILON = 0.001;
+// ReSharper disable MethodOverloadWithOptionalParameter
         public DynamicMethodBody Mul(params Number[] args)
+// ReSharper restore MethodOverloadWithOptionalParameter
         {
             if (args.Length == 1 && args[0] is ConstantDoubleNumber)
             {
-                double factor = (args[0] as ConstantDoubleNumber).Value;
-                if (factor == 1)
+                var constantDoubleNumber = args[0] as ConstantDoubleNumber;
+// ReSharper disable PossibleNullReferenceException
+                double factor = constantDoubleNumber.Value;
+// ReSharper restore PossibleNullReferenceException
+                if (Math.Abs(factor - 1) < EPSILON)
                     return this;
-                if (factor == -1)
-                    return this.Neg();
+                if (Math.Abs(factor - -1) < EPSILON)
+                    return Neg();
                 return
-                    this.LdcR8(factor).Mul();
+                    LdcR8(factor).Mul();
             }
-            else
-            {
-                this.MultipleOperations(this.Mul, args);
-                return this;
-            }
+            
+            MultipleOperations(Mul, args);
+            return this;
         }
 
 
+// ReSharper disable MethodOverloadWithOptionalParameter
         public DynamicMethodBody Div(params Number[] args)
+// ReSharper restore MethodOverloadWithOptionalParameter
         {
-            this.MultipleOperations(this.Div, args);
+            MultipleOperations(Div, args);
             return this;
         }
 
 
+// ReSharper disable MethodOverloadWithOptionalParameter
         public DynamicMethodBody Sub(params Number[] args)
+// ReSharper restore MethodOverloadWithOptionalParameter
         {
-            this.MultipleOperations(this.Sub, args);
+            MultipleOperations(Sub, args);
             return this;
         }
+
         #endregion
 
         #region Locals (variables)
 
         public int GetVariableIndex(string varname)
         {
-            var variables = _Info.Variables.ToArray();
+            DynamicVariableInfo[] variables = infoField.Variables.ToArray();
 
             for (int i = 0; i < variables.Length; i++)
                 if (variables[i].Name == varname)
@@ -216,7 +328,7 @@ namespace FluentIL
 
         public int GetParameterIndex(string parametername)
         {
-            var parameters = _Info.Parameters.ToArray();
+            DynamicVariableInfo[] parameters = infoField.Parameters.ToArray();
 
             for (int i = 0; i < parameters.Length; i++)
                 if (parameters[i].Name == parametername)
@@ -228,7 +340,7 @@ namespace FluentIL
 
         public DynamicMethodBody Ldloc(params uint[] args)
         {
-            foreach (var arg in args)
+            foreach (uint arg in args)
             {
                 switch (arg)
                 {
@@ -245,9 +357,8 @@ namespace FluentIL
                         Emit(OpCodes.Ldloc_3);
                         break;
                     default:
-                        Emit(OpCodes.Ldloc, (int)arg);
+                        Emit(OpCodes.Ldloc, (int) arg);
                         break;
-
                 }
             }
             return this;
@@ -255,7 +366,7 @@ namespace FluentIL
 
         public DynamicMethodBody Stloc(params uint[] args)
         {
-            foreach (var arg in args)
+            foreach (uint arg in args)
             {
                 switch (arg)
                 {
@@ -272,9 +383,8 @@ namespace FluentIL
                         Emit(OpCodes.Stloc_3);
                         break;
                     default:
-                        Emit(OpCodes.Stloc, (int)arg);
+                        Emit(OpCodes.Stloc, (int) arg);
                         break;
-
                 }
             }
             return this;
@@ -282,28 +392,27 @@ namespace FluentIL
 
         public DynamicMethodBody Ldloc(params string[] args)
         {
-            foreach (var arg in args)
-                Ldloc((uint)GetVariableIndex(arg));
+            foreach (string arg in args)
+                Ldloc((uint) GetVariableIndex(arg));
 
             return this;
         }
 
         public DynamicMethodBody Stloc(params string[] args)
         {
-            var variables = _Info.Variables.ToArray();
-
-            foreach (var arg in args)
-                Stloc((uint)GetVariableIndex(arg));
+            foreach (string arg in args)
+                Stloc((uint) GetVariableIndex(arg));
 
             return this;
         }
+
         #endregion
 
         #region Arguments (Parameters)
 
         public DynamicMethodBody Ldarg(params uint[] args)
         {
-            foreach (var arg in args)
+            foreach (uint arg in args)
             {
                 switch (arg)
                 {
@@ -320,9 +429,8 @@ namespace FluentIL
                         Emit(OpCodes.Ldarg_3);
                         break;
                     default:
-                        Emit(OpCodes.Ldarg_S, (int)arg);
+                        Emit(OpCodes.Ldarg_S, (int) arg);
                         break;
-
                 }
             }
             return this;
@@ -330,27 +438,29 @@ namespace FluentIL
 
         public DynamicMethodBody Ldarg(params string[] args)
         {
-            var parameters = _Info.Parameters.ToArray();
-            uint offset = (uint)(_Info.DynamicTypeInfo != null ? 1 : 0);
+            DynamicVariableInfo[] parameters = infoField.Parameters.ToArray();
+            var offset = (uint) (infoField.DynamicTypeInfo != null ? 1 : 0);
 
-            foreach (var arg in args)
+            foreach (string arg in args)
                 for (uint i = 0; i < parameters.Length; i++)
                     if (parameters[i].Name == arg)
                         Ldarg(i + offset);
 
             return this;
         }
+
         #endregion
 
         #region Constants
+
         public DynamicMethodBody Ldc(params string[] args)
         {
-            return this.Ldstr(args);
+            return Ldstr(args);
         }
 
         public DynamicMethodBody Ldstr(params string[] args)
         {
-            foreach (var arg in args)
+            foreach (string arg in args)
             {
                 Emit(OpCodes.Ldstr, arg);
             }
@@ -359,57 +469,55 @@ namespace FluentIL
 
         public DynamicMethodBody Ldc(params double[] args)
         {
-            return this.LdcR8(args);
+            return LdcR8(args);
         }
 
         public DynamicMethodBody LdcR8(params double[] args)
         {
-            for (int i = 0; i < args.Length; i++)
-                Emit(OpCodes.Ldc_R8, args[i]);
+            foreach (double t in args)
+                Emit(OpCodes.Ldc_R8, t);
 
             return this;
         }
 
         public DynamicMethodBody Ldc(params float[] args)
         {
-            return this.LdcR4(args);
+            return LdcR4(args);
         }
 
         public DynamicMethodBody LdcR4(params float[] args)
         {
-            for (int i = 0; i < args.Length; i++)
-                Emit(OpCodes.Ldc_R4, args[i]);
+            foreach (float t in args)
+                Emit(OpCodes.Ldc_R4, t);
 
             return this;
         }
 
         public DynamicMethodBody Ldc(params int[] args)
         {
-            return this.LdcI4(args);
+            return LdcI4(args);
         }
 
         public DynamicMethodBody LdLocOrArg(string name)
         {
             if (GetVariableIndex(name) > -1)
-                return this.Ldloc(name);
-            else if (GetParameterIndex(name) > -1)
-                return this.Ldarg(name);
-            else
-            {
-                return this
-                    .Ldarg(0)
-                    .Ldfld(name);
-            }
+                return Ldloc(name);
+            
+            if (GetParameterIndex(name) > -1)
+                return Ldarg(name);
+            
+            return Ldarg(0)
+                .Ldfld(name);
         }
 
         public DynamicMethodBody LdArgOrLoc(string name)
         {
-            return this.LdLocOrArg(name);
+            return LdLocOrArg(name);
         }
 
         public DynamicMethodBody LdcI4(params int[] args)
         {
-            foreach (var arg in args)
+            foreach (int arg in args)
             {
                 switch (arg)
                 {
@@ -446,19 +554,22 @@ namespace FluentIL
                     default:
                         Emit(OpCodes.Ldc_I4, arg);
                         break;
-
                 }
             }
             return this;
         }
+
         #endregion
 
         #region Labels
+
+        private readonly Dictionary<string, Label> labelsField = new Dictionary<string, Label>();
+
         public DynamicMethodBody MarkLabel(Label label)
         {
             Debug.Print("IL_{0}:", label.GetHashCode());
 
-            _Info.GetILGenerator()
+            infoField.GetILGenerator()
                 .MarkLabel(label);
 
             return this;
@@ -466,31 +577,32 @@ namespace FluentIL
 
         public DynamicMethodBody MarkLabel(string label)
         {
-            var lbl = GetLabel(label);
+            Label lbl = GetLabel(label);
             Debug.Print("IL_{0}:", lbl.GetHashCode());
 
-            _Info.GetILGenerator()
+            infoField.GetILGenerator()
                 .MarkLabel(GetLabel(label));
 
             return this;
         }
 
-        readonly Dictionary<string, Label> _Labels = new Dictionary<string, Label>();
-        Label GetLabel(string label)
+        private Label GetLabel(string label)
         {
-            if (!_Labels.ContainsKey(label))
-                _Labels.Add(label, _Info.GetILGenerator().DefineLabel());
+            if (!labelsField.ContainsKey(label))
+                labelsField.Add(label, infoField.GetILGenerator().DefineLabel());
 
-            return _Labels[label];
+            return labelsField[label];
         }
+
         #endregion
 
         #region For..Next
-        readonly Stack<ForInfo> _Fors = new Stack<ForInfo>();
+
+        private readonly Stack<ForInfo> forsField = new Stack<ForInfo>();
 
         public DynamicMethodBody Emit(params Number[] numbers)
         {
-            foreach (var number in numbers)
+            foreach (Number number in numbers)
                 number.Emit(this);
             return this;
         }
@@ -498,21 +610,19 @@ namespace FluentIL
 
         public DynamicMethodBody For(string variable, Number from, Number to, int step = 1)
         {
+            ILGenerator ilgen = infoField.GetILGenerator();
+            Label beginLabel = ilgen.DefineLabel();
+            Label comparasionLabel = ilgen.DefineLabel();
 
-            var ilgen = this._Info.GetILGenerator();
-            var beginLabel = ilgen.DefineLabel();
-            var comparasionLabel = ilgen.DefineLabel();
-
-            _Fors.Push(new ForInfo(variable, from, to, step,
-                beginLabel, comparasionLabel));
+            forsField.Push(new ForInfo(variable, from, to, step,
+                                   beginLabel, comparasionLabel));
             if (GetVariableIndex(variable) == -1)
             {
-                this._Info.WithVariable(typeof(int), variable);
-                ilgen.DeclareLocal(typeof(int));
+                infoField.WithVariable(typeof (int), variable);
+                ilgen.DeclareLocal(typeof (int));
             }
 
-            this
-                .Emit(from)
+            Emit(from)
                 .Stloc(variable)
                 .Br(comparasionLabel)
                 .MarkLabel(beginLabel);
@@ -522,9 +632,8 @@ namespace FluentIL
 
         public DynamicMethodBody Next()
         {
-            var f = _Fors.Pop();
-            this
-                .Ldloc(f.Variable)
+            ForInfo f = forsField.Pop();
+            Ldloc(f.Variable)
                 .Ldc(f.Step)
                 .Add()
                 .Stloc(f.Variable)
@@ -533,144 +642,33 @@ namespace FluentIL
                 .Emit(f.To);
 
             if (f.Step > 0)
-                this.Ble(f.BeginLabel);
+                Ble(f.BeginLabel);
             else
-                this.Bge(f.BeginLabel);
+                Bge(f.BeginLabel);
 
             return this;
         }
+
         #endregion
 
         #region Abs
+
         public DynamicMethodBody AbsR8()
         {
-            return this
-                .Dup()
+            return Dup()
                 .Iflt(0.0)
-                    .Neg()
+                .Neg()
                 .EndIf();
         }
 
         public DynamicMethodBody AbsI4()
         {
-            return this
-                .Dup()
+            return Dup()
                 .Iflt(0)
-                    .Neg()
+                .Neg()
                 .EndIf();
         }
-        #endregion
-
-        public DynamicMethodBody Expression(Expression expression)
-        {
-            expression = new ExpressionSimplifierVisitor().Visit(expression);
-            new ILEmitterVisitor(this).Visit(
-                expression
-                );
-            return this;
-        }
-
-        #region extended Stloc
-        public DynamicMethodBody Stloc(Number value, params string[] variables)
-        {
-            this.Emit(value);
-
-            for (int i = 1; i < variables.Length; i++)
-                this.Dup();
-
-            this.Stloc(variables);
-
-            return this;
-        }
 
         #endregion
-
-        #region AddToVar
-        public DynamicMethodBody AddToVar(string varname, Number constant)
-        {
-            return this
-                .Ldloc(varname)
-                .Add(constant)
-                .Stloc(varname);
-        }
-
-        public DynamicMethodBody AddToVar(string varname)
-        {
-            return this
-                .Ldloc(varname)
-                .Add()
-                .Stloc(varname);
-        }
-        #endregion
-
-        #region EnsureLimits
-        public DynamicMethodBody EnsureLimits(Number min, Number max)
-        {
-            return this
-                .Dup()
-                .Emit(min)
-                .Iflt()
-                    .Pop()
-                    .Emit(min)
-                .Else()
-                    .Dup()
-                    .Emit(max)
-                    .Ifgt()
-                        .Pop()
-                        .Emit(max)
-                    .EndIf()
-                .EndIf();
-        }
-        #endregion
-
-        #region static
-        public static implicit operator DynamicMethod(DynamicMethodBody body)
-        {
-            return body._Info;
-        }
-
-        public static implicit operator DynamicMethodInfo(DynamicMethodBody body)
-        {
-            return body._Info;
-        }
-        #endregion
-
-        public DynamicMethodBody Repeater(int from, int to, int step,
-            Action<int, DynamicMethodBody> action
-            )
-        {
-            for (int i = from; i <= to; i += step)
-                action(i, this);
-
-            return this;
-        }
-
-        public DynamicMethodBody Repeater(int from, int to, int step,
-            Func<int, DynamicMethodBody, bool> precondition,
-            Action<int, DynamicMethodBody> action
-            )
-        {
-            for (int i = from; i <= to; i += step)
-                if (precondition(i, this))
-                    action(i, this);
-
-            return this;
-        }
-
-
-        public DynamicMethodBody EmitIf(bool condition, Action<DynamicMethodBody> action)
-        {
-            if (condition)
-                action(this);
-
-            return this;
-        }
-
-        public object Invoke(params object[] args)
-        {
-            return _Info.AsDynamicMethod.Invoke(null, args);
-        }
-
-
     }
 }

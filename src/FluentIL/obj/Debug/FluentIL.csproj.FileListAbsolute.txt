@@ -1,5 +1,0 @@
-C:\git\FluentIL\src\FluentIL\bin\Debug\FluentIL.dll
-C:\git\FluentIL\src\FluentIL\bin\Debug\FluentIL.pdb
-C:\git\FluentIL\src\FluentIL\obj\Debug\ResolveAssemblyReference.cache
-C:\git\FluentIL\src\FluentIL\obj\Debug\FluentIL.dll
-C:\git\FluentIL\src\FluentIL\obj\Debug\FluentIL.pdb
