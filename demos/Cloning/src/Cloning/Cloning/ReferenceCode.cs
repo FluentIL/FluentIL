@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Cloning
+namespace Cloning.Deprecated
 {
+
     /// <summary>
     /// Enumeration that defines the type of cloning of a field.
     /// Used in combination with the CloneAttribute
