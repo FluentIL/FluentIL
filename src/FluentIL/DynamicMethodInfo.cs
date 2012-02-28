@@ -144,6 +144,20 @@ namespace FluentIL
             return this;
         }
 
+        public DynamicMethodInfo WithParameter<T>(string parameterName = "")
+        {
+#if DEBUG
+            Debug.Print(".param ({0}) [{1}] {2}",
+                        Parameters.Count() + (DynamicTypeInfo == null ? 0 : 1),
+                        typeof(T),
+                        String.IsNullOrEmpty(parameterName) ? "no-name" : parameterName);
+#endif
+            parametersField.Add(new DynamicVariableInfo(parameterName, typeof(T)));
+            return this;            
+        }
+
+
+
         public DynamicMethodInfo WithVariable(Type variableType, string variableName = "")
         {
 #if DEBUG
@@ -161,6 +175,28 @@ namespace FluentIL
             ReturnType = type;
 #if DEBUG
             Debug.Print("returns {0}", type);
+#endif
+
+            return Body;
+        }
+
+        public DynamicMethodBody Returns<T>()
+        {
+            ReturnType = typeof (T);
+
+#if DEBUG
+            Debug.Print("returns {0}", ReturnType);
+#endif
+
+            return Body;
+        }
+
+        public DynamicMethodBody ReturnsInteger()
+        {
+            ReturnType = typeof (int);
+
+#if DEBUG
+            Debug.Print("returns {0}", ReturnType);
 #endif
 
             return Body;
