@@ -53,6 +53,58 @@ namespace FluentIL.Tests
         }
 
         [Test]
+        public void TwoPlusTwoWithReturnsInteger()
+        {
+            var method = IL.NewMethod()
+                .WithParameter(typeof (int))
+                .WithParameter(typeof (int))
+                .ReturnsInteger()
+         
+                .Ldarg(0, 1)
+                .Add()
+                .Ret();
+
+            var result = method.Invoke(2, 2);
+
+            result.Should().Be(4);
+        }
+
+        [Test]
+        public void TwoPlusTwoWithGenericReturn()
+        {
+            var method = IL.NewMethod()
+                .WithParameter(typeof(int))
+                .WithParameter(typeof(int))
+                .Returns<int>()
+
+                .Ldarg(0, 1)
+                .Add()
+                .Ret();
+
+            var result = method.Invoke(2, 2);
+
+            result.Should().Be(4);
+        }
+
+        [Test]
+        public void TwoPlusTwoWithGenericParameters()
+        {
+            var method = IL.NewMethod()
+                .WithParameter<int>()
+                .WithParameter<int>()
+                .Returns<int>()
+
+                .Ldarg(0, 1)
+                .Add()
+                .Ret();
+
+            var result = method.Invoke(2, 2);
+
+            result.Should().Be(4);
+        }
+
+
+        [Test]
         public void TwoPlusTwoWithNamedParameters()
         {
             // arrange
