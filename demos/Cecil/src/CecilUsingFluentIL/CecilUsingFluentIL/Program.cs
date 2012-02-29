@@ -11,7 +11,7 @@ namespace CecilUsingFluentIL
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             AssemblyDefinition assembly = AssemblyDefinition
                 .ReadAssembly("ConsoleProgramThatWillBeChanged.exe");
@@ -58,13 +58,14 @@ namespace CecilUsingFluentIL
             var emitter = new CecilILEmitter(
                 assembly,
                 worker,
-                (inst) => worker.InsertBefore(firstInstruction, inst));
+                inst => worker.InsertBefore(firstInstruction, inst));
 
             IL.EmitTo(emitter)
                 .Ldstr("Value of First Parameter is {0}")
                 .Ldarg(0)
                 .Box(typeof (int))
                 .Call(minfo)
+
                 .Ldstr("Value of Second Parameter is {0}")
                 .Ldarg(1)
                 .Box(typeof (int))
