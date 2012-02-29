@@ -19,6 +19,11 @@ namespace FluentIL
             return result.Body;
         }
 
+        public static DynamicMethodBody EmitTo(ILEmitter emitter)
+        {
+            return new DynamicMethodInfo(emitter).Body;
+        }
+
         public static DynamicMethodInfo NewMethod()
         {
             return new DynamicMethodInfo();

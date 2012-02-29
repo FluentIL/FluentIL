@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using FluentIL;
 using FluentIL.Cecil.Emitters;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-
 using _OpCodes = System.Reflection.Emit.OpCodes;
-using FluentIL.Emitters;
-using FluentIL.Infos;
 
 namespace CecilUsingFluentIL
 {
@@ -37,7 +35,7 @@ namespace CecilUsingFluentIL
 
             worker.Body.Instructions.Clear();
 
-            new DynamicMethodInfo(emitter).Body
+            IL.EmitTo(emitter)
                 .Ldstr("Hello World from modified program")
                 .Ret();
         }
@@ -52,23 +50,21 @@ namespace CecilUsingFluentIL
 
             ILProcessor worker = method.Body.GetILProcessor();
 
-            MethodInfo minfo = typeof(Console).GetMethod(
+            MethodInfo minfo = typeof (Console).GetMethod(
                 "WriteLine",
-                new[] { typeof(string), typeof(int) });
-            
-            Instruction firstInstruction = worker.Body.Instructions[0];
+                new[] {typeof (string), typeof (int)});
+
+            var firstInstruction = worker.Body.Instructions[0];
             var emitter = new CecilILEmitter(
-                assembly, 
-                worker, 
+                assembly,
+                worker,
                 (inst) => worker.InsertBefore(firstInstruction, inst));
 
-            new DynamicMethodInfo(emitter).Body
-
+            IL.EmitTo(emitter)
                 .Ldstr("Value of First Parameter is {0}")
                 .Ldarg(0)
                 .Box(typeof (int))
                 .Call(minfo)
-
                 .Ldstr("Value of Second Parameter is {0}")
                 .Ldarg(1)
                 .Box(typeof (int))
