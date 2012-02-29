@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection.Emit;
 using System.Reflection;
 using System.Diagnostics;
 
+// ReSharper disable CheckNamespace
 namespace FluentIL.Emitters
+// ReSharper restore CheckNamespace
 {
 	public partial class DynamicMethodBody
 	{
-		readonly Stack<Action> PreEmitActions = new Stack<Action>();
+		readonly Stack<Action> preEmitActionsField = new Stack<Action>();
 		private void ExecutePreEmitActions()
 		{
-			while ( PreEmitActions.Count > 0 ) 
-                PreEmitActions.Pop()();
+			while ( preEmitActionsField.Count > 0 ) 
+                preEmitActionsField.Pop()();
 		}
 
 		#region Emit (basic)
@@ -54,7 +54,7 @@ namespace FluentIL.Emitters
 			ExecutePreEmitActions();
 			#if DEBUG
 			
-			Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+			Debug.WriteLine("\t{0} {1}", opcode, arg);
 			
 			#endif
 			
@@ -70,7 +70,7 @@ namespace FluentIL.Emitters
 			ExecutePreEmitActions();
 			#if DEBUG
 			
-			Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+			Debug.WriteLine("\t{0} {1}", opcode, arg);
 			
 			#endif
 			
@@ -102,7 +102,7 @@ namespace FluentIL.Emitters
 			ExecutePreEmitActions();
 			#if DEBUG
 			
-			Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+			Debug.WriteLine("\t{0} {1}", opcode, arg);
 			
 			#endif
 			
@@ -150,7 +150,7 @@ namespace FluentIL.Emitters
 			ExecutePreEmitActions();
 			#if DEBUG
 			
-			Debug.WriteLine("\t{0} {1}", opcode, arg.ToString());
+			Debug.WriteLine("\t{0} {1}", opcode, arg);
 			
 			#endif
 			

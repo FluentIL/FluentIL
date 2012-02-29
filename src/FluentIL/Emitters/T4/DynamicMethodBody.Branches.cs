@@ -4,7 +4,6 @@ using System.Reflection.Emit;
 
 using FluentIL.Numbers;
 
-
 // ReSharper disable CheckNamespace
 namespace FluentIL.Emitters
 // ReSharper restore CheckNamespace
@@ -36,7 +35,7 @@ namespace FluentIL.Emitters
 					methodInfoField.WithVariable(typeof(int), variable);
 					methodInfoField.GetILGenerator().DeclareLocal(t);
 				}
-				PreEmitActions.Push( () =>
+				preEmitActionsField.Push( () =>
 				{
 					Stloc(variable);
 					Ldloc(variable);
@@ -50,11 +49,11 @@ namespace FluentIL.Emitters
 		{
 			var emitter = ifEmittersField.Peek();
 			var variable = emitter.LeftSideVarName;
-			var a = PreEmitActions.Pop();
+			var a = preEmitActionsField.Pop();
 
 			SaveLeftSideToVariable(typeof(int));
 
-			PreEmitActions.Push( () =>
+			preEmitActionsField.Push( () =>
 				{
 					a();
 					Ldloc(variable);
@@ -64,7 +63,6 @@ namespace FluentIL.Emitters
 				);
 			return this;
 		}
-
 
 		#region Beq
 		// ReSharper disable InconsistentNaming
@@ -80,7 +78,6 @@ namespace FluentIL.Emitters
         {
             return Emit(OpCodes.Beq, label);
         }
-
 
 		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody Ceq()
@@ -113,7 +110,7 @@ namespace FluentIL.Emitters
 		{
 			var emitter = new IfEmitter(this);
 			ifEmittersField.Push(emitter);
-			PreEmitActions.Push( () => 
+			preEmitActionsField.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Ceq);
@@ -162,9 +159,7 @@ namespace FluentIL.Emitters
 			return IfNoteq();
 		}
 
-
 		#endregion
-
 
 		#region Beq_S
 		// ReSharper disable InconsistentNaming
@@ -181,9 +176,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Beq_S, label);
         }
 
-
 		#endregion
-
 
 		#region Bne_Un
 		// ReSharper disable InconsistentNaming
@@ -200,9 +193,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Bne_Un, label);
         }
 
-
 		#endregion
-
 
 		#region Bne_Un_S
 		// ReSharper disable InconsistentNaming
@@ -219,9 +210,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Bne_Un_S, label);
         }
 
-
 		#endregion
-
 
 		#region Bge
 		// ReSharper disable InconsistentNaming
@@ -238,9 +227,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Bge, label);
         }
 
-
 		#endregion
-
 
 		#region Bge_S
 		// ReSharper disable InconsistentNaming
@@ -257,9 +244,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Bge_S, label);
         }
 
-
 		#endregion
-
 
 		#region Bge_Un
 		// ReSharper disable InconsistentNaming
@@ -276,9 +261,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Bge_Un, label);
         }
 
-
 		#endregion
-
 
 		#region Bge_Un_S
 		// ReSharper disable InconsistentNaming
@@ -295,9 +278,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Bge_Un_S, label);
         }
 
-
 		#endregion
-
 
 		#region Bgt
 		// ReSharper disable InconsistentNaming
@@ -313,7 +294,6 @@ namespace FluentIL.Emitters
         {
             return Emit(OpCodes.Bgt, label);
         }
-
 
 		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody Cgt()
@@ -346,7 +326,7 @@ namespace FluentIL.Emitters
 		{
 			var emitter = new IfEmitter(this);
 			ifEmittersField.Push(emitter);
-			PreEmitActions.Push( () => 
+			preEmitActionsField.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Cgt);
@@ -395,9 +375,7 @@ namespace FluentIL.Emitters
 			return IfNotgt();
 		}
 
-
 		#endregion
-
 
 		#region Bgt_S
 		// ReSharper disable InconsistentNaming
@@ -414,9 +392,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Bgt_S, label);
         }
 
-
 		#endregion
-
 
 		#region Bgt_Un
 		// ReSharper disable InconsistentNaming
@@ -432,7 +408,6 @@ namespace FluentIL.Emitters
         {
             return Emit(OpCodes.Bgt_Un, label);
         }
-
 
 		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody Cgt_Un()
@@ -465,7 +440,7 @@ namespace FluentIL.Emitters
 		{
 			var emitter = new IfEmitter(this);
 			ifEmittersField.Push(emitter);
-			PreEmitActions.Push( () => 
+			preEmitActionsField.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Cgt_Un);
@@ -514,9 +489,7 @@ namespace FluentIL.Emitters
 			return IfNotgt_Un();
 		}
 
-
 		#endregion
-
 
 		#region Bgt_Un_S
 		// ReSharper disable InconsistentNaming
@@ -533,9 +506,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Bgt_Un_S, label);
         }
 
-
 		#endregion
-
 
 		#region Ble
 		// ReSharper disable InconsistentNaming
@@ -552,9 +523,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Ble, label);
         }
 
-
 		#endregion
-
 
 		#region Ble_S
 		// ReSharper disable InconsistentNaming
@@ -571,9 +540,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Ble_S, label);
         }
 
-
 		#endregion
-
 
 		#region Ble_Un
 		// ReSharper disable InconsistentNaming
@@ -590,9 +557,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Ble_Un, label);
         }
 
-
 		#endregion
-
 
 		#region Ble_Un_S
 		// ReSharper disable InconsistentNaming
@@ -609,9 +574,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Ble_Un_S, label);
         }
 
-
 		#endregion
-
 
 		#region Blt
 		// ReSharper disable InconsistentNaming
@@ -627,7 +590,6 @@ namespace FluentIL.Emitters
         {
             return Emit(OpCodes.Blt, label);
         }
-
 
 		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody Clt()
@@ -660,7 +622,7 @@ namespace FluentIL.Emitters
 		{
 			var emitter = new IfEmitter(this);
 			ifEmittersField.Push(emitter);
-			PreEmitActions.Push( () => 
+			preEmitActionsField.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Clt);
@@ -709,9 +671,7 @@ namespace FluentIL.Emitters
 			return IfNotlt();
 		}
 
-
 		#endregion
-
 
 		#region Blt_S
 		// ReSharper disable InconsistentNaming
@@ -728,9 +688,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Blt_S, label);
         }
 
-
 		#endregion
-
 
 		#region Blt_Un
 		// ReSharper disable InconsistentNaming
@@ -746,7 +704,6 @@ namespace FluentIL.Emitters
         {
             return Emit(OpCodes.Blt_Un, label);
         }
-
 
 		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody Clt_Un()
@@ -779,7 +736,7 @@ namespace FluentIL.Emitters
 		{
 			var emitter = new IfEmitter(this);
 			ifEmittersField.Push(emitter);
-			PreEmitActions.Push( () => 
+			preEmitActionsField.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Clt_Un);
@@ -828,9 +785,7 @@ namespace FluentIL.Emitters
 			return IfNotlt_Un();
 		}
 
-
 		#endregion
-
 
 		#region Blt_Un_S
 		// ReSharper disable InconsistentNaming
@@ -847,9 +802,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Blt_Un_S, label);
         }
 
-
 		#endregion
-
 
 		#region Brtrue
 		// ReSharper disable InconsistentNaming
@@ -866,9 +819,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Brtrue, label);
         }
 
-
 		#endregion
-
 
 		#region Brfalse
 		// ReSharper disable InconsistentNaming
@@ -885,9 +836,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Brfalse, label);
         }
 
-
 		#endregion
-
 
 		#region Brtrue_S
 		// ReSharper disable InconsistentNaming
@@ -904,9 +853,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Brtrue_S, label);
         }
 
-
 		#endregion
-
 
 		#region Brfalse_S
 		// ReSharper disable InconsistentNaming
@@ -923,9 +870,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Brfalse_S, label);
         }
 
-
 		#endregion
-
 
 		#region Br
 		// ReSharper disable InconsistentNaming
@@ -942,9 +887,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Br, label);
         }
 
-
 		#endregion
-
 
 		#region Br_S
 		// ReSharper disable InconsistentNaming
@@ -961,9 +904,7 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Br_S, label);
         }
 
-
 		#endregion
-
 
 
 		public DynamicMethodBody Cge()

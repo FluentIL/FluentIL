@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection.Emit;
+﻿using System.Reflection.Emit;
 
+// ReSharper disable CheckNamespace
 namespace FluentIL.Emitters
+// ReSharper restore CheckNamespace
 {
 	public partial class DynamicMethodBody
 	{
