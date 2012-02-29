@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using FluentIL.Cecil.Emitters;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+
+using _OpCodes = System.Reflection.Emit.OpCodes;
 
 namespace CecilUsingFluentIL
 {
@@ -16,27 +19,25 @@ namespace CecilUsingFluentIL
             TypeDefinition type = assembly.MainModule.Types
                 .First(t => t.Name == "Program");
 
-            ModifyDoSomethingMethod(type);
+            ModifyDoSomethingMethod(assembly, type);
             ModifyAddMethod(assembly, type);
 
             assembly.Write("ConsoleProgramThatWillBeChanged.Patched.exe");
         }
 
-        private static void ModifyDoSomethingMethod(TypeDefinition type)
+        private static void ModifyDoSomethingMethod(AssemblyDefinition assemblyDefinition, TypeDefinition type)
         {
             MethodDefinition method = type.Methods
                 .First(m => m.Name == "DoSomething");
 
             ILProcessor worker = method.Body.GetILProcessor();
+            var emitter = new CecilILEmitter(assemblyDefinition, worker, worker.Append);
 
             worker.Body.Instructions.Clear();
 
-            Instruction l1 = worker.Create(OpCodes.Ldstr,
-                "Hello World from modified program");
-            Instruction l2 = worker.Create(OpCodes.Ret);
+            emitter.Emit(_OpCodes.Ldstr, "Hello World from modified program");
+            emitter.Emit(_OpCodes.Ret);
 
-            worker.Append(l1);
-            worker.Append(l2);
         }
 
         private static void ModifyAddMethod(
@@ -52,31 +53,22 @@ namespace CecilUsingFluentIL
             MethodInfo minfo = typeof(Console).GetMethod(
                 "WriteLine",
                 new[] { typeof(string), typeof(int) });
-            MethodReference writeLine = assembly.MainModule.Import(minfo);
-
+            
             Instruction firstInstruction = worker.Body.Instructions[0];
+            var emitter = new CecilILEmitter(
+                assembly, 
+                worker, 
+                (inst) => worker.InsertBefore(firstInstruction, inst));
 
-            var l = new Instruction[8];
+            emitter.Emit(_OpCodes.Ldstr, "Value of First Parameter is {0}");
+            emitter.Emit(_OpCodes.Ldarg_0);
+            emitter.Emit(_OpCodes.Box, typeof(int));
+            emitter.Emit(_OpCodes.Call, minfo);
 
-            l[0] = worker.Create(OpCodes.Ldstr,
-                                 "Value of First Parameter is {0}");
-            l[1] = worker.Create(OpCodes.Ldarg_0);
-            l[2] = worker.Create(OpCodes.Box,
-                                 assembly.MainModule.TypeSystem.Int32);
-            l[3] = worker.Create(OpCodes.Call, writeLine);
-
-            l[4] = worker.Create(OpCodes.Ldstr,
-                                 "Value of Second Parameter is {0}");
-            l[5] = worker.Create(OpCodes.Ldarg_1);
-            l[6] = worker.Create(OpCodes.Box,
-                                 assembly.MainModule.TypeSystem.Int32);
-
-            l[7] = worker.Create(OpCodes.Call, writeLine);
-
-            for (int i = 0; i <= 7; i++)
-            {
-                worker.InsertBefore(firstInstruction, l[i]);
-            }
+            emitter.Emit(_OpCodes.Ldstr, "Value of Second Parameter is {0}");
+            emitter.Emit(_OpCodes.Ldarg_1);
+            emitter.Emit(_OpCodes.Box, typeof(int));
+            emitter.Emit(_OpCodes.Call, minfo);
         }
     }
 }
