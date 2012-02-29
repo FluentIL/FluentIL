@@ -24,7 +24,7 @@ namespace FluentIL.Emitters
 			#if DEBUG
 			Debug.WriteLine(string.Format("\t{0}", opcode));
 			#endif
-            methodInfoField.GetILGenerator()
+            methodInfoField.GetILEmitter()
                 .Emit(opcode);
 
             return this;
@@ -42,7 +42,7 @@ namespace FluentIL.Emitters
 			
 			#endif
 			
-			methodInfoField.GetILGenerator()
+			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -58,7 +58,7 @@ namespace FluentIL.Emitters
 			
 			#endif
 			
-			methodInfoField.GetILGenerator()
+			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -74,7 +74,7 @@ namespace FluentIL.Emitters
 			
 			#endif
 			
-			methodInfoField.GetILGenerator()
+			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -90,7 +90,7 @@ namespace FluentIL.Emitters
 			
 			#endif
 			
-			methodInfoField.GetILGenerator()
+			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -106,7 +106,7 @@ namespace FluentIL.Emitters
 			
 			#endif
 			
-			methodInfoField.GetILGenerator()
+			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -122,7 +122,7 @@ namespace FluentIL.Emitters
 			
 			#endif
 			
-			methodInfoField.GetILGenerator()
+			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -138,7 +138,7 @@ namespace FluentIL.Emitters
 			
 			#endif
 			
-			methodInfoField.GetILGenerator()
+			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -154,7 +154,7 @@ namespace FluentIL.Emitters
 			
 			#endif
 			
-			methodInfoField.GetILGenerator()
+			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;

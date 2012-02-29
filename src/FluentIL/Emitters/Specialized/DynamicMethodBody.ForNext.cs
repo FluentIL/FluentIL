@@ -20,7 +20,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody For(string variable, Number from, Number to, int step = 1)
         {
-            ILGenerator ilgen = methodInfoField.GetILGenerator();
+            ILEmitter ilgen = methodInfoField.GetILEmitter();
             Label beginLabel = ilgen.DefineLabel();
             Label comparasionLabel = ilgen.DefineLabel();
 

@@ -14,7 +14,7 @@ namespace FluentIL.Emitters
             Debug.Print("IL_{0}:", label.GetHashCode());
 #endif
 
-            methodInfoField.GetILGenerator()
+            methodInfoField.GetILEmitter()
                 .MarkLabel(label);
 
             return this;
@@ -27,7 +27,7 @@ namespace FluentIL.Emitters
             Debug.Print("IL_{0}:", lbl.GetHashCode());
 #endif
 
-            methodInfoField.GetILGenerator()
+            methodInfoField.GetILEmitter()
                 .MarkLabel(GetLabel(label));
 
             return this;
@@ -36,7 +36,7 @@ namespace FluentIL.Emitters
         private Label GetLabel(string label)
         {
             if (!labelsField.ContainsKey(label))
-                labelsField.Add(label, methodInfoField.GetILGenerator().DefineLabel());
+                labelsField.Add(label, methodInfoField.GetILEmitter().DefineLabel());
 
             return labelsField[label];
         }

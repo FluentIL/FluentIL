@@ -85,10 +85,10 @@ namespace FluentIL.Infos
             get { return methodBuilderField; }
         }
 
-        public ILGenerator GetILGenerator()
+        public ILEmitter GetILEmitter()
         {
             if (DynamicTypeInfo == null)
-                return AsDynamicMethod.GetILGenerator();
+                return new ReflectionILEmitter(AsDynamicMethod.GetILGenerator());
             
             if (methodBuilderField == null)
             {
@@ -106,7 +106,7 @@ namespace FluentIL.Infos
                 foreach (DynamicVariableInfo variable in Variables)
                     ilgen.DeclareLocal(variable.Type);
             }
-            return methodBuilderField.GetILGenerator();
+            return new ReflectionILEmitter(methodBuilderField.GetILGenerator());
         }
 
         #endregion
