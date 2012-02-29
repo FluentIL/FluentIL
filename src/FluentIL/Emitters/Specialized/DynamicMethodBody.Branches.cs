@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
-using FluentIL.Emitters;
 using FluentIL.ExpressionParser;
 
 // ReSharper disable CheckNamespace
@@ -16,7 +15,7 @@ namespace FluentIL.Emitters
                 "op_Equality", new[] {typeof (string), typeof (string)});
 
             var emitter = new IfEmitter(this);
-            _IfEmitters.Push(emitter);
+            ifEmittersField.Push(emitter);
             Ldsfld(stringEmpty)
                 .Call(stringOpEqualityMethod);
 
@@ -37,7 +36,7 @@ namespace FluentIL.Emitters
         public DynamicMethodBody IfNull(bool not)
         {
             var emitter = new IfEmitter(this);
-            _IfEmitters.Push(emitter);
+            ifEmittersField.Push(emitter);
             emitter.EmitBranch(!not);
             return this;
         }
@@ -55,18 +54,18 @@ namespace FluentIL.Emitters
         public DynamicMethodBody If(Expression expression)
         {
             var emitter = new IfEmitter(this);
-            _IfEmitters.Push(emitter);
+            ifEmittersField.Push(emitter);
             Expression(expression);
-            emitter.EmitBranch(false);
+            emitter.EmitBranch();
             return this;
         }
 
         public DynamicMethodBody If(string expression)
         {
             var emitter = new IfEmitter(this);
-            _IfEmitters.Push(emitter);
+            ifEmittersField.Push(emitter);
             Parser.Parse(expression, this);
-            emitter.EmitBranch(false);
+            emitter.EmitBranch();
             return this;
         }
     }

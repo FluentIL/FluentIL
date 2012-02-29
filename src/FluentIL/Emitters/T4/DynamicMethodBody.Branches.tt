@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection.Emit;
 
 using FluentIL.Numbers;
@@ -16,27 +14,28 @@ using FluentIL.Numbers;
 			"Brtrue", "Brfalse", "Brtrue_S", "Brfalse_S",
 			"Br", "Br_S" };
 #>
-
+// ReSharper disable CheckNamespace
 namespace FluentIL.Emitters
+// ReSharper restore CheckNamespace
 {
 	public partial class DynamicMethodBody
 	{
-		readonly Stack<IfEmitter> _IfEmitters = new Stack<IfEmitter>();
+		readonly Stack<IfEmitter> ifEmittersField = new Stack<IfEmitter>();
 		public DynamicMethodBody Else()
 		{
-			_IfEmitters.Peek().EmitElse();
+			ifEmittersField.Peek().EmitElse();
 			return this;
 		}
 
 		public DynamicMethodBody EndIf()
 		{
-			_IfEmitters.Pop().EmitEndIf();
+			ifEmittersField.Pop().EmitEndIf();
 			return this;
 		}
 		
 		private void SaveLeftSideToVariable(Type t)
 		{
-			var emitter = _IfEmitters.Peek();
+			var emitter = ifEmittersField.Peek();
 			var variable = emitter.LeftSideVarName;
 
 			if (!emitter.MultipleConditions)
@@ -58,7 +57,7 @@ namespace FluentIL.Emitters
 
 		private DynamicMethodBody And(Number right, OpCode opcode, bool not = false)
 		{
-			var emitter = _IfEmitters.Peek();
+			var emitter = ifEmittersField.Peek();
 			var variable = emitter.LeftSideVarName;
 			var a = PreEmitActions.Pop();
 
@@ -80,12 +79,16 @@ namespace FluentIL.Emitters
 		{
 #>
 		#region <#= opcode #>
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody <#= opcode #>(string label)
+		// ReSharper restore InconsistentNaming
         {
             return <#= opcode #>(GetLabel(label));
         }
 
-        public DynamicMethodBody <#= opcode #>(Label label)
+        // ReSharper disable InconsistentNaming
+		public DynamicMethodBody <#= opcode #>(Label label)
+		// ReSharper restore InconsistentNaming
         {
             return Emit(OpCodes.<#= opcode #>, label);
         }
@@ -95,29 +98,37 @@ namespace FluentIL.Emitters
 		&& !opcode.Equals("Ble") && !opcode.Equals("Ble_Un") 
 		&& !opcode.Equals("Bne_Un")
 		) { #>
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody C<#= opcode.Substring(1) #>()
+		// ReSharper restore InconsistentNaming
 		{
 			return Emit(OpCodes.C<#= opcode.Substring(1) #>);
 		}
 
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody If<#= opcode.Substring(1) #>()
+		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			_IfEmitters.Push(emitter);
+			ifEmittersField.Push(emitter);
 			emitter.EmitIf(OpCodes.C<#= opcode.Substring(1) #>);
 			return this;
 		}
 
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody If<#= opcode.Substring(1) #>(double right)
+		// ReSharper restore InconsistentNaming
 		{
 			LdcR8(right);
 			return If<#= opcode.Substring(1) #>();
 		}
 
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody If<#= opcode.Substring(1) #>(int right)
+		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			_IfEmitters.Push(emitter);
+			ifEmittersField.Push(emitter);
 			PreEmitActions.Push( () => 
 				{
 					LdcI4(right);
@@ -127,31 +138,41 @@ namespace FluentIL.Emitters
 			return this; 
 		}
 
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody And<#= opcode.Substring(1) #>(int right)
+		// ReSharper restore InconsistentNaming
 		{
 			return And(right, OpCodes.C<#= opcode.Substring(1) #>);
 		}
 
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody AndNot<#= opcode.Substring(1) #>(int right)
+		// ReSharper restore InconsistentNaming
 		{
 			return And(right, OpCodes.C<#= opcode.Substring(1) #>, true);
 		}
 
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody IfNot<#= opcode.Substring(1) #>()
+		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			_IfEmitters.Push(emitter);
+			ifEmittersField.Push(emitter);
 			emitter.EmitIf(OpCodes.C<#= opcode.Substring(1) #>, true);
 			return this;
 		}
 
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody IfNot<#= opcode.Substring(1) #>(double right)
+		// ReSharper restore InconsistentNaming
 		{
 			LdcR8(right);
 			return IfNot<#= opcode.Substring(1) #>();
 		}
 
+		// ReSharper disable InconsistentNaming
 		public DynamicMethodBody IfNot<#= opcode.Substring(1) #>(int right)
+		// ReSharper restore InconsistentNaming
 		{
 			LdcI4(right);
 			return IfNot<#= opcode.Substring(1) #>();
@@ -166,8 +187,7 @@ namespace FluentIL.Emitters
 
 		public DynamicMethodBody Cge()
 		{
-			return this
-				.Clt()
+			return Clt()
 				.Ldc(0)
 				.Ceq();
 		}
@@ -175,8 +195,7 @@ namespace FluentIL.Emitters
 		
 		public DynamicMethodBody Cle()
         {
-            return this
-                .Cgt()
+            return Cgt()
                 .Ldc(0)
                 .Ceq();
         }
