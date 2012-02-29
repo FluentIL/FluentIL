@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using FluentIL.Cecil;
 using Mono.Cecil;
-using _OpCodes = System.Reflection.Emit.OpCodes;
 
 namespace CecilUsingFluentIL
 {
