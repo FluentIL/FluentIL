@@ -24,6 +24,13 @@ namespace FluentIL.Infos
             MethodName = methodName;
         }
 
+        private readonly ILEmitter emitterField = null;
+        public DynamicMethodInfo(ILEmitter emitter)
+        {
+            Body = new DynamicMethodBody(this);
+            emitterField = emitter;
+        }
+
         public DynamicMethodInfo()
         {
             Body = new DynamicMethodBody(this);
@@ -87,6 +94,9 @@ namespace FluentIL.Infos
 
         public ILEmitter GetILEmitter()
         {
+            if (emitterField != null)
+                return emitterField;
+
             if (DynamicTypeInfo == null)
                 return new ReflectionILEmitter(AsDynamicMethod.GetILGenerator());
             

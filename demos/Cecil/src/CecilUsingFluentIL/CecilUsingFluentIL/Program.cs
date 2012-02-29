@@ -6,6 +6,8 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 
 using _OpCodes = System.Reflection.Emit.OpCodes;
+using FluentIL.Emitters;
+using FluentIL.Infos;
 
 namespace CecilUsingFluentIL
 {
@@ -35,9 +37,9 @@ namespace CecilUsingFluentIL
 
             worker.Body.Instructions.Clear();
 
-            emitter.Emit(_OpCodes.Ldstr, "Hello World from modified program");
-            emitter.Emit(_OpCodes.Ret);
-
+            new DynamicMethodInfo(emitter).Body
+                .Ldstr("Hello World from modified program")
+                .Ret();
         }
 
         private static void ModifyAddMethod(
@@ -60,15 +62,17 @@ namespace CecilUsingFluentIL
                 worker, 
                 (inst) => worker.InsertBefore(firstInstruction, inst));
 
-            emitter.Emit(_OpCodes.Ldstr, "Value of First Parameter is {0}");
-            emitter.Emit(_OpCodes.Ldarg_0);
-            emitter.Emit(_OpCodes.Box, typeof(int));
-            emitter.Emit(_OpCodes.Call, minfo);
+            new DynamicMethodInfo(emitter).Body
 
-            emitter.Emit(_OpCodes.Ldstr, "Value of Second Parameter is {0}");
-            emitter.Emit(_OpCodes.Ldarg_1);
-            emitter.Emit(_OpCodes.Box, typeof(int));
-            emitter.Emit(_OpCodes.Call, minfo);
+                .Ldstr("Value of First Parameter is {0}")
+                .Ldarg(0)
+                .Box(typeof (int))
+                .Call(minfo)
+
+                .Ldstr("Value of Second Parameter is {0}")
+                .Ldarg(1)
+                .Box(typeof (int))
+                .Call(minfo);
         }
     }
 }
