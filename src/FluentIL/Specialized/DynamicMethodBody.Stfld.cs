@@ -16,7 +16,7 @@ namespace FluentIL
 
         public DynamicMethodBody Stfld(string fieldName)
         {
-            FieldInfo field = infoField.DynamicTypeInfo.GetFieldInfo(fieldName);
+            FieldInfo field = methodInfoField.DynamicTypeInfo.GetFieldInfo(fieldName);
             return Stfld(field);
         }
     }

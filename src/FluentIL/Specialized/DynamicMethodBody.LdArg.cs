@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection.Emit;
+using FluentIL.Infos;
 
 // ReSharper disable CheckNamespace
 
@@ -36,8 +37,8 @@ namespace FluentIL
 
         public DynamicMethodBody Ldarg(params string[] args)
         {
-            DynamicVariableInfo[] parameters = infoField.Parameters.ToArray();
-            var offset = (uint) (infoField.DynamicTypeInfo != null ? 1 : 0);
+            DynamicVariableInfo[] parameters = methodInfoField.Parameters.ToArray();
+            var offset = (uint) (methodInfoField.DynamicTypeInfo != null ? 1 : 0);
 
             foreach (string arg in args)
                 for (uint i = 0; i < parameters.Length; i++)

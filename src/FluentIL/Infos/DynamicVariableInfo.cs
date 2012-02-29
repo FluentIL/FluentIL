@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FluentIL
+namespace FluentIL.Infos
 {
     public struct DynamicVariableInfo
     {

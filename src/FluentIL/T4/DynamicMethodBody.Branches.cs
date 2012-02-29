@@ -31,8 +31,8 @@ namespace FluentIL
 			{
 				if (GetVariableIndex(variable) == -1)
 				{
-					this.infoField.WithVariable(typeof(int), variable);
-					this.infoField.GetILGenerator().DeclareLocal(t);
+					this.methodInfoField.WithVariable(typeof(int), variable);
+					this.methodInfoField.GetILGenerator().DeclareLocal(t);
 				}
 				PreEmitActions.Push( () =>
 				{

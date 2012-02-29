@@ -19,7 +19,7 @@ namespace FluentIL
 
         public DynamicMethodBody For(string variable, Number from, Number to, int step = 1)
         {
-            ILGenerator ilgen = infoField.GetILGenerator();
+            ILGenerator ilgen = methodInfoField.GetILGenerator();
             Label beginLabel = ilgen.DefineLabel();
             Label comparasionLabel = ilgen.DefineLabel();
 
@@ -27,7 +27,7 @@ namespace FluentIL
                                        beginLabel, comparasionLabel));
             if (GetVariableIndex(variable) == -1)
             {
-                infoField.WithVariable(typeof (int), variable);
+                methodInfoField.WithVariable(typeof (int), variable);
                 ilgen.DeclareLocal(typeof (int));
             }
 

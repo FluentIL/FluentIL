@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DynamicFieldInfo.cs" />
-    <Compile Include="DynamicTypeInfo.cs" />
+    <Compile Include="Infos\DynamicFieldInfo.cs" />
+    <Compile Include="Infos\DynamicTypeInfo.cs" />
     <None Include="ExpressionInterpreter\ExpressionSimplifierVisitor.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ExpressionSimplifierVisitor1.cs</LastGenOutput>
@@ -93,9 +93,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DynamicMethodBody.Emit.tt</DependentUpon>
     </Compile>
-    <Compile Include="DynamicMethodInfo.cs" />
-    <Compile Include="DynamicVariableInfo.cs" />
-    <Compile Include="ForInfo.cs" />
+    <Compile Include="Infos\DynamicMethodInfo.cs" />
+    <Compile Include="Infos\DynamicVariableInfo.cs" />
+    <Compile Include="Infos\ForInfo.cs" />
     <Compile Include="IfEmitter.cs" />
     <Compile Include="IL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

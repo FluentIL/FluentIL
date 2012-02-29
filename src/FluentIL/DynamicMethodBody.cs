@@ -1,55 +1,50 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Reflection.Emit;
-using FluentIL.ExpressionInterpreter;
-using FluentIL.ExpressionParser;
+using FluentIL.Infos;
 
 namespace FluentIL
 {
     public partial class DynamicMethodBody
     {
-        private readonly DynamicMethodInfo infoField;
+        private readonly DynamicMethodInfo methodInfoField;
+        
 
-        internal DynamicMethodBody(DynamicMethodInfo info)
+        internal DynamicMethodBody(DynamicMethodInfo methodInfo)
         {
-            infoField = info;
+            methodInfoField = methodInfo;
         }
 
         public DynamicMethod AsDynamicMethod
         {
-            get { return infoField.AsDynamicMethod; }
+            get { return methodInfoField.AsDynamicMethod; }
         }
 
         public Type AsType
         {
-            get { return infoField.DynamicTypeInfo.AsType; }
+            get { return methodInfoField.DynamicTypeInfo.AsType; }
         }
 
 
         public DynamicMethodInfo WithMethod(string methodName)
         {
-            return infoField.DynamicTypeInfo.WithMethod(methodName);
+            return methodInfoField.DynamicTypeInfo.WithMethod(methodName);
         }
-
-        
-
-        
 
         public object Invoke(params object[] args)
         {
-            return infoField.AsDynamicMethod.Invoke(null, args);
+            return methodInfoField.AsDynamicMethod.Invoke(null, args);
         }
 
         #region static
 
         public static implicit operator DynamicMethod(DynamicMethodBody body)
         {
-            return body.infoField;
+            return body.methodInfoField;
         }
 
         public static implicit operator DynamicMethodInfo(DynamicMethodBody body)
         {
-            return body.infoField;
+            return body.methodInfoField;
         }
 
         #endregion

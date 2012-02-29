@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection.Emit;
+using FluentIL.Infos;
 
 // ReSharper disable CheckNamespace
 namespace FluentIL
@@ -9,7 +10,7 @@ namespace FluentIL
     {
         public int GetVariableIndex(string varname)
         {
-            DynamicVariableInfo[] variables = infoField.Variables.ToArray();
+            DynamicVariableInfo[] variables = methodInfoField.Variables.ToArray();
 
             for (int i = 0; i < variables.Length; i++)
                 if (variables[i].Name == varname)
@@ -20,7 +21,7 @@ namespace FluentIL
 
         public int GetParameterIndex(string parametername)
         {
-            DynamicVariableInfo[] parameters = infoField.Parameters.ToArray();
+            DynamicVariableInfo[] parameters = methodInfoField.Parameters.ToArray();
 
             for (int i = 0; i < parameters.Length; i++)
                 if (parameters[i].Name == parametername)

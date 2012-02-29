@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection.Emit;
 
-namespace FluentIL
+namespace FluentIL.Infos
 {
     public class DynamicFieldInfo
     {
