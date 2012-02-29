@@ -97,29 +97,5 @@ namespace FluentIL.Cecil.Emitters
         }
     }
 
-    internal static class CecilExtensions
-    {
-        static CecilExtensions()
-        {
-            var fields = typeof (OpCodes).GetFields();
-            foreach (var field in fields)
-            {
-                CecilOpcodes.Add(field.Name.ToLower().Replace('_', '.')
-                    , (Mono.Cecil.Cil.OpCode) field.GetValue(null));
-            }
-
-        }
-
-        static readonly Dictionary<string, Mono.Cecil.Cil.OpCode>
-            CecilOpcodes = new Dictionary<string, Mono.Cecil.Cil.OpCode>();
-
-        public static Mono.Cecil.Cil.OpCode ToCecil(
-            this OpCode that
-            )
-        {
-            return 
-                   CecilOpcodes[that.Name];
-        }
-        
-    }
+   
 }
