@@ -59,6 +59,9 @@
     <Compile Include="ExpressionParser\State.cs" />
     <Compile Include="ExpressionParser\StateTable.cs" />
     <Compile Include="ExpressionParser\Token.cs" />
+    <Compile Include="FluentHelpers\DynamicMethodBody.EmitIf.cs" />
+    <Compile Include="FluentHelpers\DynamicMethodBody.Expression.cs" />
+    <Compile Include="FluentHelpers\DynamicMethodBody.Repeater.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="Specialized\DynamicMethodBody.Abs.cs" />
     <Compile Include="Specialized\DynamicMethodBody.AddToVar.cs" />
