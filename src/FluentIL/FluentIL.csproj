@@ -60,8 +60,25 @@
     <Compile Include="ExpressionParser\StateTable.cs" />
     <Compile Include="ExpressionParser\Token.cs" />
     <Compile Include="Number.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Abs.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.AddToVar.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.BasicMath.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.BoxUnbox.cs" />
     <Compile Include="Specialized\DynamicMethodBody.Branches.cs" />
     <Compile Include="Specialized\DynamicMethodBody.Calls.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.EnsureLimits.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.ForNext.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Labels.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.LdArg.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Ldc.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Ldfld.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Locals.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Newarr.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Newobj.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Ret.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Stfld.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Stloc.cs" />
+    <Compile Include="Specialized\DynamicMethodBody.Throw.cs" />
     <Compile Include="T4\DynamicMethodBody.Branches.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
