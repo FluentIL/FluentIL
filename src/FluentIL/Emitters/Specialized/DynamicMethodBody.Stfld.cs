@@ -3,7 +3,7 @@ using System.Reflection.Emit;
 
 // ReSharper disable CheckNamespace
 
-namespace FluentIL
+namespace FluentIL.Emitters
 // ReSharper restore CheckNamespace
 {
     partial class DynamicMethodBody

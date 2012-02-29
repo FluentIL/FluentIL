@@ -1,9 +1,10 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
+using FluentIL.Emitters;
 using FluentIL.ExpressionParser;
 
 // ReSharper disable CheckNamespace
-namespace FluentIL
+namespace FluentIL.Emitters
 // ReSharper restore CheckNamespace
 {
     partial class DynamicMethodBody

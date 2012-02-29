@@ -4,7 +4,7 @@ using FluentIL.Infos;
 
 // ReSharper disable CheckNamespace
 
-namespace FluentIL
+namespace FluentIL.Emitters
 // ReSharper restore CheckNamespace
 {
     partial class DynamicMethodBody
@@ -37,7 +37,7 @@ namespace FluentIL
 
         public DynamicMethodBody Ldarg(params string[] args)
         {
-            DynamicVariableInfo[] parameters = methodInfoField.Parameters.ToArray();
+            DynamicVariableInfo[] parameters = Enumerable.ToArray<DynamicVariableInfo>(methodInfoField.Parameters);
             var offset = (uint) (methodInfoField.DynamicTypeInfo != null ? 1 : 0);
 
             foreach (string arg in args)

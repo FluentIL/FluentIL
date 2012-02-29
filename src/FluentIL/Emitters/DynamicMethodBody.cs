@@ -2,7 +2,7 @@
 using System.Reflection.Emit;
 using FluentIL.Infos;
 
-namespace FluentIL
+namespace FluentIL.Emitters
 {
     public partial class DynamicMethodBody
     {

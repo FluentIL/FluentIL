@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
 
+using FluentIL.Numbers;
+
 <#		string [] opcodes = new string [] {
 			"Beq", "Beq_S", 
 			"Bne_Un", "Bne_Un_S",
@@ -15,7 +17,7 @@ using System.Reflection.Emit;
 			"Br", "Br_S" };
 #>
 
-namespace FluentIL
+namespace FluentIL.Emitters
 {
 	public partial class DynamicMethodBody
 	{
@@ -41,8 +43,8 @@ namespace FluentIL
 			{
 				if (GetVariableIndex(variable) == -1)
 				{
-					this._Info.WithVariable(typeof(int), variable);
-					this._Info.GetILGenerator().DeclareLocal(t);
+					methodInfoField.WithVariable(typeof(int), variable);
+					methodInfoField.GetILGenerator().DeclareLocal(t);
 				}
 				PreEmitActions.Push( () =>
 				{

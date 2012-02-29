@@ -1,3 +1,5 @@
+using FluentIL.Emitters;
+
 namespace FluentIL.Numbers
 {
     public class ConstantInt32Number : Number

@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace FluentIL
+namespace FluentIL.Emitters
 {
 	public partial class DynamicMethodBody
 	{
@@ -24,7 +24,7 @@ namespace FluentIL
 			#if DEBUG
 			Debug.WriteLine(string.Format("\t{0}", opcode));
 			#endif
-            _Info.GetILGenerator()
+            methodInfoField.GetILGenerator()
                 .Emit(opcode);
 
             return this;
@@ -54,7 +54,7 @@ namespace FluentIL
 			<#}#>
 			#endif
 			
-			_Info.GetILGenerator()
+			methodInfoField.GetILGenerator()
                 .Emit(opcode, arg);
 
             return this;

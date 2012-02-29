@@ -1,4 +1,5 @@
 using FluentIL.ExpressionParser;
+using FluentIL.Emitters;
 
 namespace FluentIL.Numbers
 {

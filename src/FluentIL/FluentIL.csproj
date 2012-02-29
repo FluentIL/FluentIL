@@ -59,40 +59,40 @@
     <Compile Include="ExpressionParser\State.cs" />
     <Compile Include="ExpressionParser\StateTable.cs" />
     <Compile Include="ExpressionParser\Token.cs" />
-    <Compile Include="FluentHelpers\DynamicMethodBody.EmitIf.cs" />
-    <Compile Include="FluentHelpers\DynamicMethodBody.Expression.cs" />
-    <Compile Include="FluentHelpers\DynamicMethodBody.Repeater.cs" />
+    <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.EmitIf.cs" />
+    <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.Expression.cs" />
+    <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.Repeater.cs" />
     <Compile Include="Numbers\ConstantDoubleNumber.cs" />
     <Compile Include="Numbers\ConstantInt32Number.cs" />
     <Compile Include="Numbers\ExpressionNumber.cs" />
     <Compile Include="Numbers\Number.cs" />
     <Compile Include="Numbers\ParseExpressionNumber.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Abs.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.AddToVar.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.BasicMath.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.BoxUnbox.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Branches.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Calls.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.EnsureLimits.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.ForNext.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Labels.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.LdArg.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Ldc.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Ldfld.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Locals.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Newarr.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Newobj.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Ret.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Stfld.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Stloc.cs" />
-    <Compile Include="Specialized\DynamicMethodBody.Throw.cs" />
-    <Compile Include="T4\DynamicMethodBody.Branches.cs">
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Abs.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.AddToVar.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.BasicMath.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.BoxUnbox.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Branches.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Calls.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.EnsureLimits.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.ForNext.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Labels.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.LdArg.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Ldc.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Ldfld.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Locals.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Newarr.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Newobj.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Ret.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Stfld.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Stloc.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Throw.cs" />
+    <Compile Include="Emitters\T4\DynamicMethodBody.Branches.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DynamicMethodBody.Branches.tt</DependentUpon>
     </Compile>
-    <Compile Include="DynamicMethodBody.cs" />
-    <Compile Include="T4\DynamicMethodBody.Emit.cs">
+    <Compile Include="Emitters\DynamicMethodBody.cs" />
+    <Compile Include="Emitters\T4\DynamicMethodBody.Emit.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DynamicMethodBody.Emit.tt</DependentUpon>
@@ -100,25 +100,25 @@
     <Compile Include="Infos\DynamicMethodInfo.cs" />
     <Compile Include="Infos\DynamicVariableInfo.cs" />
     <Compile Include="Infos\ForInfo.cs" />
-    <Compile Include="IfEmitter.cs" />
+    <Compile Include="Emitters\IfEmitter.cs" />
     <Compile Include="IL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="T4\DynamicMethodBody.Opcodes.cs">
+    <Compile Include="Emitters\T4\DynamicMethodBody.Opcodes.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DynamicMethodBody.Opcodes.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="T4\DynamicMethodBody.Branches.tt">
+    <None Include="Emitters\T4\DynamicMethodBody.Branches.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DynamicMethodBody.Branches.cs</LastGenOutput>
     </None>
-    <None Include="T4\DynamicMethodBody.Emit.tt">
+    <None Include="Emitters\T4\DynamicMethodBody.Emit.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DynamicMethodBody.Emit.cs</LastGenOutput>
     </None>
-    <None Include="T4\DynamicMethodBody.Opcodes.tt">
+    <None Include="Emitters\T4\DynamicMethodBody.Opcodes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DynamicMethodBody.Opcodes.cs</LastGenOutput>
     </None>

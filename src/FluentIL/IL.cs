@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentIL.Infos;
+using FluentIL.Emitters;
 
 namespace FluentIL
 {

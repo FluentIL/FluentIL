@@ -3,14 +3,14 @@ using System.Reflection.Emit;
 using FluentIL.Infos;
 
 // ReSharper disable CheckNamespace
-namespace FluentIL
+namespace FluentIL.Emitters
 // ReSharper restore CheckNamespace
 {
     partial class DynamicMethodBody
     {
         public int GetVariableIndex(string varname)
         {
-            DynamicVariableInfo[] variables = methodInfoField.Variables.ToArray();
+            DynamicVariableInfo[] variables = Enumerable.ToArray<DynamicVariableInfo>(methodInfoField.Variables);
 
             for (int i = 0; i < variables.Length; i++)
                 if (variables[i].Name == varname)
@@ -21,7 +21,7 @@ namespace FluentIL
 
         public int GetParameterIndex(string parametername)
         {
-            DynamicVariableInfo[] parameters = methodInfoField.Parameters.ToArray();
+            DynamicVariableInfo[] parameters = Enumerable.ToArray<DynamicVariableInfo>(methodInfoField.Parameters);
 
             for (int i = 0; i < parameters.Length; i++)
                 if (parameters[i].Name == parametername)
