@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentIL.Numbers;
 
 // ReSharper disable CheckNamespace
 

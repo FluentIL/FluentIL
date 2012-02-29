@@ -62,7 +62,11 @@
     <Compile Include="FluentHelpers\DynamicMethodBody.EmitIf.cs" />
     <Compile Include="FluentHelpers\DynamicMethodBody.Expression.cs" />
     <Compile Include="FluentHelpers\DynamicMethodBody.Repeater.cs" />
-    <Compile Include="Number.cs" />
+    <Compile Include="Numbers\ConstantDoubleNumber.cs" />
+    <Compile Include="Numbers\ConstantInt32Number.cs" />
+    <Compile Include="Numbers\ExpressionNumber.cs" />
+    <Compile Include="Numbers\Number.cs" />
+    <Compile Include="Numbers\ParseExpressionNumber.cs" />
     <Compile Include="Specialized\DynamicMethodBody.Abs.cs" />
     <Compile Include="Specialized\DynamicMethodBody.AddToVar.cs" />
     <Compile Include="Specialized\DynamicMethodBody.BasicMath.cs" />

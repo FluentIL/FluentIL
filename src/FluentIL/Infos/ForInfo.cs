@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Emit;
+using FluentIL.Numbers;
 
 namespace FluentIL
 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection.Emit;
+using FluentIL.Numbers;
 
 // ReSharper disable CheckNamespace
 namespace FluentIL

@@ -1,4 +1,7 @@
 ﻿// ReSharper disable CheckNamespace
+
+using FluentIL.Numbers;
+
 namespace FluentIL
 // ReSharper restore CheckNamespace
 {
