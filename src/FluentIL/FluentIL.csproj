@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Emitters\PropertyEmitter.cs" />
     <Compile Include="Infos\DynamicFieldInfo.cs" />
     <Compile Include="Infos\DynamicTypeInfo.cs" />
     <None Include="ExpressionInterpreter\ExpressionSimplifierVisitor.tt">
