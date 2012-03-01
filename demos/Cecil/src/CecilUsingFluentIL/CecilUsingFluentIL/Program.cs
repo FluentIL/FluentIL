@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using FluentIL.Cecil;
 using Mono.Cecil;
+using Mono.Cecil.Cil;
 
 namespace CecilUsingFluentIL
 {
@@ -58,7 +59,17 @@ namespace CecilUsingFluentIL
             MethodDefinition method = type.Methods
                 .First(m => m.Name == "DoOp");
 
+            MethodInfo minfo = typeof(Console).GetMethod(
+                "WriteLine",
+                new[] { typeof(string), typeof(int) });
+
             method.ReplaceWith()
+                .If("a < 5")
+                    .Ldstr("a < 5 (a = {0})")
+                    .Ldarg("a")
+                    .Box(typeof(int))
+                    .Call(minfo)
+                .EndIf()
                 .Parse("a*b")
                 .Ret();
         }

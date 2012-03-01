@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -16,6 +17,7 @@ namespace FluentIL.Cecil.Emitters
         private readonly AssemblyDefinition assemblyDefinitionField;
         private readonly ILProcessor ilProcessorField;
         private readonly Action<Instruction> continuationField;
+        private int labelCountField;
 
         public CecilILEmitter(
             AssemblyDefinition assemblyDefinition,
@@ -35,13 +37,21 @@ namespace FluentIL.Cecil.Emitters
 
         protected override void OnMarkLabel(Label label)
         {
-            throw new NotImplementedException();
+            var value = (int) typeof (Label)
+                .GetFields(BindingFlags.Instance | BindingFlags.NonPublic) 
+                .First()
+                .GetValue(label);
+
+            Console.WriteLine("MARKED {0}", value);
         }
 
         protected override Label OnDefineLabel()
         {
-            throw new NotImplementedException();
-        }
+            return (Label)typeof(Label).GetConstructor(
+                    BindingFlags.NonPublic | BindingFlags.Instance,
+                    null, new Type[] { typeof(int) }, null
+                ).Invoke(new object[] { labelCountField++ });
+    }
 
         protected override void OnEmit(OpCode opcode)
         {
@@ -65,7 +75,12 @@ namespace FluentIL.Cecil.Emitters
 
         protected override void OnEmit(OpCode opcode, Label arg)
         {
-            throw new NotImplementedException();
+            var value = (int)typeof(Label)
+                .GetFields(BindingFlags.Instance | BindingFlags.NonPublic)
+                .First()
+                .GetValue(arg);
+
+            Console.WriteLine("USED {0}", value);
         }
 
         protected override void OnEmit(OpCode opcode, MethodInfo arg)

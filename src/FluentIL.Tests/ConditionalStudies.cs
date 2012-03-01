@@ -297,5 +297,23 @@ namespace FluentIL.Tests
             dm.Invoke(21).Should().Be(false);
         }
 
+        [Test]
+        public void MultipleConditions_4()
+        {
+            var dm = IL.NewMethod()
+                .WithParameter(typeof(int), "a")
+                .Returns(typeof(int))
+                .If("a>=10&&a<=20")
+                    .Ldc(2)
+                .Else()
+                    .Ldc(4)
+                .EndIf()
+                .Ret();
+
+            dm.Invoke(10).Should().Be(2);
+            dm.Invoke(9).Should().Be(4);
+            dm.Invoke(21).Should().Be(4);
+        }
+
     }
 }

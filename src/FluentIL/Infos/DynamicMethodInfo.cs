@@ -24,7 +24,7 @@ namespace FluentIL.Infos
             MethodName = methodName;
         }
 
-        private readonly ILEmitter emitterField = null;
+        private readonly ILEmitter emitterField;
         public DynamicMethodInfo(ILEmitter emitter)
         {
             Body = new DynamicMethodBody(this);
