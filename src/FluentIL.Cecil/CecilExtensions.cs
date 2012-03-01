@@ -4,6 +4,8 @@ using Mono.Cecil.Cil;
 using FluentIL.Emitters;
 using Mono.Cecil;
 using FluentIL.Cecil.Emitters;
+using FluentIL.Infos;
+using System;
 
 namespace FluentIL.Cecil
 {
@@ -41,7 +43,10 @@ namespace FluentIL.Cecil
                 worker,
                 inst => worker.InsertBefore(firstInstruction, inst));
 
-            return IL.EmitTo(emitter);
+            var dinfo = new DynamicMethodInfo(emitter);
+            that.LoadArgsTo(dinfo);
+
+            return dinfo.Body;
         }
 
         public static DynamicMethodBody ReplaceWith
@@ -56,7 +61,21 @@ namespace FluentIL.Cecil
 
             worker.Body.Instructions.Clear();
 
-            return IL.EmitTo(emitter);
+            var dinfo = new DynamicMethodInfo(emitter);
+            that.LoadArgsTo(dinfo);
+
+            return dinfo.Body;
+        }
+
+        private static void LoadArgsTo(this MethodDefinition that, DynamicMethodInfo info)
+        {
+            if (!that.IsStatic)
+                info.WithParameter<int>("$this");
+
+            foreach (var arg in that.Parameters)
+            {
+                info.WithParameter(Type.GetType(arg.ParameterType.FullName), arg.Name);
+            }
         }
     }
 }

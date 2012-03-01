@@ -43,11 +43,11 @@ namespace CecilUsingFluentIL
 
             method.InsertBefore()
                 .Ldstr("Value of First Parameter is {0}")
-                .Ldarg(0)
+                .Ldarg("a")
                 .Box(typeof (int))
                 .Call(minfo)
                 .Ldstr("Value of Second Parameter is {0}")
-                .Ldarg(1)
+                .Ldarg("b")
                 .Box(typeof (int))
                 .Call(minfo);
         }
