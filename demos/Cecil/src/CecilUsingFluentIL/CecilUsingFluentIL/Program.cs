@@ -18,6 +18,7 @@ namespace CecilUsingFluentIL
 
             ModifyDoSomethingMethod(type);
             ModifyAddMethod(type);
+            ModifyDoOpMethod(type);
 
             assembly.Write("ConsoleProgramThatWillBeChanged.Patched.exe");
         }
@@ -50,6 +51,16 @@ namespace CecilUsingFluentIL
                 .Ldarg("b")
                 .Box(typeof (int))
                 .Call(minfo);
+        }
+
+        private static void ModifyDoOpMethod(TypeDefinition type)
+        {
+            MethodDefinition method = type.Methods
+                .First(m => m.Name == "DoOp");
+
+            method.ReplaceWith()
+                .Parse("a*b")
+                .Ret();
         }
     }
 }
