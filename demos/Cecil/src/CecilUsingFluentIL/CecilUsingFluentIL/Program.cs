@@ -19,7 +19,8 @@ namespace CecilUsingFluentIL
 
             ModifyDoSomethingMethod(type);
             ModifyAddMethod(type);
-            ModifyDoOpMethod(type);
+            ModifyShouldAddMethod(type);
+            ModifyPrintMessageWhenLessThanFiveMethod(type);
 
             assembly.Write("ConsoleProgramThatWillBeChanged.Patched.exe");
         }
@@ -54,24 +55,30 @@ namespace CecilUsingFluentIL
                 .Call(minfo);
         }
 
-        private static void ModifyDoOpMethod(TypeDefinition type)
+        private static void ModifyShouldAddMethod(TypeDefinition type)
         {
             MethodDefinition method = type.Methods
-                .First(m => m.Name == "DoOp");
-
-            MethodInfo minfo = typeof(Console).GetMethod(
-                "WriteLine",
-                new[] { typeof(string), typeof(int) });
+                .First(m => m.Name == "ShouldAdd");
 
             method.ReplaceWith()
-                .If("a < 5")
-                    .Ldstr("a < 5 (a = {0})")
-                    .Ldarg("a")
-                    .Box(typeof(int))
-                    .Call(minfo)
-                .EndIf()
                 .Parse("a*b")
                 .Ret();
+        }
+
+        private static void ModifyPrintMessageWhenLessThanFiveMethod(TypeDefinition type)
+        {
+            MethodDefinition method = type.Methods
+                .First(m => m.Name == "PrintMessageWhenLessThanFive");
+
+            MethodInfo minfo = typeof (Console).GetMethod(
+                "WriteLine",
+                new[] {typeof (string)});
+
+            method.InsertBefore()
+                .If("value>=10&&value<=20")
+                    .Ldstr("Now printing when value >= 10 && value <= 20 too.")
+                    .Call(minfo)
+                .EndIf();
         }
     }
 }
