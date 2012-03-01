@@ -42,35 +42,46 @@ namespace FluentIL.Cecil.Emitters
                 .First()
                 .GetValue(label);
 
-            Console.WriteLine("MARKED {0}", value);
+            ProcessInstruction(labelsField[value].LabeledInstruction);
         }
 
         protected override Label OnDefineLabel()
         {
+            labelsField.Add(new LabelInfo());
+            labelsField[labelCountField].LabeledInstruction = 
+                ilProcessorField.Create(OpCodes.Nop);
+
             return (Label)typeof(Label).GetConstructor(
                     BindingFlags.NonPublic | BindingFlags.Instance,
                     null, new Type[] { typeof(int) }, null
                 ).Invoke(new object[] { labelCountField++ });
-    }
+        }
+
+        readonly List<LabelInfo> labelsField = new List<LabelInfo>();
+
+        class LabelInfo
+        {
+            public Instruction LabeledInstruction { get; set; }
+        }
 
         protected override void OnEmit(OpCode opcode)
         {
-            continuationField(ilProcessorField.Create(opcode.ToCecil()));
+            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil()));
         }
 
         protected override void OnEmit(OpCode opcode, string arg)
         {
-            continuationField(ilProcessorField.Create(opcode.ToCecil(), arg));
+            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), arg));
         }
 
         protected override void OnEmit(OpCode opcode, int arg)
         {
-            continuationField(ilProcessorField.Create(opcode.ToCecil(), arg));
+            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), arg));
         }
 
         protected override void OnEmit(OpCode opcode, double arg)
         {
-            continuationField(ilProcessorField.Create(opcode.ToCecil(), arg));
+            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), arg));
         }
 
         protected override void OnEmit(OpCode opcode, Label arg)
@@ -80,13 +91,17 @@ namespace FluentIL.Cecil.Emitters
                 .First()
                 .GetValue(arg);
 
-            Console.WriteLine("USED {0}", value);
+            ProcessInstruction(
+                ilProcessorField.Create(
+                    opcode.ToCecil(), 
+                    labelsField[value].LabeledInstruction
+                    ));
         }
 
         protected override void OnEmit(OpCode opcode, MethodInfo arg)
         {
             var reference = assemblyDefinitionField.MainModule.Import(arg);
-            continuationField(ilProcessorField.Create(opcode.ToCecil(), reference));
+            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), reference));
         }
 
         protected override void OnEmit(OpCode opcode, ConstructorInfo arg)
@@ -108,7 +123,12 @@ namespace FluentIL.Cecil.Emitters
             else 
                 throw  new NotSupportedException();
 
-            continuationField(ilProcessorField.Create(opcode.ToCecil(), reference));
+            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), reference));
+        }
+
+        private void ProcessInstruction(Instruction instruction)
+        {
+            continuationField(instruction);
         }
     }
 

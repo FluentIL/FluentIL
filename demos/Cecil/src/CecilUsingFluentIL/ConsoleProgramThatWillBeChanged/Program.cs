@@ -8,8 +8,12 @@ namespace ConsoleProgramThatWillBeChanged
         {
             Console.WriteLine(DoSomething());
             Console.WriteLine(Add(4, 2));
-            Console.WriteLine("Result will be 5 in original and 6 in the patched version: {0}",
+            Console.WriteLine("Result should be 5 (original), but could be 6 (patched) version: {0}",
                 DoOp(2, 3));
+
+            Console.WriteLine("Result should be 13 (original), but could be 30 (patched) version: {0}",
+                DoOp(10, 3));
+
             Console.ReadLine();
         }
 
