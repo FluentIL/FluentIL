@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+
 using Mono.Cecil;
+
+using FluentIL.Cecil;
 
 namespace FluentIL.Metaprogramming.CLU
 {
@@ -8,9 +11,9 @@ namespace FluentIL.Metaprogramming.CLU
     {
         private static void Main(string[] args)
         {
-            if (args.Length != 1)
+            if (args.Length != 2)
             {
-                Console.WriteLine("Usage: clu <assembly-file>");
+                Console.WriteLine("Usage: clu <assembly-file> <dest-assembly-file>");
                 return;
             }
 
@@ -28,11 +31,14 @@ namespace FluentIL.Metaprogramming.CLU
  
             foreach (var item in q)
             {
-                Console.WriteLine("Method={0}, Arg={1}", 
-                    item.Method.Name,
-                    item.Parameter.Name
-                    );
+                item.Method.InsertBefore()
+                    .Ldarg(item.Parameter.Name)
+                    .IfNull()
+                        .Throw<ArgumentNullException>()
+                    .EndIf();
             }
+
+            assembly.Write(args[1]);
         }
     }
 }

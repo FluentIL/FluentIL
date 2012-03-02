@@ -106,7 +106,8 @@ namespace FluentIL.Cecil.Emitters
 
         protected override void OnEmit(OpCode opcode, ConstructorInfo arg)
         {
-            throw new NotImplementedException();
+            var reference = assemblyDefinitionField.MainModule.Import(arg);
+            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), reference));
         }
 
         protected override void OnEmit(OpCode opcode, FieldInfo arg)
