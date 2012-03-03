@@ -2,6 +2,12 @@
 
 namespace ConsoleProgramThatWillBeChanged
 {
+    enum MyEnum
+    {
+        Opt1 = 1,
+        Opt2 = 2,
+        Opt3 = 4
+    }
     internal class Program
     {
         private static void Main()
@@ -19,6 +25,25 @@ namespace ConsoleProgramThatWillBeChanged
 
             PrintMessageWhenLessThanFive(3);
             PrintMessageWhenLessThanFive(12);
+
+            MultipleRet(MyEnum.Opt1);
+            MultipleRet(MyEnum.Opt2);
+        }
+
+        public static void MultipleRet(MyEnum e)
+        {
+            switch (e)
+            {
+                case MyEnum.Opt1:
+                    Console.WriteLine("Opt1");
+                    break;
+                case MyEnum.Opt3:
+                    Console.WriteLine("Opt3");
+                    break;
+                default:
+                    Console.WriteLine("Whatever!");
+                    break;
+            }
         }
 
         public static string DoSomething()

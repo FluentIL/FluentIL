@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="CecilExtensions.cs" />
     <Compile Include="Emitters\CecilILEmitter.cs" />
+    <Compile Include="Emitters\EmittersAggregator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

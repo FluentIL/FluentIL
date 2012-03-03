@@ -49,6 +49,29 @@ namespace FluentIL.Cecil
             return dinfo.Body;
         }
 
+        public static DynamicMethodBody InsertBeforeRet
+            (this MethodDefinition that)
+        {
+            ILProcessor worker = that.Body.GetILProcessor();
+            var aggregator = new EmittersAggregator();
+            foreach (var instruction in worker.Body.Instructions)
+            {
+                if (instruction.OpCode == OpCodes.Ret)
+                {
+                    Instruction instruction1 = instruction;
+                    var emitter = new CecilILEmitter(
+                        that.Module.Assembly,
+                        worker,
+                        inst => worker.InsertBefore(instruction1, inst));
+                    aggregator.Emitters.Add(emitter);
+                }
+            }
+            var dinfo = new DynamicMethodInfo(aggregator);
+            that.LoadArgsTo(dinfo);
+
+            return dinfo.Body;
+        }
+
         public static DynamicMethodBody ReplaceWith
             (this MethodDefinition that)
         {

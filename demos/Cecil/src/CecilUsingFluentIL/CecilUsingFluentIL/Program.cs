@@ -21,10 +21,28 @@ namespace CecilUsingFluentIL
             ModifyAddMethod(type);
             ModifyShouldAddMethod(type);
             ModifyPrintMessageWhenLessThanFiveMethod(type);
+            ModifyMultipleRetMethod(type);
+
+
 
             assembly.Write("ConsoleProgramThatWillBeChanged.Patched.exe");
         }
 
+        private static void ModifyMultipleRetMethod(TypeDefinition type)
+        {
+            MethodDefinition method = type.Methods
+                .First(m => m.Name == "MultipleRet");
+
+            MethodInfo minfo = typeof(Console).GetMethod(
+                "WriteLine",
+                new[] { typeof(string) });
+
+            method.InsertBeforeRet()
+                .Ldstr("Injected Before Ret")
+                .Call(minfo);
+        }
+
+        
         private static void ModifyDoSomethingMethod(TypeDefinition type)
         {
             MethodDefinition method = type.Methods
