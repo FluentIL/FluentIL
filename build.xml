@@ -7,7 +7,7 @@
     <SourceDir>src\</SourceDir>
     <Configuration>Release</Configuration>
     <Platform>Any CPU</Platform>
-    <ProductVersion>1.0</ProductVersion>
+    <ProductVersion>1.01</ProductVersion>
   </PropertyGroup>
 
   <ItemGroup>
