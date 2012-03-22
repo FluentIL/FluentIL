@@ -1,0 +1,48 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Test"> 
+  <PropertyGroup> 
+    <BuildDir>$(MSBuildProjectDirectory)\build\</BuildDir>
+
+	<TestAssembly>$(BuildDir)FluentIL.Tests.dll</TestAssembly>
+	
+    <SourceDir>src\</SourceDir>
+    <Configuration>Release</Configuration>
+    <Platform>Any CPU</Platform>
+    <ProductVersion>1.01</ProductVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SolutionFile Include="$(SourceDir)\FluentIL.sln" />
+  </ItemGroup>
+
+  <Import Project="util\msbuild\MSBuild.Community.Tasks.Targets"/>
+
+  <Target Name="Clean">
+    <MSBuild Projects="@(SolutionFile)" Targets="Clean" Properties="Configuration=$(Configuration);Platform=$(Platform);OutputPath=$(BuildDir)"/>
+    <DeleteTree Directories="$(BuildDir)" ContinueOnError="true"/>
+  </Target>
+ 
+  <Target Name="GenerateAssemblyInfo">
+    <AssemblyInfo CodeLanguage="CS"
+               OutputFile="$(SourceDir)\GlobalInfo.cs"
+               AssemblyCompany="Elemar JR"
+               AssemblyProduct="FluentIL"
+               AssemblyTrademark=""
+               ComVisible="false"
+               CLSCompliant="false"
+               AssemblyVersion="$(ProductVersion)"
+               AssemblyFileVersion="$(ProductVersion)" />
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="GenerateAssemblyInfo">
+    <MSBuild Projects="@(SolutionFile)" Properties="Configuration=$(Configuration);Platform=$(Platform);OutputPath=$(BuildDir)"/>
+  </Target>
+
+  <Target Name="Rebuild">
+    <CallTarget Targets="Clean; Build"></CallTarget>
+  </Target>
+
+  <Target Name="Test" DependsOnTargets="Build">
+    <Nunit Assemblies="$(TestAssembly)" ToolPath="util\nunit"/>
+  </Target>
+
+</Project>

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3A793F01-7299-44F8-9BAF-0BACC23F4021}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FluentIL</RootNamespace>
+    <AssemblyName>FluentIL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Emitters\ILEmitter.cs" />
+    <Compile Include="Emitters\PropertyEmitter.cs" />
+    <Compile Include="Emitters\ReflectionILEmitter.cs" />
+    <Compile Include="Infos\DynamicFieldInfo.cs" />
+    <Compile Include="Infos\DynamicTypeInfo.cs" />
+    <None Include="ExpressionInterpreter\ExpressionSimplifierVisitor.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExpressionSimplifierVisitor1.cs</LastGenOutput>
+    </None>
+    <Compile Include="ExpressionInterpreter\ExpressionSimplifierVisitor1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExpressionSimplifierVisitor.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpressionInterpreter\ILEmitterVisitor.cs" />
+    <Compile Include="ExpressionParser\ExpressionScanner.cs" />
+    <Compile Include="ExpressionParser\Parser.cs" />
+    <Compile Include="ExpressionParser\Scanner.cs" />
+    <Compile Include="ExpressionParser\State.cs" />
+    <Compile Include="ExpressionParser\StateTable.cs" />
+    <Compile Include="ExpressionParser\Token.cs" />
+    <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.EmitIf.cs" />
+    <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.Expression.cs" />
+    <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.Repeater.cs" />
+    <Compile Include="Numbers\ConstantDoubleNumber.cs" />
+    <Compile Include="Numbers\ConstantInt32Number.cs" />
+    <Compile Include="Numbers\ExpressionNumber.cs" />
+    <Compile Include="Numbers\Number.cs" />
+    <Compile Include="Numbers\ParseExpressionNumber.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Abs.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.AddToVar.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.BasicMath.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.BoxUnbox.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Branches.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Calls.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.EnsureLimits.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.ForNext.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Labels.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.LdArg.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Ldc.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Ldfld.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Locals.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Newarr.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Newobj.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Ret.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Stfld.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Stloc.cs" />
+    <Compile Include="Emitters\Specialized\DynamicMethodBody.Throw.cs" />
+    <Compile Include="Emitters\T4\DynamicMethodBody.Branches.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DynamicMethodBody.Branches.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Emitters\DynamicMethodBody.cs" />
+    <Compile Include="Emitters\T4\DynamicMethodBody.Emit.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DynamicMethodBody.Emit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infos\DynamicMethodInfo.cs" />
+    <Compile Include="Infos\DynamicVariableInfo.cs" />
+    <Compile Include="Infos\ForInfo.cs" />
+    <Compile Include="Emitters\IfEmitter.cs" />
+    <Compile Include="IL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Emitters\T4\DynamicMethodBody.Opcodes.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DynamicMethodBody.Opcodes.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Emitters\T4\DynamicMethodBody.Branches.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DynamicMethodBody.Branches.cs</LastGenOutput>
+    </None>
+    <None Include="Emitters\T4\DynamicMethodBody.Emit.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DynamicMethodBody.Emit.cs</LastGenOutput>
+    </None>
+    <None Include="Emitters\T4\DynamicMethodBody.Opcodes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DynamicMethodBody.Opcodes.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

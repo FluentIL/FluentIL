@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
+using System.Reflection;
+using System.Diagnostics;
+
+// ReSharper disable CheckNamespace
+namespace FluentIL.Emitters
+// ReSharper restore CheckNamespace
+{
+	public partial class DynamicMethodBody
+	{
+		readonly Stack<Action> preEmitActionsField = new Stack<Action>();
+		private void ExecutePreEmitActions()
+		{
+			while ( preEmitActionsField.Count > 0 ) 
+                preEmitActionsField.Pop()();
+		}
+
+		#region Emit (basic)
+        public DynamicMethodBody Emit(OpCode opcode)
+        {
+			ExecutePreEmitActions();
+			#if DEBUG
+			Debug.WriteLine(string.Format("\t{0}", opcode));
+			#endif
+            methodInfoField.GetILGenerator()
+                .Emit(opcode);
+
+            return this;
+        }
+        #endregion
+
+
+<#		string [] types = new string [] {
+			"string", "int", "double", "Label", "MethodInfo", "ConstructorInfo", "FieldInfo", "Type" };
+		foreach (var t in types)
+		{
+#>
+		public DynamicMethodBody Emit(OpCode opcode, <#=t#> arg)
+        {
+			ExecutePreEmitActions();
+			#if DEBUG
+			<#if (t=="Label") {#>
+			Debug.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
+			<#} else if (t=="FieldInfo") {#>
+			Debug.WriteLine("\t{0} {1}", opcode, arg.Name);
+			<#} else if (t=="ConstructorInfo") {#>
+			Debug.WriteLine("\t{0} [{1}] {2}", opcode, arg.DeclaringType, arg);
+			<#} else if (t=="string") {#>
+			Debug.WriteLine("\t{0} \"{1}\"", opcode, arg);
+			<#} else {#>
+			Debug.WriteLine("\t{0} {1}", opcode, arg);
+			<#}#>
+			#endif
+			
+			methodInfoField.GetILGenerator()
+                .Emit(opcode, arg);
+
+            return this;
+        }
+
+<#
+		}
+#>
+	}
+}
