@@ -1,7 +1,0 @@
-C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy\bin\Debug\DynamicProxy.dll
-C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy\bin\Debug\DynamicProxy.pdb
-C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy\obj\Debug\ResolveAssemblyReference.cache
-C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy\obj\Debug\DynamicProxy.dll
-C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy\obj\Debug\DynamicProxy.pdb
-C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy\bin\Debug\FluentIL.dll
-C:\git\FluentIL\demos\DynamicProxy\src\DynamicProxy\bin\Debug\FluentIL.pdb
