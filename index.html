@@ -1,4 +1,80 @@
-<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <title>FluentIL</title>
+  
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <style>
+          body{
+            padding-top: 60px;
+          }
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">FluentIL</a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Authors</a></li>
+                        </ul>
+                    </div>
+                </div>
+              </div>
+        </div>
+
+        <div class="container">
+
+          
+            <div class="page-header">
+                <h1>
+                    .NET Emitting Helper
+                    <small>
+                        IL, Mono Cecil
+                    </small>
+
+                </h1>
+            </div>
+
+            
+                FluentIL makes for emitting code easier to write, understand and maintain.
+                <br/>
+                <br/>
+                <pre>
+                  var method = IL.NewMethod()
+                      .Returns(typeof(int))
+                      .Expression(
+                          Expression.Add(
+                          Expression.Constant(2),
+                          Expression.Constant(2)
+                      )
+                    )
+                    .Ret();
+                </pre>
+                        
+
+            <hr>
+
+            <footer>
+                <p>&copy; FluentIL</p>
+            </footer>
+
+        </div>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+    <body>
+
+</html>
+
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <meta charset='utf-8'>
@@ -114,3 +190,4 @@
 
 </body>
 </html>
+ -->
