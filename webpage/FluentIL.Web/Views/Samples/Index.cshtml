@@ -13,6 +13,12 @@
         {
             padding-top: 60px;
             padding-bottom: 40px;
+            background-color: #FFFFFF;
+            background-image: url("/Content/images/01010101.jpg");
+            background-position: 0 40px;
+            background-repeat: repeat-x;
+            padding-top: 90px;
+            position: relative;
         }
     </style>
     <title>FluentIL.org</title>
@@ -43,17 +49,21 @@
     </div>
     <div class="container">
         <p>
-            We <em>strongly</em> believe in TDD. So, we have a lot of samples from <a href="https://github.com/ElemarJR/FluentIL/tree/master/src/FluentIL.Tests">
-                FluentIL unit tests</a>.</p>
+            We <strong>strongly</strong> believe in TDD. So, we have a lot of samples from <a
+                href="https://github.com/ElemarJR/FluentIL/tree/master/src/FluentIL.Tests">FluentIL
+                unit tests</a>.</p>
         <p>
-            You could help us, providing more samples enhacing our tests</p>
-        <h2>
-            Basic emitting</h2>
+            You could help us, providing samples and/or enhacing our code.</p>
+        <div class="page-header">
+            <h1>
+                Basic emitting</h1>
+        </div>
         <p>
             FluentIL provides a rich and fluent support for IL instructions emitting.</p>
         <p>
             You can emit new methods in a easy and fast way.</p>
         <pre>
+
 [Test]
 public void TwoPlusTwoWithNamedParameters()
 {
@@ -174,8 +184,10 @@ public IPrimeChecker CreatePrimeCheckerV4()
     return (IPrimeChecker)Activator.CreateInstance(t);
 }
 </pre>
-        <h2>
-            Exceptions</h2>
+        <div class="page-header">
+            <h1>
+                Exceptions</h1>
+        </div>
         <p>
             FluentIL offers an easy way to throw exceptions.</p>
         <pre>
@@ -208,8 +220,10 @@ private ISayHello2 CreateSayHelloV5()
     return (ISayHello2)Activator.CreateInstance(t);
 }
 </pre>
-        <h2>
-            Properties</h2>
+        <div class="page-header">
+            <h1>
+                Properties</h1>
+        </div>
         <p>
             FluentIL offers a rich support to property emitting, including "AutoProperties".</p>
         <pre>
@@ -293,8 +307,10 @@ namespace FluentIL.Tests
     }
 }
 </pre>
-        <h2>
-            Mono Cecil support</h2>
+        <div class="page-header">
+            <h1>
+                Mono Cecil support</h1>
+        </div>
         <p>
             FluentIL also supports Mono.Cecil emitting interfaces. So, you can easily change
             assemblies.</p>
