@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myHub", "FluentIL.Web\FluentIL.Web.csproj", "{58DB98F0-5208-4904-98B7-8C42DB31D81C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58DB98F0-5208-4904-98B7-8C42DB31D81C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58DB98F0-5208-4904-98B7-8C42DB31D81C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58DB98F0-5208-4904-98B7-8C42DB31D81C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58DB98F0-5208-4904-98B7-8C42DB31D81C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
