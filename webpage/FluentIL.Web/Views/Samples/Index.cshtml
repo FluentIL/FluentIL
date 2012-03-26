@@ -1,0 +1,359 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>FluentIL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Le styles -->
+    <link href="/Content/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body
+        {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <title>FluentIL.org</title>
+    <link href="/Content/bootstrap-responsive.css" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span
+                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </a><a class="brand" href="#">FluentIL</a>
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="/Samples/Index">Samples</a></li>
+                        <li><a href="/Downloads/Index">Downloads</a></li>
+                        <li><a href="/AboutUs/Index">About us</a></li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <p>
+            We <em>strongly</em> believe in TDD. So, we have a lot of samples from <a href="https://github.com/ElemarJR/FluentIL/tree/master/src/FluentIL.Tests">
+                FluentIL unit tests</a>.</p>
+        <p>
+            You could help us, providing more samples enhacing our tests</p>
+        <h2>
+            Basic emitting</h2>
+        <p>
+            FluentIL provides a rich and fluent support for IL instructions emitting.</p>
+        <p>
+            You can emit new methods in a easy and fast way.</p>
+        <pre>
+[Test]
+public void TwoPlusTwoWithNamedParameters()
+{
+    // arrange
+    var dm = IL.NewMethod()
+        .WithParameter(typeof(int), "a")
+        .WithParameter(typeof(int), "b")
+        .Returns(typeof(int))
+
+        .Ldarg("a", "b")
+        .Add()
+        .Ret();
+
+    // act
+    var result = dm.Invoke(2, 2);
+
+    // assert
+    result.Should().Be(4);
+}
+
+</pre>
+        <h2>
+            Conditionals and loops</h2>
+        <p>
+            We added a lot of helper functions to make conditional IL code emitting easier.</p>
+        <pre>
+[Test]
+public void MultipleConditions()
+{
+    var dm = IL.NewMethod(typeof(bool), typeof(int))
+        .Ldarg(0)
+        .Ifge(10).Andle(20)
+            .LdcI4(1)
+        .Else()
+            .LdcI4(0)
+        .EndIf()
+        .Ret();
+
+    dm.Invoke(10).Should().Be(true);
+    dm.Invoke(9).Should().Be(false);
+    dm.Invoke(21).Should().Be(false);
+}
+
+[Test]
+public void MultipleConditions_2()
+{
+    var dm = IL.NewMethod(typeof(bool), typeof(int))
+        .Ldarg(0)
+        .Ifge(10).AndNotgt(20)
+            .LdcI4(1)
+        .Else()
+            .LdcI4(0)
+        .EndIf()
+        .Ret();
+
+    dm.Invoke(10).Should().Be(true);
+    dm.Invoke(9).Should().Be(false);
+    dm.Invoke(21).Should().Be(false);
+}
+</pre>
+        <p>
+            We also added a simple expression parser.
+        </p>
+        <pre>
+[Test]
+public void MultipleConditions_3()
+{
+    var dm = IL.NewMethod()
+        .WithParameter(typeof(int), "a")
+        .Returns(typeof(bool))
+        .Parse("a&gt;=10&amp;&amp;a&LT;=20")
+        .Ret();
+
+    dm.Invoke(10).Should().Be(true);
+    dm.Invoke(9).Should().Be(false);
+    dm.Invoke(21).Should().Be(false);
+}
+
+[Test]
+public void MultipleConditions_4()
+{
+    var dm = IL.NewMethod()
+        .WithParameter(typeof(int), "a")
+        .Returns(typeof(int))
+        .If("a&gt;=10&amp;&amp;a&LT;=20")
+            .Ldc(2)
+        .Else()
+            .Ldc(4)
+        .EndIf()
+        .Ret();
+
+    dm.Invoke(10).Should().Be(2);
+    dm.Invoke(9).Should().Be(4);
+    dm.Invoke(21).Should().Be(4);
+}
+</pre>
+        <p>
+            You can also combine conditionals and loops. Writing IL code in a "high-level" way</p>
+        <pre>
+public IPrimeChecker CreatePrimeCheckerV4()
+{
+    var t = IL.NewType().Implements&lt;IPrimeChecker&gt;()
+        .WithMethod("IsPrime")
+        .WithVariable(typeof(int), "i")
+        .WithParameter(typeof(int), "number")
+        .Returns(typeof(bool))
+            .If("number&lt;=1")
+                .Ret(false)
+            .EndIf()
+            .For("i", 2, "number/2")
+                .If("(number%i)==0")
+                    .Ret(false)
+                .EndIf()
+            .Next()
+            .Ret(true)
+        .AsType;
+
+    return (IPrimeChecker)Activator.CreateInstance(t);
+}
+</pre>
+        <h2>
+            Exceptions</h2>
+        <p>
+            FluentIL offers an easy way to throw exceptions.</p>
+        <pre>
+private ISayHello2 CreateSayHelloV5()
+{
+    var t = IL.NewType().Implements&lt;ISayHello2&gt;()
+        .WithMethod("SayHello")
+            .WithParameter(typeof(string), "a")
+            .Returns(typeof(string))
+
+            .Ldarg("a")
+            .IfNull()
+                .Ldstr("a")
+                .Throw&lt;ArgumentNullException&gt;(typeof(string))
+            .EndIf()
+
+            .Ldarg("a")
+            .IfEmptyString()
+                .Ldstr("Argument 'a' cannot be empty")
+                .Throw&lt;ArgumentException&gt;(typeof(string))
+            .EndIf()
+
+            .Ldstr("Hello ")
+            .Ldarg("a")
+            .Call&lt;string&gt;("Concat", typeof(string), typeof(string))
+
+            .Ret()
+        .AsType;
+
+    return (ISayHello2)Activator.CreateInstance(t);
+}
+</pre>
+        <h2>
+            Properties</h2>
+        <p>
+            FluentIL offers a rich support to property emitting, including "AutoProperties".</p>
+        <pre>
+using System;
+
+namespace FluentIL.Tests
+{
+    using NUnit.Framework;
+    using SharpTestsEx;
+
+    [TestFixture]
+    public class PropertyStudies
+    {
+        [Test]
+        public void EmittingTypeThatSupportsAutomaticProperties()
+        {
+            var newType = IL.NewType()
+                .Implements&lt;iFoo&gt;()
+                .WithAutoProperty("SomeProperty", typeof(int)
+                ).AsType;
+
+            var f = (IFoo)Activator.CreateInstance(newType);
+            f.SomeProperty = 10;
+            f.SomeProperty.Should().Be(10);
+        }
+
+        [Test]
+        public void EmittingTypeThatSupportsAutomaticPropertiesWithoutInterface()
+        {
+            var newType = IL.NewType()
+                .WithAutoProperty("SomeProperty", typeof(int)
+                ).AsType;
+
+            var f = Activator.CreateInstance(newType);
+            var p = newType.GetProperty("SomeProperty");
+            p.SetValue(f, 10, null);
+            p.GetValue(f, null).Should().Be(10);
+        }
+
+        [Test]
+        public void EmitingTypeThatSupportsReadOnlyProperty()
+        {
+            var newType = IL.NewType()
+                .Implements&lt;IFoo2&gt;()
+                .WithProperty("ReadOnlyProperty", typeof(int), (m) =&gt; m
+                    .Ldc(10)
+                    .Ret()
+                    )
+                .AsType;
+
+            var f = (IFoo2)Activator.CreateInstance(newType);
+            f.ReadOnlyProperty.Should().Be(10);
+        }
+
+        [Test]
+        public void EmitingTypeThatSupportsReadOnlyPropertyWithoutInterface()
+        {
+            var newType = IL.NewType()
+                .WithProperty("ReadOnlyProperty", typeof(int), (m) =&gt; m
+                    .Ldc(10)
+                    .Ret()
+                    )
+                .AsType;
+
+            var f = Activator.CreateInstance(newType);
+            var p = newType.GetProperty("ReadOnlyProperty");
+            p.GetValue(f, null).Should().Be(10);
+        }
+
+
+
+        public interface IFoo2
+        {
+            int ReadOnlyProperty { get;  }
+        }
+
+        public interface IFoo
+        {
+            int SomeProperty { get; set; }
+        }
+    }
+}
+</pre>
+        <h2>
+            Mono Cecil support</h2>
+        <p>
+            FluentIL also supports Mono.Cecil emitting interfaces. So, you can easily change
+            assemblies.</p>
+        <pre>
+using System;
+using System.Linq;
+
+using Mono.Cecil;
+
+using FluentIL.Cecil;
+
+namespace FluentIL.Metaprogramming.CLU
+{
+    internal class Program
+    {
+        private static void Main(string[] args)
+        {
+            if (args.Length != 2)
+            {
+                Console.WriteLine("Usage: clu &lt;assembly-file&gt; &lt;dest-assembly-file&gt;");
+                return;
+            }
+
+            var assembly = AssemblyDefinition.ReadAssembly(args[0]);
+            var module = assembly.MainModule;
+
+            var q = from type in module.Types
+                    from method in type.Methods
+                    from parameter in method.Parameters
+                    where parameter.HasCustomAttributes
+                    from attribute in parameter.CustomAttributes
+                    where attribute.AttributeType.FullName ==
+                          "FluentIL.Metaprogramming.NotNullAttribute"
+                    select new {Method = method, Parameter = parameter};
+ 
+            foreach (var item in q)
+            {
+                item.Method.InsertBefore()
+                    .Ldarg(item.Parameter.Name)
+                    .IfNull()
+                        .Throw&lt;ArgumentNullException&gt;()
+                    .EndIf();
+            }
+
+            assembly.Write(args[1]);
+        }
+    }
+}
+</pre>
+        <hr>
+        <footer>
+            <p>FluentIL development team</p>
+        </footer>
+    </div>
+    <!-- /container -->
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../Scripts/jquery-1.7.1.js" type="text/javascript"></script>
+    <script src="../../Scripts/bootstrap.min.js" type="text/javascript"></script>
+</body>
+</html>
