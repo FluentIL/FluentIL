@@ -181,6 +181,18 @@ namespace FluentIL.Infos
             return this;
         }
 
+        public DynamicMethodInfo WithVariable<T>(string variableName = "")
+        {
+#if DEBUG
+             Debug.Print(".local ({0}) [{1}] {2}",
+                        Variables.Count(),
+                        typeof(T),
+                        String.IsNullOrEmpty(variableName) ? "no-name" : variableName);
+#endif
+            variablesField.Add(new DynamicVariableInfo(variableName, typeof(T)));
+            return this;
+        }
+
         public DynamicMethodBody Returns(Type type)
         {
             ReturnType = type;
