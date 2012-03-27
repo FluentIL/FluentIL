@@ -155,6 +155,26 @@ namespace FluentIL.Tests
         }
 
         [Test]
+        public void StLoc_SameInTwoVariables_ReferenceWithGenericVariable()
+        {
+            var result = IL.NewMethod()
+                .WithVariable<double>("a")
+                .WithVariable<double>("b")
+                .Returns<double>()
+
+                .Ldc(10.0)
+                .Dup()
+                .Stloc("a", "b")
+
+                .Ldloc("a", "b")
+                .Add()
+                .Ret()
+                .Invoke();
+
+            result.Should().Be(20.0);
+        }
+
+        [Test]
         public void StLoc_SameInTwoVariables()
         {
             var result = IL.NewMethod()
