@@ -30,7 +30,7 @@ namespace FluentIL.Emitters
             )
         {
             IfEmptyString(not);
-            @then(this);
+                @then(this);
             EndIf();
 
             return this;
@@ -43,9 +43,9 @@ namespace FluentIL.Emitters
             )
         {
             IfEmptyString(not);
-            @then(this);
+                @then(this);
             Else();
-            @else(this);
+                @else(this);
             EndIf();
 
             return this;
@@ -106,7 +106,7 @@ namespace FluentIL.Emitters
             )
         {
             IfNull(not);
-            @then(this);
+                @then(this);
             EndIf();
 
             return this;
@@ -120,9 +120,9 @@ namespace FluentIL.Emitters
             )
         {
             IfNull(not);
-            @then(this);
+                @then(this);
             Else();
-            @else(this);
+                @else(this);
             EndIf();
 
             return this;
@@ -183,7 +183,7 @@ namespace FluentIL.Emitters
             )
         {
             If(expression);
-            @then(this);
+                @then(this);
             EndIf();
 
             return this;
@@ -196,9 +196,9 @@ namespace FluentIL.Emitters
             )
         {
             If(expression);
-            @then(this);
+                @then(this);
             Else();
-            @else(this);
+                @else(this);
             EndIf();
 
             return this;
