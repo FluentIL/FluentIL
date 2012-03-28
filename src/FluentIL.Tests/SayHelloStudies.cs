@@ -208,7 +208,42 @@ public string SayHello(string a)
             CheckingEmptyParameterV2().SayHello("Elemar");
         }
 
+        public ISayHello CheckingEmptyParameterV3()
+        {
+            var argumentExceptionConstructor = typeof(ArgumentException)
+                .GetConstructor(new[] { typeof(string) });
 
+            var t = IL.NewType()
+                .Implements<ISayHello>()
+                .WithMethod("SayHello")
+                    .WithParameter(typeof(string), "a")
+                    .Returns(typeof(void))
+                    .Ldarg("a")
+                    .IfEmptyString(@then: m=>m
+                        .Ldstr("Argument 'a' cannot be empty")
+                        .Newobj(argumentExceptionConstructor)
+                        .Throw()
+                    )
+                    .Ret()
+                .AsType;
+
+            return (ISayHello)Activator.CreateInstance(t);
+
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CheckingEmptyParameterV3_PassingEmpty_ThrowsArgumentException()
+        {
+
+            CheckingEmptyParameterV2().SayHello(String.Empty);
+        }
+
+        [Test]
+        public void CheckingEmptyParameterV3_PassingNotEmpty_ThrowsNothing()
+        {
+            CheckingEmptyParameterV2().SayHello("Elemar");
+        }
 
         public ISayHello CheckingNullParameterV1()
         {

@@ -24,14 +24,72 @@ namespace FluentIL.Emitters
             return this;
         }
 
+        public DynamicMethodBody IfEmptyString(
+            bool not,
+            Action<DynamicMethodBody> @then
+            )
+        {
+            IfEmptyString(not);
+            @then(this);
+            EndIf();
+
+            return this;
+        }
+
+        public DynamicMethodBody IfEmptyString(
+            bool not,
+            Action<DynamicMethodBody> @then,
+            Action<DynamicMethodBody> @else
+            )
+        {
+            IfEmptyString(not);
+            @then(this);
+            Else();
+            @else(this);
+            EndIf();
+
+            return this;
+        }
+
         public DynamicMethodBody IfEmptyString()
         {
             return IfEmptyString(false);
         }
 
+        public DynamicMethodBody IfEmptyString(
+            Action<DynamicMethodBody> @then,
+            Action<DynamicMethodBody> @else
+            )
+        {
+            return IfEmptyString(false, @then, @else);
+        }
+
+        public DynamicMethodBody IfEmptyString(
+            Action<DynamicMethodBody> @then
+            )
+        {
+            return IfEmptyString(false, @then);
+        }
+
         public DynamicMethodBody IfNotEmptyString()
         {
             return IfEmptyString(true);
+        }
+
+
+        public DynamicMethodBody IfNotEmptyString(
+            Action<DynamicMethodBody> @then,
+            Action<DynamicMethodBody> @else
+            )
+        {
+            return IfEmptyString(true, @then, @else);
+        }
+
+        public DynamicMethodBody IfNotEmptyString(
+            Action<DynamicMethodBody> @then
+            )
+        {
+            return IfEmptyString(true, @then);
         }
 
         public DynamicMethodBody IfNull(bool not)
