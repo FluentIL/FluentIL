@@ -39,5 +39,11 @@ namespace FluentIL
         {
             return new DynamicTypeInfo(typeName);
         }
+
+        public static CatchBody<T> Catch<T>(Action<DynamicMethodBody> @body)
+            where T : Exception
+        {
+            return new CatchBody<T>(@body);
+        }
     }
 }
