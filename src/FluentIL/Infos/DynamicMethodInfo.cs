@@ -143,6 +143,11 @@ namespace FluentIL.Infos
             return this;
         }
 
+        public DynamicMethodInfo WithOwner<T>()
+        {
+            return WithOwner(typeof (T));
+        }
+
         public DynamicMethodInfo WithParameter(Type parameterType, string parameterName = "")
         {
 #if DEBUG
@@ -157,14 +162,7 @@ namespace FluentIL.Infos
 
         public DynamicMethodInfo WithParameter<T>(string parameterName = "")
         {
-#if DEBUG
-            Debug.Print(".param ({0}) [{1}] {2}",
-                        Parameters.Count() + (DynamicTypeInfo == null ? 0 : 1),
-                        typeof(T),
-                        String.IsNullOrEmpty(parameterName) ? "no-name" : parameterName);
-#endif
-            parametersField.Add(new DynamicVariableInfo(parameterName, typeof(T)));
-            return this;            
+            return WithParameter(typeof (T), parameterName);
         }
 
 
@@ -183,14 +181,7 @@ namespace FluentIL.Infos
 
         public DynamicMethodInfo WithVariable<T>(string variableName = "")
         {
-#if DEBUG
-             Debug.Print(".local ({0}) [{1}] {2}",
-                        Variables.Count(),
-                        typeof(T),
-                        String.IsNullOrEmpty(variableName) ? "no-name" : variableName);
-#endif
-            variablesField.Add(new DynamicVariableInfo(variableName, typeof(T)));
-            return this;
+            return WithVariable(typeof (T), variableName);
         }
 
         public DynamicMethodBody Returns(Type type)
@@ -205,13 +196,7 @@ namespace FluentIL.Infos
 
         public DynamicMethodBody Returns<T>()
         {
-            ReturnType = typeof (T);
-
-#if DEBUG
-            Debug.Print("returns {0}", ReturnType);
-#endif
-
-            return Body;
+            return Returns(typeof (T));
         }
 
         public DynamicMethodBody ReturnsInteger()
