@@ -20,5 +20,10 @@ namespace FluentIL.Emitters
                 .Add()
                 .Stloc(varname);
         }
+
+        public DynamicMethodBody Inc(string varname)
+        {
+            return AddToVar(varname, 1);
+        }
     }
 }

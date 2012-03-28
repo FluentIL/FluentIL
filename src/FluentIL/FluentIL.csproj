@@ -66,6 +66,7 @@
     <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.EmitIf.cs" />
     <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.Expression.cs" />
     <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.Repeater.cs" />
+    <Compile Include="Infos\WhileInfo.cs" />
     <Compile Include="Numbers\ConstantDoubleNumber.cs" />
     <Compile Include="Numbers\ConstantInt32Number.cs" />
     <Compile Include="Numbers\ExpressionNumber.cs" />

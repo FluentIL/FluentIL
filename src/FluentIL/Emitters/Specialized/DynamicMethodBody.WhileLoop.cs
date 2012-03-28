@@ -1,20 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
+using FluentIL.Infos;
 
 // ReSharper disable CheckNamespace
-
 namespace FluentIL.Emitters
 // ReSharper restore CheckNamespace
 {
     partial class DynamicMethodBody
     {
+        private readonly Stack<WhileInfo> whilesField = new Stack<WhileInfo>();
+        
+        private DynamicMethodBody WhileOrUntil(string condition, bool isWhile)
+        {
+            var ilgen = methodInfoField.GetILEmitter();
+            var beginLabel = ilgen.DefineLabel();
+            var comparasionLabel = ilgen.DefineLabel();
+
+            whilesField.Push(new WhileInfo(
+                isWhile ? condition : "!(" + condition + ")",
+                beginLabel,
+                comparasionLabel));
+
+            return Br(comparasionLabel)
+                .MarkLabel(beginLabel);
+        }
+        
         public DynamicMethodBody While(string condition)
         {
-            throw new NotImplementedException();
+            return WhileOrUntil(condition, true);
         }
 
         public DynamicMethodBody Until(string condition)
         {
-            throw new NotImplementedException();
+            return WhileOrUntil(condition, false);
         }
 
         public DynamicMethodBody While(
@@ -41,7 +59,11 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Loop()
         {
-            throw new NotImplementedException();
+            var w = whilesField.Pop();
+            return MarkLabel(w.ComparasionLabel)
+                .If(w.Condition, m => m
+                    .Br(w.BeginLabel)
+                );
         }
     }
 }

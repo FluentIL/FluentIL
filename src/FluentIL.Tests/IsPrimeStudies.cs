@@ -290,6 +290,74 @@ public bool IsPrime(int number)
             checker.IsPrime(3).Should().Be(true);
             checker.IsPrime(4).Should().Be(false);
         }
+
+        public IPrimeChecker CreatePrimeCheckerV6()
+        {
+            var t = IL.NewType().Implements<IPrimeChecker>()
+                .WithMethod("IsPrime")
+                .WithVariable<int>("i")
+                .WithParameter<int>("number")
+                .Returns<bool>()
+                    .If("number<=1", @then: m => m
+                        .Ret(false)
+                    )
+                    .Stloc(2, "i")
+                    .While("i <= number/2", @do: m => m
+                        .If("(number%i)==0", @then: b => b
+                            .Ret(false)
+                        )
+                        .Inc("i")
+                    )
+                    .Ret(true)
+                .AsType;
+
+            return (IPrimeChecker)Activator.CreateInstance(t);
+        }
+
+        [Test]
+        public void IsPrimeV6_PassingOk()
+        {
+            var checker = CreatePrimeCheckerV6();
+            checker.IsPrime(0).Should().Be(false);
+            checker.IsPrime(1).Should().Be(false);
+            checker.IsPrime(2).Should().Be(true);
+            checker.IsPrime(3).Should().Be(true);
+            checker.IsPrime(4).Should().Be(false);
+        }
+
+        public IPrimeChecker CreatePrimeCheckerV7()
+        {
+            var t = IL.NewType().Implements<IPrimeChecker>()
+                .WithMethod("IsPrime")
+                .WithVariable<int>("i")
+                .WithParameter<int>("number")
+                .Returns<bool>()
+                    .If("number<=1", @then: m => m
+                        .Ret(false)
+                    )
+                    .Stloc(2, "i")
+                    .Until("i > number/2", @do: m => m
+                        .If("(number%i)==0", @then: b => b
+                            .Ret(false)
+                        )
+                        .Inc("i")
+                    )
+                    .Ret(true)
+                .AsType;
+
+            return (IPrimeChecker)Activator.CreateInstance(t);
+        }
+
+        [Test]
+        public void IsPrimeV7_PassingOk()
+        {
+            var checker = CreatePrimeCheckerV7();
+            checker.IsPrime(0).Should().Be(false);
+            checker.IsPrime(1).Should().Be(false);
+            checker.IsPrime(2).Should().Be(true);
+            checker.IsPrime(3).Should().Be(true);
+            checker.IsPrime(4).Should().Be(false);
+        }
     }
 
     public interface IPrimeChecker
