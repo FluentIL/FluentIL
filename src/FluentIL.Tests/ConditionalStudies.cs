@@ -211,6 +211,37 @@ namespace FluentIL.Tests
         }
 
         [Test]
+        public void EnsureLimits_Min10Max20_ExpressionAndLambda()
+        {
+
+            var dm = IL.NewMethod()
+                .WithParameter(typeof(int), "value")
+                .Returns(typeof(int))
+                .If(
+                    Expression.LessThan(
+                        Expression.Parameter(typeof(int), "value"),
+                        Expression.Constant(10)
+                    ), 
+                    m=> m.Ldc(10).Ret()
+                )
+
+                .If(
+                    Expression.GreaterThan(
+                        Expression.Parameter(typeof(int), "value"),
+                        Expression.Constant(20)
+                    ),
+                    m=> m.Ldc(20).Ret()
+                )
+
+                .LdLocOrArg("value")
+                .Ret();
+
+            dm.Invoke(5).Should().Be(10);
+            dm.Invoke(21).Should().Be(20);
+            dm.Invoke(13).Should().Be(13);
+        }
+
+        [Test]
         public void EnsureLimits_Min10Max20_Reference5()
         {
 
@@ -220,6 +251,29 @@ namespace FluentIL.Tests
                 .Ldarg("value")
                 .EnsureLimits(10, 20)
                 .Ret();
+            dm.Invoke(5).Should().Be(10);
+            dm.Invoke(21).Should().Be(20);
+            dm.Invoke(13).Should().Be(13);
+        }
+
+        [Test]
+        public void EnsureLimits_Min10Max20_StringExpressionAndLambda()
+        {
+
+            var dm = IL.NewMethod()
+                .WithParameter(typeof(int), "value")
+                .Returns(typeof(int))
+                .If("value<10", 
+                    m=>m.Ldc(10).Ret()
+                )
+                
+                .If("value>20",
+                    m => m.Ldc(20).Ret()
+                )
+
+                .LdLocOrArg("value")
+                .Ret();
+
             dm.Invoke(5).Should().Be(10);
             dm.Invoke(21).Should().Be(20);
             dm.Invoke(13).Should().Be(13);
@@ -308,6 +362,23 @@ namespace FluentIL.Tests
                 .Else()
                     .Ldc(4)
                 .EndIf()
+                .Ret();
+
+            dm.Invoke(10).Should().Be(2);
+            dm.Invoke(9).Should().Be(4);
+            dm.Invoke(21).Should().Be(4);
+        }
+
+        [Test]
+        public void MultipleConditions_5()
+        {
+            var dm = IL.NewMethod()
+                .WithParameter(typeof(int), "a")
+                .Returns(typeof(int))
+                .If("a>=10&&a<=20", 
+                    @then: m => m.Ldc(2),
+                    @else: m => m.Ldc(4)
+                )
                 .Ret();
 
             dm.Invoke(10).Should().Be(2);

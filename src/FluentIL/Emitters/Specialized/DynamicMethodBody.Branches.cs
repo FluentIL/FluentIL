@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using FluentIL.ExpressionParser;
 
@@ -60,12 +61,66 @@ namespace FluentIL.Emitters
             return this;
         }
 
+        public DynamicMethodBody If(
+            Expression expression,
+            Action<DynamicMethodBody> @then
+            )
+        {
+            If(expression);
+            @then(this);
+            EndIf();
+
+            return this;
+        }
+
+        public DynamicMethodBody If(
+            Expression expression,
+            Action<DynamicMethodBody> @then,
+            Action<DynamicMethodBody> @else
+            )
+        {
+            If(expression);
+            @then(this);
+            Else();
+            @else(this);
+            EndIf();
+
+            return this;
+        }
+
         public DynamicMethodBody If(string expression)
         {
             var emitter = new IfEmitter(this);
             ifEmittersField.Push(emitter);
             Parser.Parse(expression, this);
             emitter.EmitBranch();
+            return this;
+        }
+
+        public DynamicMethodBody If(
+            string expression, 
+            Action<DynamicMethodBody> @then
+            )
+        {
+            If(expression);
+                @then(this);
+            EndIf();
+
+            return this;
+        }
+
+        public DynamicMethodBody If(
+            string expression, 
+            Action<DynamicMethodBody> @then,
+            Action<DynamicMethodBody> @else
+            )
+        {
+            If(expression);
+                @then(this);
+            Else();
+                @else(this);
+            EndIf();
+
             return this;
         }
     }
