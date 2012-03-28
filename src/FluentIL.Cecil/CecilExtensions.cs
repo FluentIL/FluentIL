@@ -6,6 +6,7 @@ using Mono.Cecil;
 using FluentIL.Cecil.Emitters;
 using FluentIL.Infos;
 using System;
+using MethodAttributes = Mono.Cecil.MethodAttributes;
 
 namespace FluentIL.Cecil
 {
@@ -86,6 +87,28 @@ namespace FluentIL.Cecil
 
             var dinfo = new DynamicMethodInfo(emitter);
             that.LoadArgsTo(dinfo);
+
+            return dinfo.Body;
+        }
+
+        public static DynamicMethodBody NewMethod
+            (this TypeDefinition that, string methodName, MethodAttributes methodAttributes, Type returnType, AssemblyDefinition assembly)
+        {
+            var typeReference = assembly.MainModule.Import(returnType);
+            
+            var method = new MethodDefinition(methodName, methodAttributes, typeReference);
+            
+            ILProcessor worker = method.Body.GetILProcessor();
+
+            var emitter = new CecilILEmitter(
+                assembly,
+                worker,
+                method.Body.Instructions.Add);
+
+            var dinfo = new DynamicMethodInfo(emitter);
+            method.LoadArgsTo(dinfo);
+
+            that.Methods.Add(method);
 
             return dinfo.Body;
         }
