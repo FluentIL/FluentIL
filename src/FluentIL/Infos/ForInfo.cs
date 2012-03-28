@@ -1,7 +1,7 @@
 ﻿using System.Reflection.Emit;
 using FluentIL.Numbers;
 
-namespace FluentIL
+namespace FluentIL.Infos
 {
     internal struct ForInfo
     {
