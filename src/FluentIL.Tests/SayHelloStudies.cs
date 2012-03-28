@@ -281,6 +281,41 @@ public string SayHello(string a)
             CheckingNullParameterV2().SayHello("Elemar");
         }
 
+        public ISayHello CheckingNullParameterV3()
+        {
+            var argumentNullExceptionConstructor = typeof(ArgumentNullException)
+                .GetConstructor(new[] { typeof(string) });
+
+            var t = IL.NewType()
+                .Implements<ISayHello>()
+                .WithMethod("SayHello")
+                    .WithParameter<string>("a")
+                    .Returns(typeof(void))
+                    .Ldarg("a")
+                    .IfNull( @then: m => m
+                        .Ldstr("a")
+                        .Newobj(argumentNullExceptionConstructor)
+                        .Throw()
+                    )
+                    .Ret()
+                .AsType;
+
+            return (ISayHello)Activator.CreateInstance(t);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CheckingNullParameterV3_PassingNull_ThrowsArgumentNullException()
+        {
+            CheckingNullParameterV3().SayHello(null);
+        }
+
+        [Test]
+        public void CheckingNullParameterV3_PassingNotNull_ThrowsNothing()
+        {
+            CheckingNullParameterV3().SayHello("Elemar");
+        }
+
 
         private ISayHello2 CreateSayHelloV2()
         {
