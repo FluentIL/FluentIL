@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection.Emit;
 using FluentIL.Numbers;
 
@@ -55,6 +56,35 @@ namespace FluentIL.Emitters
                 Ble(f.BeginLabel);
             else
                 Bge(f.BeginLabel);
+
+            return this;
+        }
+
+        public DynamicMethodBody For(
+            string variable, 
+            Number from, 
+            Number to,
+            Action<DynamicMethodBody> @do
+            )
+        {
+            For(variable, from, to);
+                @do(this);
+            Next();
+
+            return this;
+        }
+
+        public DynamicMethodBody For(
+            string variable,
+            Number from,
+            Number to,
+            int step,
+            Action<DynamicMethodBody> @do
+            )
+        {
+            For(variable, from, to, step);
+                @do(this);
+            Next();
 
             return this;
         }
