@@ -71,5 +71,20 @@ namespace FluentIL.Emitters
         {
             ilGeneratorField.DeclareLocal(type);
         }
+
+        public Label BeginExceptionBlock()
+        {
+            return ilGeneratorField.BeginExceptionBlock();
+        }
+
+        public void BeginCatchBlock(Type exceptionType)
+        {
+            ilGeneratorField.BeginCatchBlock(exceptionType);
+        }
+
+        public void EndExceptionBlock()
+        {
+            ilGeneratorField.EndExceptionBlock();
+        }
     }
 }

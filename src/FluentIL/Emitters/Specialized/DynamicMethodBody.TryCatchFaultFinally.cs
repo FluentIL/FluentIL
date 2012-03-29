@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection.Emit;
 
 // ReSharper disable CheckNamespace
 namespace FluentIL.Emitters
@@ -14,7 +15,22 @@ namespace FluentIL.Emitters
             params CatchBody[] catches
             )
         {
-            throw new NotImplementedException();
+            var il = (ReflectionILEmitter) methodInfoField.GetILEmitter();
+
+            var @try = il.BeginExceptionBlock();
+            @body(this);
+            il.Emit(OpCodes.Leave, @try);
+
+            foreach (var catchBody in catches)
+            {
+                il.BeginCatchBlock(catchBody.ExceptionType);
+                catchBody.Body(this);
+                il.Emit(OpCodes.Leave, @try);
+            }
+
+            il.EndExceptionBlock();
+ 
+            return this;
         }
 
         public DynamicMethodBody Try(
