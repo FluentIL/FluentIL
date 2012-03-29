@@ -27,7 +27,7 @@ namespace FluentIL.Tests
                     ,
                     IL.Catch<ArgumentException>(mex => mex
                         .Pop()
-                        .Stloc(-1, "result")
+                        .Stloc(-2, "result")
                     )
                     ,
                     IL.Catch<Exception>(mex => mex
@@ -39,6 +39,7 @@ namespace FluentIL.Tests
                 .Ret();
 
             method.Invoke(11).Should().Be(-1);
+            method.Invoke(21).Should().Be(-2);
             method.Invoke(5).Should().Be(5);
         }
     }
