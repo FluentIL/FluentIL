@@ -43,9 +43,9 @@ namespace FluentIL.Emitters
 				if (GetVariableIndex(variable) == -1)
 				{
 					methodInfoField.WithVariable(typeof(int), variable);
-					methodInfoField.GetILGenerator().DeclareLocal(t);
+					methodInfoField.GetILEmitter().DeclareLocal(t);
 				}
-				PreEmitActions.Push( () =>
+				preEmitActionsField.Push( () =>
 				{
 					Stloc(variable);
 					Ldloc(variable);
@@ -59,11 +59,11 @@ namespace FluentIL.Emitters
 		{
 			var emitter = ifEmittersField.Peek();
 			var variable = emitter.LeftSideVarName;
-			var a = PreEmitActions.Pop();
+			var a = preEmitActionsField.Pop();
 
 			SaveLeftSideToVariable(typeof(int));
 
-			PreEmitActions.Push( () =>
+			preEmitActionsField.Push( () =>
 				{
 					a();
 					Ldloc(variable);
@@ -129,7 +129,7 @@ namespace FluentIL.Emitters
 		{
 			var emitter = new IfEmitter(this);
 			ifEmittersField.Push(emitter);
-			PreEmitActions.Push( () => 
+			preEmitActionsField.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.C<#= opcode.Substring(1) #>);

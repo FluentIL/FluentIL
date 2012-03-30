@@ -19,7 +19,7 @@ namespace FluentIL.Infos
         {
             TypeName = typeName;
 #if DEBUG
-            Debug.Print(".class {0}", TypeName);
+            Console.WriteLine(".class {0}", TypeName);
 #endif
         }
 
@@ -83,7 +83,7 @@ namespace FluentIL.Infos
         {
             interfacesField.Add(typeof (TInterface));
 #if DEBUG
-            Debug.Print("implements {0}", typeof (TInterface));
+            Console.WriteLine("implements {0}", typeof (TInterface));
 #endif
             return this;
         }
@@ -98,7 +98,7 @@ namespace FluentIL.Infos
                 fieldType);
 
 #if DEBUG
-            Debug.Print(".field ({0}) {1}", fieldType, fieldName);
+            Console.WriteLine(".field ({0}) {1}", fieldType, fieldName);
 #endif
 
             fieldsField.Add(

@@ -22,7 +22,7 @@ namespace FluentIL.Emitters
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			Debug.WriteLine(string.Format("\t{0}", opcode));
+			Console.WriteLine(string.Format("\t{0}", opcode));
 			#endif
             methodInfoField.GetILEmitter()
                 .Emit(opcode);
@@ -32,134 +32,109 @@ namespace FluentIL.Emitters
         #endregion
 
 
-
 		public DynamicMethodBody Emit(OpCode opcode, string arg)
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			
-			Debug.WriteLine("\t{0} \"{1}\"", opcode, arg);
-			
-			#endif
+						Console.WriteLine("\t{0} \"{1}\"", opcode, arg);
+						#endif
 			
 			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
         }
-
 
 		public DynamicMethodBody Emit(OpCode opcode, int arg)
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			
-			Debug.WriteLine("\t{0} {1}", opcode, arg);
-			
-			#endif
+						Console.WriteLine("\t{0} {1}", opcode, arg);
+						#endif
 			
 			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
         }
-
 
 		public DynamicMethodBody Emit(OpCode opcode, double arg)
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			
-			Debug.WriteLine("\t{0} {1}", opcode, arg);
-			
-			#endif
+						Console.WriteLine("\t{0} {1}", opcode, arg);
+						#endif
 			
 			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
         }
-
 
 		public DynamicMethodBody Emit(OpCode opcode, Label arg)
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			
-			Debug.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
-			
-			#endif
+						Console.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
+						#endif
 			
 			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
         }
-
 
 		public DynamicMethodBody Emit(OpCode opcode, MethodInfo arg)
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			
-			Debug.WriteLine("\t{0} {1}", opcode, arg);
-			
-			#endif
+						Console.WriteLine("\t{0} {1}", opcode, arg);
+						#endif
 			
 			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
         }
-
 
 		public DynamicMethodBody Emit(OpCode opcode, ConstructorInfo arg)
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			
-			Debug.WriteLine("\t{0} [{1}] {2}", opcode, arg.DeclaringType, arg);
-			
-			#endif
+						Console.WriteLine("\t{0} [{1}] {2}", opcode, arg.DeclaringType, arg);
+						#endif
 			
 			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
         }
-
 
 		public DynamicMethodBody Emit(OpCode opcode, FieldInfo arg)
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			
-			Debug.WriteLine("\t{0} {1}", opcode, arg.Name);
-			
-			#endif
+						Console.WriteLine("\t{0} {1}", opcode, arg.Name);
+						#endif
 			
 			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
         }
-
 
 		public DynamicMethodBody Emit(OpCode opcode, Type arg)
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			
-			Debug.WriteLine("\t{0} {1}", opcode, arg);
-			
-			#endif
+						Console.WriteLine("\t{0} {1}", opcode, arg);
+						#endif
 			
 			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
         }
-
 
 	}
 }

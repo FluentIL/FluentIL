@@ -101,5 +101,6 @@ namespace FluentIL.Tests
     public class ExceptionLog
     {
         public bool FinallyWasExecuted { get; set; }
+        public bool FaultWasExecuted { get; set; }
     }
 }

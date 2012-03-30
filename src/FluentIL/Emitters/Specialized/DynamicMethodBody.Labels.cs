@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection.Emit;
 
+// ReSharper disable CheckNamespace
 namespace FluentIL.Emitters
+// ReSharper restore CheckNamespace
 {
     partial class DynamicMethodBody
     {
@@ -11,7 +13,7 @@ namespace FluentIL.Emitters
         public DynamicMethodBody MarkLabel(Label label)
         {
 #if DEBUG
-            Debug.Print("IL_{0}:", label.GetHashCode());
+            Console.WriteLine("IL_{0}:", label.GetHashCode());
 #endif
 
             methodInfoField.GetILEmitter()
@@ -24,7 +26,7 @@ namespace FluentIL.Emitters
         {
             Label lbl = GetLabel(label);
 #if DEBUG
-            Debug.Print("IL_{0}:", lbl.GetHashCode());
+            Console.WriteLine("IL_{0}:", lbl.GetHashCode());
 #endif
 
             methodInfoField.GetILEmitter()

@@ -22,9 +22,9 @@ namespace FluentIL.Emitters
         {
 			ExecutePreEmitActions();
 			#if DEBUG
-			Debug.WriteLine(string.Format("\t{0}", opcode));
+			Console.WriteLine(string.Format("\t{0}", opcode));
 			#endif
-            methodInfoField.GetILGenerator()
+            methodInfoField.GetILEmitter()
                 .Emit(opcode);
 
             return this;
@@ -42,19 +42,19 @@ namespace FluentIL.Emitters
 			ExecutePreEmitActions();
 			#if DEBUG
 			<#if (t=="Label") {#>
-			Debug.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
+			Console.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
 			<#} else if (t=="FieldInfo") {#>
-			Debug.WriteLine("\t{0} {1}", opcode, arg.Name);
+			Console.WriteLine("\t{0} {1}", opcode, arg.Name);
 			<#} else if (t=="ConstructorInfo") {#>
-			Debug.WriteLine("\t{0} [{1}] {2}", opcode, arg.DeclaringType, arg);
+			Console.WriteLine("\t{0} [{1}] {2}", opcode, arg.DeclaringType, arg);
 			<#} else if (t=="string") {#>
-			Debug.WriteLine("\t{0} \"{1}\"", opcode, arg);
+			Console.WriteLine("\t{0} \"{1}\"", opcode, arg);
 			<#} else {#>
-			Debug.WriteLine("\t{0} {1}", opcode, arg);
+			Console.WriteLine("\t{0} {1}", opcode, arg);
 			<#}#>
 			#endif
 			
-			methodInfoField.GetILGenerator()
+			methodInfoField.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;

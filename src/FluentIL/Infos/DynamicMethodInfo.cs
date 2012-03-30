@@ -17,7 +17,7 @@ namespace FluentIL.Infos
             : this()
         {
 #if DEBUG
-            Debug.Print(".method {0}", methodName);
+            Console.WriteLine(".method {0}", methodName);
 #endif
 
             DynamicTypeInfo = dynamicTypeInfo;
@@ -151,7 +151,7 @@ namespace FluentIL.Infos
         public DynamicMethodInfo WithParameter(Type parameterType, string parameterName = "")
         {
 #if DEBUG
-            Debug.Print(".param ({0}) [{1}] {2}",
+            Console.WriteLine(".param ({0}) [{1}] {2}",
                         Parameters.Count() + (DynamicTypeInfo == null ? 0 : 1),
                         parameterType,
                         String.IsNullOrEmpty(parameterName) ? "no-name" : parameterName);
@@ -170,7 +170,7 @@ namespace FluentIL.Infos
         public DynamicMethodInfo WithVariable(Type variableType, string variableName = "")
         {
 #if DEBUG
-            Debug.Print(".local ({0}) [{1}] {2}",
+            Console.WriteLine(".local ({0}) [{1}] {2}",
                         Variables.Count(),
                         variableType,
                         String.IsNullOrEmpty(variableName) ? "no-name" : variableName);
@@ -188,7 +188,7 @@ namespace FluentIL.Infos
         {
             ReturnType = type;
 #if DEBUG
-            Debug.Print("returns {0}", type);
+            Console.WriteLine("returns {0}", type);
 #endif
 
             return Body;
@@ -204,7 +204,7 @@ namespace FluentIL.Infos
             ReturnType = typeof (int);
 
 #if DEBUG
-            Debug.Print("returns {0}", ReturnType);
+            Console.WriteLine("returns {0}", ReturnType);
 #endif
 
             return Body;

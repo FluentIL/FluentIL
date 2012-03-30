@@ -15,52 +15,64 @@ namespace FluentIL.Emitters
             params CatchBody[] catches
             )
         {
-            return Try(@body, null, catches);
-        }
-
-        public DynamicMethodBody Try(
-            Action<DynamicMethodBody> @body,
-            Action<DynamicMethodBody> @finally,
-            params CatchBody[] catches
-            )
-        {
-            return Try(@body, @finally, null, catches);
-        }
-
-        public DynamicMethodBody Try(
-            Action<DynamicMethodBody> @body,
-            Action<DynamicMethodBody> @finally,
-            Action<DynamicMethodBody> @fault,
-            params CatchBody[] catches
-            )
-        {
-            
             var il = (ReflectionILEmitter)methodInfoField.GetILEmitter();
-
             var @tryLabel = il.BeginExceptionBlock();
 
+#if DEBUG
+            Console.WriteLine("try {");
+            Console.WriteLine("IL_{0}:", @tryLabel.GetHashCode());
+#endif
+
             @body(this);
-            il.Emit(OpCodes.Leave, @tryLabel);
+            Emit(OpCodes.Leave, @tryLabel);
 
             foreach (var catchBody in catches)
             {
                 il.BeginCatchBlock(catchBody.ExceptionType);
                 catchBody.Body(this);
-                il.Emit(OpCodes.Leave, @tryLabel);
+                Emit(OpCodes.Leave, @tryLabel);
             }
 
+            il.EndExceptionBlock();
+#if DEBUG
+            Console.WriteLine("} // end of try block");
+#endif
+
+
+            return this;
+        }
+
+        public DynamicMethodBody Try(
+            Action<DynamicMethodBody> @body,
+            Action<DynamicMethodBody> @finally,
+            params CatchBody[] catches
+            )
+        {
+            var il = (ReflectionILEmitter)methodInfoField.GetILEmitter();
+
+            var tryFinally = il.BeginExceptionBlock();
+#if DEBUG
+            Console.WriteLine("{");
+            Console.WriteLine("IL_{0}:", @tryFinally.GetHashCode());
+#endif
+
+            Try(@body, catches);
+            Emit(OpCodes.Leave, tryFinally);
 
             if (@finally != null)
             {
                 il.BeginFinallyBlock();
                 @finally(this);
             }
+
             il.EndExceptionBlock();
 
-
-
+#if DEBUG
+            Console.WriteLine("} // end of finally block");
+#endif
             return this;
         }
+
     }
 
     public abstract class CatchBody
