@@ -86,5 +86,10 @@ namespace FluentIL.Emitters
         {
             ilGeneratorField.EndExceptionBlock();
         }
+
+        internal void BeginFinallyBlock()
+        {
+           ilGeneratorField.BeginFinallyBlock();
+        }
     }
 }

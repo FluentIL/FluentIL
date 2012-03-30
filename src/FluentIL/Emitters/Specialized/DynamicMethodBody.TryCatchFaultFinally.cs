@@ -15,22 +15,7 @@ namespace FluentIL.Emitters
             params CatchBody[] catches
             )
         {
-            var il = (ReflectionILEmitter) methodInfoField.GetILEmitter();
-
-            var @try = il.BeginExceptionBlock();
-            @body(this);
-            il.Emit(OpCodes.Leave, @try);
-
-            foreach (var catchBody in catches)
-            {
-                il.BeginCatchBlock(catchBody.ExceptionType);
-                catchBody.Body(this);
-                il.Emit(OpCodes.Leave, @try);
-            }
-
-            il.EndExceptionBlock();
- 
-            return this;
+            return Try(@body, null, catches);
         }
 
         public DynamicMethodBody Try(
@@ -39,7 +24,7 @@ namespace FluentIL.Emitters
             params CatchBody[] catches
             )
         {
-            throw new NotImplementedException();
+            return Try(@body, @finally, null, catches);
         }
 
         public DynamicMethodBody Try(
@@ -49,7 +34,32 @@ namespace FluentIL.Emitters
             params CatchBody[] catches
             )
         {
-            throw new NotImplementedException();
+            
+            var il = (ReflectionILEmitter)methodInfoField.GetILEmitter();
+
+            var @tryLabel = il.BeginExceptionBlock();
+
+            @body(this);
+            il.Emit(OpCodes.Leave, @tryLabel);
+
+            foreach (var catchBody in catches)
+            {
+                il.BeginCatchBlock(catchBody.ExceptionType);
+                catchBody.Body(this);
+                il.Emit(OpCodes.Leave, @tryLabel);
+            }
+
+
+            if (@finally != null)
+            {
+                il.BeginFinallyBlock();
+                @finally(this);
+            }
+            il.EndExceptionBlock();
+
+
+
+            return this;
         }
     }
 
