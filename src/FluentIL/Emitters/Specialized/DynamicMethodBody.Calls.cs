@@ -13,6 +13,11 @@ namespace FluentIL.Emitters
             return Emit(OpCodes.Call, methodInfo);
         }
 
+        public DynamicMethodBody Callvirt(MethodInfo methodInfo)
+        {
+            return Emit(OpCodes.Callvirt, methodInfo);
+        }
+
         public DynamicMethodBody Call<T>(string methodName, params Type[] types)
         {
             MethodInfo mi;
@@ -24,6 +29,18 @@ namespace FluentIL.Emitters
             return Call(mi);
         }
 
+        public DynamicMethodBody Callvirt<T>(string methodName, params Type[] types)
+        {
+            MethodInfo mi;
+            if (types.Length > 0)
+                mi = typeof(T).GetMethod(methodName, types);
+            else
+                mi = typeof(T).GetMethod(methodName);
+
+            return Callvirt(mi);
+        }
+
+        
         public DynamicMethodBody CallGet<T>(string propertyName)
         {
             PropertyInfo property = typeof (T).GetProperty(propertyName);
