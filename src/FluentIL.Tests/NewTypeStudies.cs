@@ -28,6 +28,20 @@ namespace FluentIL.Tests
         }
 
         [Test]
+        public void CreateTypeThatInheritsFromBaseType()
+        {
+            var t = IL.NewType("ConcreteFoo2")
+                      .Inherits<ConcreteFoo>()
+                      .AsType;
+
+            var instance = (IFoo)Activator.CreateInstance(t);
+
+            instance.GetType().BaseType.Should().Be(typeof(ConcreteFoo));
+            instance.Add(2, 3).Should().Be(5);
+            instance.Mul(2, 3).Should().Be(6);
+        }
+
+        [Test]
         public void TwoPlusTwoWithNamedParameters()
         {
             var t = IL.NewType()
@@ -109,6 +123,19 @@ namespace FluentIL.Tests
 
             instance.Add(2, 3).Should().Be(5);
             instance.Mul(2, 3).Should().Be(6);
+        }
+    }
+
+    public class ConcreteFoo : IFoo
+    {
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
+
+        public int Mul(int a, int b)
+        {
+            return a * b;
         }
     }
 

@@ -13,6 +13,7 @@ namespace FluentIL.Infos
     {
         private readonly List<DynamicFieldInfo> fieldsField = new List<DynamicFieldInfo>();
         private readonly List<Type> interfacesField = new List<Type>();
+        private Type parentField = typeof(object);
         private TypeBuilder typeBuilderField;
 
         public DynamicTypeInfo(string typeName)
@@ -64,10 +65,10 @@ namespace FluentIL.Infos
                                                             TypeAttributes.AnsiClass |
                                                             TypeAttributes.BeforeFieldInit |
                                                             TypeAttributes.AutoLayout,
-                                                            typeof (object),
+                                                            parentField,
                                                             interfacesField.ToArray()
                     );
-
+                
                 foreach (DynamicFieldInfo field in fieldsField)
                 {
                     field.FieldBuilder = typeBuilderField.DefineField(
@@ -87,6 +88,17 @@ namespace FluentIL.Infos
 #endif
             return this;
         }
+
+        public DynamicTypeInfo Inherits<TBaseClass>()
+            where TBaseClass : class
+        {
+            parentField = typeof(TBaseClass);
+#if DEBUG
+            Console.WriteLine("inherits {0}", typeof(TBaseClass));
+#endif
+            return this;
+        }
+
 
 // ReSharper disable InconsistentNaming
         public DynamicTypeInfo WithField(string fieldName, Type fieldType)
