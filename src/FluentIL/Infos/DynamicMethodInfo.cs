@@ -8,7 +8,7 @@ using FluentIL.Emitters;
 
 namespace FluentIL.Infos
 {
-    public class DynamicMethodInfo
+    public class DynamicMethodInfo : IDynamicMethodInfo 
     {
         public DynamicMethodInfo(
             DynamicTypeInfo dynamicTypeInfo,
@@ -85,7 +85,7 @@ namespace FluentIL.Infos
             }
         }
 
-        internal DynamicTypeInfo DynamicTypeInfo { get; private set; }
+        public DynamicTypeInfo DynamicTypeInfo { get; private set; }
 
         public MethodBuilder MethodBuilder
         {
@@ -148,6 +148,16 @@ namespace FluentIL.Infos
             return WithOwner(typeof (T));
         }
 
+        public DynamicMethodInfo WithParameters(IEnumerable<ParameterInfo> parameterCollection)
+        {
+            foreach (var parameter in parameterCollection)
+            {
+                WithParameter(parameter.ParameterType, parameter.Name);
+            }
+            
+            return this;
+        }
+
         public DynamicMethodInfo WithParameter(Type parameterType, string parameterName = "")
         {
 #if DEBUG
@@ -164,8 +174,6 @@ namespace FluentIL.Infos
         {
             return WithParameter(typeof (T), parameterName);
         }
-
-
 
         public DynamicMethodInfo WithVariable(Type variableType, string variableName = "")
         {
@@ -246,5 +254,15 @@ namespace FluentIL.Infos
         }
 
         #endregion
+
+        IDynamicMethodInfo IDynamicMethodInfo.WithVariable(Type variableType, string variableName)
+        {
+            return WithVariable(variableType, variableName);
+        }
+
+        IDynamicMethodInfo IDynamicMethodInfo.WithVariable<T>(string variableName)
+        {
+            return WithVariable<T>(variableName);
+        }
     }
 }
