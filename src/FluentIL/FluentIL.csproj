@@ -46,6 +46,7 @@
     <Compile Include="Emitters\ReflectionILEmitter.cs" />
     <Compile Include="Emitters\Specialized\DynamicMethodBody.TryCatchFaultFinally.cs" />
     <Compile Include="Emitters\Specialized\DynamicMethodBody.WhileLoop.cs" />
+    <Compile Include="Infos\DynamicConstructorInfo.cs" />
     <Compile Include="Infos\DynamicFieldInfo.cs" />
     <Compile Include="Infos\DynamicTypeInfo.cs" />
     <None Include="ExpressionInterpreter\ExpressionSimplifierVisitor.tt">
@@ -67,6 +68,7 @@
     <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.EmitIf.cs" />
     <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.Expression.cs" />
     <Compile Include="Emitters\FluentHelpers\DynamicMethodBody.Repeater.cs" />
+    <Compile Include="Infos\IDynamicMethodInfo.cs" />
     <Compile Include="Infos\WhileInfo.cs" />
     <Compile Include="Numbers\ConstantDoubleNumber.cs" />
     <Compile Include="Numbers\ConstantInt32Number.cs" />

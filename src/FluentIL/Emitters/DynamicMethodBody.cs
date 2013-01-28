@@ -6,10 +6,9 @@ namespace FluentIL.Emitters
 {
     public partial class DynamicMethodBody
     {
-        private readonly DynamicMethodInfo methodInfoField;
-        
+        private readonly IDynamicMethodInfo methodInfoField;
 
-        internal DynamicMethodBody(DynamicMethodInfo methodInfo)
+        internal DynamicMethodBody(IDynamicMethodInfo methodInfo)
         {
             methodInfoField = methodInfo;
         }
@@ -39,12 +38,7 @@ namespace FluentIL.Emitters
 
         public static implicit operator DynamicMethod(DynamicMethodBody body)
         {
-            return body.methodInfoField;
-        }
-
-        public static implicit operator DynamicMethodInfo(DynamicMethodBody body)
-        {
-            return body.methodInfoField;
+            return body.methodInfoField.AsDynamicMethod;
         }
 
         #endregion

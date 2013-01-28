@@ -80,6 +80,16 @@ namespace FluentIL.Infos
             }
         }
 
+        public DynamicTypeInfo Repeater<T>(IEnumerable<T> itemCollection, Action<T, DynamicTypeInfo> actionMethod)
+        {
+            foreach (var item in itemCollection)
+            {
+                actionMethod(item,this);
+            }
+
+            return this;
+        }
+
         public DynamicTypeInfo Implements<TInterface>()
         {
             interfacesField.Add(typeof (TInterface));
@@ -136,10 +146,25 @@ namespace FluentIL.Infos
             return result.FieldBuilder;
         }
 
+        public DynamicTypeInfo WithConstructor(Action<DynamicConstructorInfo> constructorDefinition, params Type[] argumentTypes)
+        {
+            var newConstructorInfo = new DynamicConstructorInfo(this, argumentTypes);
+            constructorDefinition(newConstructorInfo);
+            return this;
+        }
+
         public DynamicMethodInfo WithMethod(string methodName)
         {
             return new DynamicMethodInfo(this, methodName);
         }
+        
+        public DynamicTypeInfo WithMethod(string methodName,Action<DynamicMethodInfo> methodDefinition)
+        {
+            var newMethodInfo = new DynamicMethodInfo(this, methodName);
+            methodDefinition(newMethodInfo);
+            
+            return this;
+        }        
 
         public DynamicTypeInfo WithProperty(
             string propertyName,

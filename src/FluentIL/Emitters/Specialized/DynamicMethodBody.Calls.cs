@@ -8,6 +8,11 @@ namespace FluentIL.Emitters
 {
     partial class DynamicMethodBody
     {
+        public DynamicMethodBody Call(ConstructorInfo constructorInfo)
+        {
+            return Emit(OpCodes.Call, constructorInfo);
+        }
+
         public DynamicMethodBody Call(MethodInfo methodInfo)
         {
             return Emit(OpCodes.Call, methodInfo);
