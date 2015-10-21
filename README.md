@@ -3,6 +3,11 @@ Do you like emitting? Do you need it? FluentIL is an emitting helper library tha
 
 This is a community project, free and open source. Everyone is invited to contribute, fork, share and use the code. No money shall be charged by this software, nor it will be. Ever.
 
+[![Nuget count](http://img.shields.io/nuget/v/fluentil.svg)](https://www.nuget.org/packages/fluentil/)
+[![Nuget downloads](http://img.shields.io/nuget/dt/fluentil.svg)](https://www.nuget.org/packages/fluentil/)
+[![Issues open](http://img.shields.io/github/issues-raw/fluentil/fluenil.svg)](https://github.com/FluentIL/FluentIL/issues/)
+
+
 ## Installing
 
 FluentIL is avaiable on Nuget
