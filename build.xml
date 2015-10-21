@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SolutionFile Include="$(SourceDir)\FluentIL.sln" />
+    <SolutionFile Include="FluentIL.sln" />
   </ItemGroup>
 
   <Import Project="util\msbuild\MSBuild.Community.Tasks.Targets"/>

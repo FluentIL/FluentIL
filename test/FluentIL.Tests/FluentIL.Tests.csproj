@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>6cedd8f3-3457-4a49-879e-7dc7ed0d3d11</ProjectGuid>
+    <ProjectGuid>{FB1104F9-C680-4C37-BC67-59A5B22D4549}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DynamicMethodBody.Call</RootNamespace>
-    <AssemblyName>DynamicMethodBody.Call</AssemblyName>
+    <RootNamespace>FluentIL.Tests</RootNamespace>
+    <AssemblyName>FluentIL.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,6 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Mono.Cecil.0.9.5.2\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.8.10295, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTestsEx">
+      <HintPath>..\..\..\lib\SharpTestsEx.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,8 +50,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="CecilTests.cs" />
+    <Compile Include="ConditionalStudies.cs" />
+    <Compile Include="CounterStudies.cs" />
+    <Compile Include="DynamicTypeInfoTests.cs" />
+    <Compile Include="ExpressionParsingStudies.cs" />
+    <Compile Include="ExpressionScannerTests.cs" />
+    <Compile Include="ExpressionStudies.cs" />
+    <Compile Include="GetSetStudies.cs" />
+    <Compile Include="IsPrimeStudies.cs" />
+    <Compile Include="MathStudies.cs" />
+    <Compile Include="DynamicMethodInfoTests.cs" />
+    <Compile Include="NewTypeStudies.cs" />
+    <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyStudies.cs" />
+    <Compile Include="SayHelloStudies.cs" />
+    <Compile Include="TestSubjects.cs" />
+    <Compile Include="TryCatchFaultFinallyStudies.cs" />
+    <Compile Include="VariableStudies.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FluentIL.Cecil\FluentIL.Cecil.csproj">
+      <Project>{449A3F1F-05FA-41CB-849A-66A0A3C4EF20}</Project>
+      <Name>FluentIL.Cecil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\FluentIL\FluentIL.csproj">
+      <Project>{3A793F01-7299-44F8-9BAF-0BACC23F4021}</Project>
+      <Name>FluentIL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
