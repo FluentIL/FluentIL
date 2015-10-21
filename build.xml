@@ -6,7 +6,9 @@
     <SourceDir>src\</SourceDir>
     <Configuration>Release</Configuration>
     <Platform>Any CPU</Platform>
-    <ProductVersion>1.01</ProductVersion>
+    <ProductVersion>1.02</ProductVersion>
+    <BuildPackage>true</BuildPackage>
+    <DistDirectory>dist\</DistDirectory>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +30,7 @@
                AssemblyTrademark=""
                ComVisible="false"
                CLSCompliant="false"
+               AssemblyDescription=".NET Emitting Helper"
                AssemblyVersion="$(ProductVersion)"
                AssemblyFileVersion="$(ProductVersion)" />
   </Target>
@@ -42,6 +45,12 @@
 
   <Target Name="Test" DependsOnTargets="Build">
     <Nunit Assemblies="$(TestAssembly)" ToolPath="util\nunit"/>
+  </Target>
+  
+  <Target Name="nuget">
+    <CallTarget Targets="Clean; Build"></CallTarget>
+    <MakeDir Directories="$(DistDirectory)"/>
+    <Exec Command=".\util\nuget\nuget.exe pack .\FluentIL.1.0.2.nuspec -OutputDirectory dist"></Exec>
   </Target>
 
 </Project>

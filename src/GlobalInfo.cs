@@ -12,7 +12,8 @@
 [assembly: System.Reflection.AssemblyProduct("FluentIL")]
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
 [assembly: System.CLSCompliant(false)]
-[assembly: System.Reflection.AssemblyVersion("1.01")]
-[assembly: System.Reflection.AssemblyFileVersion("1.01")]
+[assembly: System.Reflection.AssemblyDescription(".NET Emitting Helper")]
+[assembly: System.Reflection.AssemblyVersion("1.02")]
+[assembly: System.Reflection.AssemblyFileVersion("1.02")]
 
 
