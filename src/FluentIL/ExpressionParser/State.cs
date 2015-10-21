@@ -5,7 +5,7 @@ namespace FluentIL.ExpressionParser
 {
     internal class State
     {
-        private string resultingTokenIdField;
+        private string _resultingTokenIdField;
 
         public State(string resultingTokenId = null)
         {
@@ -15,21 +15,18 @@ namespace FluentIL.ExpressionParser
 
         public string ResultingTokenId
         {
-            get { return resultingTokenIdField; }
+            get { return _resultingTokenIdField; }
             set
             {
-                if (resultingTokenIdField != null)
+                if (_resultingTokenIdField != null)
                     throw new InvalidOperationException();
-                resultingTokenIdField = value;
+                _resultingTokenIdField = value;
             }
         }
 
         public GoToDictionary GoTo { get; private set; }
 
-        public bool IsStop
-        {
-            get { return ResultingTokenId != null; }
-        }
+        public bool IsStop => ResultingTokenId != null;
 
         public State WithGoTo(char c, string state)
         {
@@ -39,7 +36,7 @@ namespace FluentIL.ExpressionParser
 
         public State WithGoTo(IEnumerable<char> characters, string state)
         {
-            foreach (char c in characters)
+            foreach (var c in characters)
                 GoTo.Add(c, state);
 
             return this;

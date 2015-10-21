@@ -11,7 +11,7 @@ namespace FluentIL
         {
             var result = new DynamicMethodInfo();
 
-            foreach (Type param in parameterTypes)
+            foreach (var param in parameterTypes)
                 result.WithParameter(param);
 
             result.Returns(returnType);
@@ -32,7 +32,7 @@ namespace FluentIL
 
         public static DynamicTypeInfo NewType()
         {
-            return NewType("NewType" + Guid.NewGuid().ToString());
+            return NewType("NewType" + Guid.NewGuid());
         }
 
         public static DynamicTypeInfo NewType(string typeName)

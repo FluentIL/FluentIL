@@ -6,50 +6,50 @@ namespace FluentIL.Emitters
     internal class IfEmitter
     {
         public readonly string LeftSideVarName;
-        private readonly string doneField;
-        private readonly DynamicMethodBody generatorField;
-        private readonly string ifFalseField;
-        private bool withElseField;
+        private readonly string _doneField;
+        private readonly DynamicMethodBody _generatorField;
+        private readonly string _ifFalseField;
+        private bool _withElseField;
 
         public IfEmitter(DynamicMethodBody generator)
         {
-            generatorField = generator;
-            ifFalseField = string.Format("IfFalse_{0}", Guid.NewGuid());
-            doneField = string.Format("Done_{0}", Guid.NewGuid());
-            LeftSideVarName = string.Format("LS_{0}", Guid.NewGuid());
+            _generatorField = generator;
+            _ifFalseField = $"IfFalse_{Guid.NewGuid()}";
+            _doneField = $"Done_{Guid.NewGuid()}";
+            LeftSideVarName = $"LS_{Guid.NewGuid()}";
         }
 
         public bool MultipleConditions { get; set; }
 
         public void EmitIf(OpCode comparasionOpcode, bool not = false)
         {
-            generatorField
+            _generatorField
                 .Emit(comparasionOpcode)
-                .EmitIf(!not, a => a.Brfalse(ifFalseField))
-                .EmitIf(not, a => a.Brtrue(ifFalseField));
+                .EmitIf(!not, a => a.Brfalse(_ifFalseField))
+                .EmitIf(not, a => a.Brtrue(_ifFalseField));
         }
 
 
         public void EmitBranch(bool not = false)
         {
-            generatorField
-                .EmitIf(!not, a => a.Brfalse(ifFalseField))
-                .EmitIf(not, a => a.Brtrue(ifFalseField));
+            _generatorField
+                .EmitIf(!not, a => a.Brfalse(_ifFalseField))
+                .EmitIf(not, a => a.Brtrue(_ifFalseField));
         }
 
         public void EmitElse()
         {
-            generatorField
-                .Br(doneField)
-                .MarkLabel(ifFalseField);
+            _generatorField
+                .Br(_doneField)
+                .MarkLabel(_ifFalseField);
 
-            withElseField = true;
+            _withElseField = true;
         }
 
         public void EmitEndIf()
         {
-            if (!withElseField) generatorField.MarkLabel(ifFalseField);
-            generatorField.MarkLabel(doneField);
+            if (!_withElseField) _generatorField.MarkLabel(_ifFalseField);
+            _generatorField.MarkLabel(_doneField);
         }
     }
 }

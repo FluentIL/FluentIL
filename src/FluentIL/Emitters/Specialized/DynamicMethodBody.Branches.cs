@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Reflection;
 using FluentIL.ExpressionParser;
 
 // ReSharper disable CheckNamespace
@@ -11,8 +10,8 @@ namespace FluentIL.Emitters
     {
         public DynamicMethodBody IfEmptyString(bool not)
         {
-            FieldInfo stringEmpty = typeof (string).GetField("Empty");
-            MethodInfo stringOpEqualityMethod = typeof (string).GetMethod(
+            var stringEmpty = typeof (string).GetField("Empty");
+            var stringOpEqualityMethod = typeof (string).GetMethod(
                 "op_Equality", new[] {typeof (string), typeof (string)});
 
             var emitter = new IfEmitter(this);

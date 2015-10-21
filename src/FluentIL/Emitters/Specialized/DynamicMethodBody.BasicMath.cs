@@ -8,7 +8,7 @@ namespace FluentIL.Emitters
 {
     partial class DynamicMethodBody
     {
-        private const double EPSILON = 0.001;
+        private const double Epsilon = 0.001;
 
         private void MultipleOperations(Func<DynamicMethodBody> action, params Number[] args)
         {
@@ -16,7 +16,7 @@ namespace FluentIL.Emitters
             if (args.Length == 1)
                 action();
             else
-                for (int i = 0; i < args.Length - 1; i++)
+                for (var i = 0; i < args.Length - 1; i++)
                     action();
         }
 
@@ -24,7 +24,7 @@ namespace FluentIL.Emitters
         public DynamicMethodBody Rem(params Number[] args)
             // ReSharper restore MethodOverloadWithOptionalParameter
         {
-            if (args == null) throw new ArgumentNullException("args");
+            if (args == null) throw new ArgumentNullException(nameof(args));
             MultipleOperations(Rem, args);
             return this;
         }
@@ -34,7 +34,7 @@ namespace FluentIL.Emitters
         public DynamicMethodBody Add(params Number[] args)
             // ReSharper restore MethodOverloadWithOptionalParameter
         {
-            if (args == null) throw new ArgumentNullException("args");
+            if (args == null) throw new ArgumentNullException(nameof(args));
             MultipleOperations(Add, args);
             return this;
         }
@@ -50,16 +50,13 @@ namespace FluentIL.Emitters
         {
             if (args.Length == 1 && args[0] is ConstantDoubleNumber)
             {
-                var constantDoubleNumber = args[0] as ConstantDoubleNumber;
+                var constantDoubleNumber = (ConstantDoubleNumber) args[0];
                 // ReSharper disable PossibleNullReferenceException
-                double factor = constantDoubleNumber.Value;
+                var factor = constantDoubleNumber.Value;
                 // ReSharper restore PossibleNullReferenceException
-                if (Math.Abs(factor - 1) < EPSILON)
+                if (Math.Abs(factor - 1) < Epsilon)
                     return this;
-                if (Math.Abs(factor - -1) < EPSILON)
-                    return Neg();
-                return
-                    LdcR8(factor).Mul();
+                return Math.Abs(factor - -1) < Epsilon ? Neg() : LdcR8(factor).Mul();
             }
 
             MultipleOperations(Mul, args);

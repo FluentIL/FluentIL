@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Reflection.Emit;
-using FluentIL.Infos;
 
 // ReSharper disable CheckNamespace
 
@@ -11,7 +10,7 @@ namespace FluentIL.Emitters
     {
         public DynamicMethodBody Ldarg(params uint[] args)
         {
-            foreach (uint arg in args)
+            foreach (var arg in args)
             {
                 switch (arg)
                 {
@@ -37,10 +36,10 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Ldarg(params string[] args)
         {
-            DynamicVariableInfo[] parameters = Enumerable.ToArray<DynamicVariableInfo>(methodInfoField.Parameters);
-            var offset = (uint) (methodInfoField.DynamicTypeInfo != null ? 1 : 0);
+            var parameters = _methodInfoField.Parameters.ToArray();
+            var offset = (uint) (_methodInfoField.DynamicTypeInfo != null ? 1 : 0);
 
-            foreach (string arg in args)
+            foreach (var arg in args)
                 for (uint i = 0; i < parameters.Length; i++)
                     if (parameters[i].Name == arg)
                         Ldarg(i + offset);

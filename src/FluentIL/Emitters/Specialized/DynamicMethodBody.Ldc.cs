@@ -13,7 +13,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Ldstr(params string[] args)
         {
-            foreach (string arg in args)
+            foreach (var arg in args)
             {
                 Emit(OpCodes.Ldstr, arg);
             }
@@ -27,7 +27,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody LdcR8(params double[] args)
         {
-            foreach (double t in args)
+            foreach (var t in args)
                 Emit(OpCodes.Ldc_R8, t);
 
             return this;
@@ -40,7 +40,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody LdcR4(params float[] args)
         {
-            foreach (float t in args)
+            foreach (var t in args)
                 Emit(OpCodes.Ldc_R4, t);
 
             return this;
@@ -70,7 +70,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody LdcI4(params int[] args)
         {
-            foreach (int arg in args)
+            foreach (var arg in args)
             {
                 switch (arg)
                 {

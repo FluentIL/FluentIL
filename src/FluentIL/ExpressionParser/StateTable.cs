@@ -5,20 +5,17 @@ namespace FluentIL.ExpressionParser
 {
     internal class StateTable
     {
-        private readonly string initialStateIdField;
+        private readonly string _initialStateIdField;
 
         public StateTable(string initialStateId)
         {
             States = new Dictionary<string, State>();
-            initialStateIdField = initialStateId;
+            _initialStateIdField = initialStateId;
         }
 
         public Dictionary<string, State> States { get; private set; }
 
-        public State InitialState
-        {
-            get { return States[initialStateIdField]; }
-        }
+        public State InitialState => States[_initialStateIdField];
 
         public StateTable WithState(string key, State value)
         {
@@ -31,7 +28,7 @@ namespace FluentIL.ExpressionParser
             if (InitialState == null)
                 throw new InvalidOperationException("Need to provide the initial state first");
 
-            string g = Guid.NewGuid().ToString();
+            var g = Guid.NewGuid().ToString();
 
             InitialState.WithGoTo(token, g);
             return WithState(g, new State(tokenId));
@@ -42,12 +39,12 @@ namespace FluentIL.ExpressionParser
             if (InitialState == null)
                 throw new InvalidOperationException("Need to provide the initial state first");
 
-            State workState = InitialState;
-            foreach (char c in token)
+            var workState = InitialState;
+            foreach (var c in token)
             {
                 if (!workState.GoTo.ContainsKey(c))
                 {
-                    string g = Guid.NewGuid().ToString();
+                    var g = Guid.NewGuid().ToString();
                     var newState = new State();
                     WithState(g, newState);
                     workState.WithGoTo(c, g);

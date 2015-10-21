@@ -8,7 +8,7 @@ namespace FluentIL.Emitters
 {
     partial class DynamicMethodBody
     {
-        private readonly Dictionary<string, Label> labelsField = new Dictionary<string, Label>();
+        private readonly Dictionary<string, Label> _labelsField = new Dictionary<string, Label>();
 
         public DynamicMethodBody MarkLabel(Label label)
         {
@@ -16,7 +16,7 @@ namespace FluentIL.Emitters
             Console.WriteLine("IL_{0}:", label.GetHashCode());
 #endif
 
-            methodInfoField.GetILEmitter()
+            _methodInfoField.GetILEmitter()
                 .MarkLabel(label);
 
             return this;
@@ -24,12 +24,12 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody MarkLabel(string label)
         {
-            Label lbl = GetLabel(label);
+            var lbl = GetLabel(label);
 #if DEBUG
             Console.WriteLine("IL_{0}:", lbl.GetHashCode());
 #endif
 
-            methodInfoField.GetILEmitter()
+            _methodInfoField.GetILEmitter()
                 .MarkLabel(GetLabel(label));
 
             return this;
@@ -37,10 +37,10 @@ namespace FluentIL.Emitters
 
         private Label GetLabel(string label)
         {
-            if (!labelsField.ContainsKey(label))
-                labelsField.Add(label, methodInfoField.GetILEmitter().DefineLabel());
+            if (!_labelsField.ContainsKey(label))
+                _labelsField.Add(label, _methodInfoField.GetILEmitter().DefineLabel());
 
-            return labelsField[label];
+            return _labelsField[label];
         }
     }
 }

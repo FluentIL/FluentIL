@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Reflection.Emit;
-using FluentIL.Infos;
 
 // ReSharper disable CheckNamespace
 namespace FluentIL.Emitters
@@ -10,9 +9,9 @@ namespace FluentIL.Emitters
     {
         public int GetVariableIndex(string varname)
         {
-            DynamicVariableInfo[] variables = Enumerable.ToArray<DynamicVariableInfo>(methodInfoField.Variables);
+            var variables = _methodInfoField.Variables.ToArray();
 
-            for (int i = 0; i < variables.Length; i++)
+            for (var i = 0; i < variables.Length; i++)
                 if (variables[i].Name == varname)
                     return i;
 
@@ -21,9 +20,9 @@ namespace FluentIL.Emitters
 
         public int GetParameterIndex(string parametername)
         {
-            DynamicVariableInfo[] parameters = Enumerable.ToArray<DynamicVariableInfo>(methodInfoField.Parameters);
+            var parameters = _methodInfoField.Parameters.ToArray();
 
-            for (int i = 0; i < parameters.Length; i++)
+            for (var i = 0; i < parameters.Length; i++)
                 if (parameters[i].Name == parametername)
                     return i;
 
@@ -33,7 +32,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Ldloc(params uint[] args)
         {
-            foreach (uint arg in args)
+            foreach (var arg in args)
             {
                 switch (arg)
                 {
@@ -59,7 +58,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Stloc(params uint[] args)
         {
-            foreach (uint arg in args)
+            foreach (var arg in args)
             {
                 switch (arg)
                 {
@@ -85,7 +84,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Ldloc(params string[] args)
         {
-            foreach (string arg in args)
+            foreach (var arg in args)
                 Ldloc((uint) GetVariableIndex(arg));
 
             return this;
@@ -93,7 +92,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Stloc(params string[] args)
         {
-            foreach (string arg in args)
+            foreach (var arg in args)
                 Stloc((uint) GetVariableIndex(arg));
 
             return this;

@@ -32,8 +32,8 @@ namespace FluentIL.Emitters
 			{
 				if (GetVariableIndex(variable) == -1)
 				{
-					methodInfoField.WithVariable(typeof(int), variable);
-					methodInfoField.GetILEmitter().DeclareLocal(t);
+					_methodInfoField.WithVariable(typeof(int), variable);
+					_methodInfoField.GetILEmitter().DeclareLocal(t);
 				}
 				preEmitActionsField.Push( () =>
 				{

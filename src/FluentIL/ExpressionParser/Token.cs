@@ -9,8 +9,8 @@
             Value = value;
         }
 
-        public string Id { get; private set; }
-        public string Value { get; private set; }
+        public string Id { get; }
+        public string Value { get; }
 
         public static bool operator ==(Token first, Token second)
         {
@@ -37,9 +37,7 @@
 
         public override string ToString()
         {
-            return string.Format("{0} ({1})",
-                                 Value,
-                                 Id);
+            return $"{Value} ({Id})";
         }
     }
 }

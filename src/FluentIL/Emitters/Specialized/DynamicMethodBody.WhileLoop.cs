@@ -8,15 +8,15 @@ namespace FluentIL.Emitters
 {
     partial class DynamicMethodBody
     {
-        private readonly Stack<WhileInfo> whilesField = new Stack<WhileInfo>();
+        private readonly Stack<WhileInfo> _whilesField = new Stack<WhileInfo>();
         
         private DynamicMethodBody WhileOrUntil(string condition, bool isWhile)
         {
-            var ilgen = methodInfoField.GetILEmitter();
+            var ilgen = _methodInfoField.GetILEmitter();
             var beginLabel = ilgen.DefineLabel();
             var comparasionLabel = ilgen.DefineLabel();
 
-            whilesField.Push(new WhileInfo(
+            _whilesField.Push(new WhileInfo(
                 isWhile ? condition : "!(" + condition + ")",
                 beginLabel,
                 comparasionLabel));
@@ -59,7 +59,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Loop()
         {
-            var w = whilesField.Pop();
+            var w = _whilesField.Pop();
             return MarkLabel(w.ComparasionLabel)
                 .If(w.Condition, m => m
                     .Br(w.BeginLabel)

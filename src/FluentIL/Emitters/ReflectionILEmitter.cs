@@ -6,95 +6,95 @@ namespace FluentIL.Emitters
 {
     internal class ReflectionILEmitter : ILEmitter
     {
-        private readonly ILGenerator ilGeneratorField;
+        private readonly ILGenerator _ilGeneratorField;
         public ReflectionILEmitter(ILGenerator ilGenerator)
         {
-            ilGeneratorField = ilGenerator;
+            _ilGeneratorField = ilGenerator;
         }
 
         protected override void OnEmit(OpCode opcode)
         {
-            ilGeneratorField.Emit(opcode);
+            _ilGeneratorField.Emit(opcode);
         }
 
         protected override void OnEmit(OpCode opcode, string arg)
         {
-            ilGeneratorField.Emit(opcode, arg);
+            _ilGeneratorField.Emit(opcode, arg);
         }
 
         protected override void OnEmit(OpCode opcode, int arg)
         {
-            ilGeneratorField.Emit(opcode, arg);
+            _ilGeneratorField.Emit(opcode, arg);
         }
 
         protected override void OnEmit(OpCode opcode, double arg)
         {
-            ilGeneratorField.Emit(opcode, arg);
+            _ilGeneratorField.Emit(opcode, arg);
         }
 
         protected override void OnEmit(OpCode opcode, Label arg)
         {
-            ilGeneratorField.Emit(opcode, arg);
+            _ilGeneratorField.Emit(opcode, arg);
         }
 
         protected override void OnEmit(OpCode opcode, MethodInfo arg)
         {
-            ilGeneratorField.Emit(opcode, arg);
+            _ilGeneratorField.Emit(opcode, arg);
         }
 
         protected override void OnEmit(OpCode opcode, ConstructorInfo arg)
         {
-            ilGeneratorField.Emit(opcode, arg);
+            _ilGeneratorField.Emit(opcode, arg);
         }
 
         protected override void OnEmit(OpCode opcode, FieldInfo arg)
         {
-            ilGeneratorField.Emit(opcode, arg);
+            _ilGeneratorField.Emit(opcode, arg);
         }
 
         protected override void OnEmit(OpCode opcode, Type arg)
         {
-            ilGeneratorField.Emit(opcode, arg);
+            _ilGeneratorField.Emit(opcode, arg);
         }
 
         protected override Label OnDefineLabel()
         {
-            return ilGeneratorField.DefineLabel();
+            return _ilGeneratorField.DefineLabel();
         }
 
         protected override void OnMarkLabel(Label label)
         {
-            ilGeneratorField.MarkLabel(label);
+            _ilGeneratorField.MarkLabel(label);
         }
 
         protected override void OnDeclareLocal(Type type)
         {
-            ilGeneratorField.DeclareLocal(type);
+            _ilGeneratorField.DeclareLocal(type);
         }
 
         public Label BeginExceptionBlock()
         {
-            return ilGeneratorField.BeginExceptionBlock();
+            return _ilGeneratorField.BeginExceptionBlock();
         }
 
         public void BeginCatchBlock(Type exceptionType)
         {
-            ilGeneratorField.BeginCatchBlock(exceptionType);
+            _ilGeneratorField.BeginCatchBlock(exceptionType);
         }
 
         public void BeginFaultBlock()
         {
-            ilGeneratorField.BeginFaultBlock();
+            _ilGeneratorField.BeginFaultBlock();
         }
 
         public void EndExceptionBlock()
         {
-            ilGeneratorField.EndExceptionBlock();
+            _ilGeneratorField.EndExceptionBlock();
         }
 
         internal void BeginFinallyBlock()
         {
-           ilGeneratorField.BeginFinallyBlock();
+           _ilGeneratorField.BeginFinallyBlock();
         }
     }
 }

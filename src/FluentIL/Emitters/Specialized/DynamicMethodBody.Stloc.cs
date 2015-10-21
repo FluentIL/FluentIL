@@ -11,7 +11,7 @@ namespace FluentIL.Emitters
         {
             Emit(value);
 
-            for (int i = 1; i < variables.Length; i++)
+            for (var i = 1; i < variables.Length; i++)
                 Dup();
 
             Stloc(variables);

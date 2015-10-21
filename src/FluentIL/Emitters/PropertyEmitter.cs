@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Reflection;
-using System.Reflection.Emit;
 using FluentIL.Infos;
 
 namespace FluentIL.Emitters
 {
     internal class PropertyEmitter
     {
-        private readonly DynamicTypeInfo dynamicTypeInfoField;
+        private readonly DynamicTypeInfo _dynamicTypeInfoField;
 
         public PropertyEmitter(DynamicTypeInfo dynamicTypeInfo)
         {
-            dynamicTypeInfoField = dynamicTypeInfo;
+            _dynamicTypeInfoField = dynamicTypeInfo;
         }
 
         public void Emit(
@@ -21,32 +20,30 @@ namespace FluentIL.Emitters
             Action<DynamicMethodBody> setmethod = null
             )
         {
-            PropertyBuilder property = dynamicTypeInfoField.TypeBuilder.DefineProperty(
+            var property = _dynamicTypeInfoField.TypeBuilder.DefineProperty(
                 propertyName,
                 PropertyAttributes.None,
                 propertyType,
                 new Type[] {}
                 );
 
-            DynamicMethodInfo getMethodinfo = dynamicTypeInfoField
-                .WithMethod(string.Format("get_{0}", propertyName))
+            var getMethodinfo = _dynamicTypeInfoField
+                .WithMethod($"get_{propertyName}")
                 .TurnOnAttributes(MethodAttributes.RTSpecialName)
                 .TurnOnAttributes(MethodAttributes.SpecialName);
 
             getmethod(getMethodinfo.Returns(propertyType));
             property.SetGetMethod(getMethodinfo.MethodBuilder);
 
-            if (setmethod != null)
-            {
-                DynamicMethodInfo setMethodinfo = dynamicTypeInfoField
-                    .WithMethod(string.Format("set_{0}", propertyName))
-                    .TurnOnAttributes(MethodAttributes.RTSpecialName)
-                    .TurnOnAttributes(MethodAttributes.SpecialName)
-                    .WithParameter(propertyType, "value");
+            if (setmethod == null) return;
+            var setMethodinfo = _dynamicTypeInfoField
+                .WithMethod($"set_{propertyName}")
+                .TurnOnAttributes(MethodAttributes.RTSpecialName)
+                .TurnOnAttributes(MethodAttributes.SpecialName)
+                .WithParameter(propertyType, "value");
 
-                setmethod(setMethodinfo.Returns(typeof (void)));
-                property.SetSetMethod(setMethodinfo.MethodBuilder);
-            }
+            setmethod(setMethodinfo.Returns(typeof (void)));
+            property.SetSetMethod(setMethodinfo.MethodBuilder);
         }
 
 
@@ -55,8 +52,8 @@ namespace FluentIL.Emitters
             Type propertyType
             )
         {
-            string fieldName = string.Format("_{0}", Guid.NewGuid());
-            dynamicTypeInfoField
+            var fieldName = $"_{Guid.NewGuid()}";
+            _dynamicTypeInfoField
                 .WithField(fieldName, propertyType)
                 .WithProperty(
                     propertyName,

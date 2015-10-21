@@ -8,7 +8,7 @@ namespace FluentIL.ExpressionParser
     {
         public Scanner(StateTable statesTable)
         {
-            if (statesTable == null) throw new ArgumentNullException("statesTable");
+            if (statesTable == null) throw new ArgumentNullException(nameof(statesTable));
             StatesTable = statesTable;
         }
 
@@ -17,38 +17,37 @@ namespace FluentIL.ExpressionParser
 
         public IEnumerable<Token> Scan(IEnumerable<char> source)
         {
-            State current = StatesTable.InitialState;
-            int position = 0;
-            bool @continue = false;
+            State[] current = {StatesTable.InitialState};
+            var position = 0;
+            var @continue = false;
             var currentValue = new StringBuilder();
-            char symbol = ' ';
+            var symbol = ' ';
+
             Func<Token> markPartialStop = () =>
-                                              {
-                                                  if (current.IsStop)
-                                                  {
-                                                      var result = new Token(current.ResultingTokenId,
-                                                                             currentValue.ToString());
-                                                      current = StatesTable.InitialState;
-                                                      currentValue.Clear();
-                                                      return result;
-                                                  }
-                                                  else
-                                                      throw new ArgumentException(
-                                                          string.Format(
-                                                              "Invalid source (construction {0}; symbol '{1}' pos {2})",
-                                                              currentValue, (@continue ? symbol.ToString() : "EOP"),
-                                                              position),
-                                                          "source");
-                                              };
-            using (IEnumerator<char> enumerator = source.GetEnumerator())
+            {
+                if (current[0].IsStop)
+                {
+                    var result = new Token(current[0].ResultingTokenId,
+                                            currentValue.ToString());
+                    current[0] = StatesTable.InitialState;
+                    currentValue.Clear();
+                    return result;
+                }
+                else
+                    throw new ArgumentException(
+                        $"Invalid source (construction {currentValue}; symbol '{(@continue ? symbol.ToString() : "EOP")}' pos {position})",
+                        nameof(source));
+            };
+
+            using (var enumerator = source.GetEnumerator())
             {
                 @continue = enumerator.MoveNext();
                 while (@continue)
                 {
                     symbol = @enumerator.Current;
-                    if (current.Accepts(symbol))
+                    if (current[0].Accepts(symbol))
                     {
-                        current = StatesTable.Accept(current.ChangeTo(symbol));
+                        current[0] = StatesTable.Accept(current[0].ChangeTo(symbol));
                         currentValue.Append(symbol);
                         @continue = enumerator.MoveNext();
                         position++;

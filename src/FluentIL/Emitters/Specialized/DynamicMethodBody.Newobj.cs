@@ -15,7 +15,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Newobj<T>(params Type[] types)
         {
-            ConstructorInfo ci = typeof (T).GetConstructor(types);
+            var ci = typeof (T).GetConstructor(types);
             return Newobj(ci);
         }
     }

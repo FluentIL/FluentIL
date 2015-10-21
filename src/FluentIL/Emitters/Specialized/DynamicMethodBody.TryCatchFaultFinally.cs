@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection.Emit;
 
 // ReSharper disable CheckNamespace
@@ -15,7 +12,7 @@ namespace FluentIL.Emitters
             params CatchBody[] catches
             )
         {
-            var il = (ReflectionILEmitter)methodInfoField.GetILEmitter();
+            var il = (ReflectionILEmitter)_methodInfoField.GetILEmitter();
             var @tryLabel = il.BeginExceptionBlock();
 
 #if DEBUG
@@ -48,7 +45,7 @@ namespace FluentIL.Emitters
             params CatchBody[] catches
             )
         {
-            var il = (ReflectionILEmitter)methodInfoField.GetILEmitter();
+            var il = (ReflectionILEmitter)_methodInfoField.GetILEmitter();
 
             var tryFinally = il.BeginExceptionBlock();
 #if DEBUG
@@ -86,17 +83,10 @@ namespace FluentIL.Emitters
     {
         public CatchBody(Action<DynamicMethodBody> body )
         {
-            bodyField = body;
+            Body = body;
         }
 
-        public override Type ExceptionType
-        {
-            get { return typeof (T); }
-        }
-
-        private readonly Action<DynamicMethodBody> bodyField;
-        public override Action<DynamicMethodBody> Body {
-            get { return bodyField; }
-        }
+        public override Type ExceptionType => typeof (T);
+        public override Action<DynamicMethodBody> Body { get; }
     }
 }

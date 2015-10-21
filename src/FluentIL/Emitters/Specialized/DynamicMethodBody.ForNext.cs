@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using FluentIL.Infos;
 using FluentIL.Numbers;
 
@@ -10,11 +9,11 @@ namespace FluentIL.Emitters
 {
     partial class DynamicMethodBody
     {
-        private readonly Stack<ForInfo> forsField = new Stack<ForInfo>();
+        private readonly Stack<ForInfo> _forsField = new Stack<ForInfo>();
 
         public DynamicMethodBody Emit(params Number[] numbers)
         {
-            foreach (Number number in numbers)
+            foreach (var number in numbers)
                 number.Emit(this);
             return this;
         }
@@ -22,15 +21,15 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody For(string variable, Number from, Number to, int step = 1)
         {
-            ILEmitter ilgen = methodInfoField.GetILEmitter();
-            Label beginLabel = ilgen.DefineLabel();
-            Label comparasionLabel = ilgen.DefineLabel();
+            var ilgen = _methodInfoField.GetILEmitter();
+            var beginLabel = ilgen.DefineLabel();
+            var comparasionLabel = ilgen.DefineLabel();
 
-            forsField.Push(new ForInfo(variable, from, to, step,
+            _forsField.Push(new ForInfo(variable, from, to, step,
                                        beginLabel, comparasionLabel));
             if (GetVariableIndex(variable) == -1)
             {
-                methodInfoField.WithVariable(typeof (int), variable);
+                _methodInfoField.WithVariable(typeof (int), variable);
                 ilgen.DeclareLocal(typeof (int));
             }
 
@@ -44,7 +43,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Next()
         {
-            ForInfo f = forsField.Pop();
+            var f = _forsField.Pop();
             Ldloc(f.Variable)
                 .Ldc(f.Step)
                 .Add()

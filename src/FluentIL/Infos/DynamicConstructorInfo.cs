@@ -9,13 +9,13 @@ namespace FluentIL.Infos
 {
     public class DynamicConstructorInfo : IDynamicMethodInfo
     {
-        private readonly List<Type> parametersField = new List<Type>();
-        private readonly List<DynamicVariableInfo> variablesField = new List<DynamicVariableInfo>();
-        private ConstructorBuilder constructorBuilderField;
-        private ReflectionILEmitter reflectionILEmitterField;
-        private DynamicMethodBody Body;
-        private DynamicMethod ctorDynamicMethodField;
-        internal DynamicTypeInfo DynamicTypeInfo { get; private set; }
+        private readonly List<Type> _parametersField = new List<Type>();
+        private readonly List<DynamicVariableInfo> _variablesField = new List<DynamicVariableInfo>();
+        private ConstructorBuilder _constructorBuilderField;
+        private ReflectionILEmitter _reflectionILEmitterField;
+        private DynamicMethodBody _body;
+        private DynamicMethod _ctorDynamicMethodField;
+        internal DynamicTypeInfo DynamicTypeInfo { get; }
 
         public DynamicConstructorInfo(DynamicTypeInfo dynamicTypeInfo, params Type[] constructorArgumentTypes)
         {
@@ -23,43 +23,28 @@ namespace FluentIL.Infos
 #if DEBUG
             Console.WriteLine("{0}::.ctor",dynamicTypeInfo.TypeName);
 #endif
-            parametersField.AddRange(constructorArgumentTypes);
+            _parametersField.AddRange(constructorArgumentTypes);
             InitConstructorBuilder(constructorArgumentTypes);
         }
 
-        public Type Owner
-        {
-            get { return constructorBuilderField.ReflectedType; }
-        }
+        public Type Owner => _constructorBuilderField.ReflectedType;
 
-        public string MethodName
-        {
-            get { return ".ctor"; }
-        }
+        public string MethodName => ".ctor";
 
-        public DynamicMethod AsDynamicMethod
-        {
-            get { return GetCtorDynamicMethod(); }
-        }
+        public DynamicMethod AsDynamicMethod => GetCtorDynamicMethod();
 
         public IEnumerable<DynamicVariableInfo> Parameters
         {
-            get { return parametersField.Select(type => new DynamicVariableInfo(String.Empty, type)); }
+            get { return _parametersField.Select(type => new DynamicVariableInfo(string.Empty, type)); }
         }
 
-        public IEnumerable<DynamicVariableInfo> Variables
-        {
-            get { return variablesField; }
-        }
+        public IEnumerable<DynamicVariableInfo> Variables => _variablesField;
 
-        DynamicTypeInfo IDynamicMethodInfo.DynamicTypeInfo
-        {
-            get { return DynamicTypeInfo; }
-        }
-        
+        DynamicTypeInfo IDynamicMethodInfo.DynamicTypeInfo => DynamicTypeInfo;
+
         public ILEmitter GetILEmitter()
         {
-            return reflectionILEmitterField;
+            return _reflectionILEmitterField;
         }
 
         /// <summary>
@@ -67,7 +52,7 @@ namespace FluentIL.Infos
         /// </summary>        
         public DynamicMethodBody BodyDefinition()
         {
-            return Body;
+            return _body;
         }
 
         /// <summary>
@@ -75,9 +60,9 @@ namespace FluentIL.Infos
         /// </summary>        
         public DynamicMethodBody BodyDefinitionWithDefaultBaseCtor()
         {
-            Body.Ldarg(0)
+            _body.Ldarg(0)
                 .Call(BaseConstructor());
-            return Body;
+            return _body;
         }
 
         /// <summary>
@@ -86,7 +71,7 @@ namespace FluentIL.Infos
         /// <exception cref="ApplicationException">if constructor on base type is not found</exception>
         public ConstructorInfo BaseConstructor(params Type[] parameterTypes)
         {
-            var retrievedConstructor = DynamicTypeInfo.TypeBuilder.BaseType.GetConstructor(parameterTypes);
+            var retrievedConstructor = DynamicTypeInfo?.TypeBuilder?.BaseType?.GetConstructor(parameterTypes);
 
             if (retrievedConstructor == null)
             {
@@ -98,8 +83,8 @@ namespace FluentIL.Infos
 
         public DynamicConstructorInfo WithVariable(Type variableType, string variableName)
         {
-            variablesField.Add(new DynamicVariableInfo(variableName, variableType));
-            reflectionILEmitterField.DeclareLocal(variableType);
+            _variablesField.Add(new DynamicVariableInfo(variableName, variableType));
+            _reflectionILEmitterField.DeclareLocal(variableType);
             return this;
         }
 
@@ -122,26 +107,24 @@ namespace FluentIL.Infos
         
         private void InitConstructorBuilder(Type[] constructorArgumentTypes)
         {
-            constructorBuilderField = DynamicTypeInfo.TypeBuilder
+            _constructorBuilderField = DynamicTypeInfo.TypeBuilder
                             .DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, constructorArgumentTypes);
 
-            reflectionILEmitterField = new ReflectionILEmitter(constructorBuilderField.GetILGenerator());
-            Body = new DynamicMethodBody(this);
+            _reflectionILEmitterField = new ReflectionILEmitter(_constructorBuilderField.GetILGenerator());
+            _body = new DynamicMethodBody(this);
         }
 
         private DynamicMethod GetCtorDynamicMethod()
         {
-            if (ctorDynamicMethodField == null)
-            {
-                ctorDynamicMethodField = new DynamicMethod(String.Empty,
-                                                           constructorBuilderField.DeclaringType,
-                                                           parametersField.ToArray());
+            if (_ctorDynamicMethodField != null) return _ctorDynamicMethodField;
+            _ctorDynamicMethodField = new DynamicMethod(string.Empty,
+                _constructorBuilderField.DeclaringType,
+                _parametersField.ToArray());
 
-                var ilgen = ctorDynamicMethodField.GetILGenerator();
-                foreach (var variableToDeclare in Variables)
-                    ilgen.DeclareLocal(variableToDeclare.Type);
-            }
-            return ctorDynamicMethodField;
+            var ilgen = _ctorDynamicMethodField.GetILGenerator();
+            foreach (var variableToDeclare in Variables)
+                ilgen.DeclareLocal(variableToDeclare.Type);
+            return _ctorDynamicMethodField;
         }
 
         #endregion

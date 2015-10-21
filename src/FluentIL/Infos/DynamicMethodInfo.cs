@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -24,11 +23,11 @@ namespace FluentIL.Infos
             MethodName = methodName;
         }
 
-        private readonly ILEmitter emitterField;
+        private readonly ILEmitter _emitterField;
         public DynamicMethodInfo(ILEmitter emitter)
         {
             Body = new DynamicMethodBody(this);
-            emitterField = emitter;
+            _emitterField = emitter;
         }
 
         public DynamicMethodInfo()
@@ -43,8 +42,7 @@ namespace FluentIL.Infos
 
         #region DynamicMethod Gen
 
-        private DynamicMethod resultField;
-        private MethodBuilder methodBuilderField;
+        private DynamicMethod _resultField;
 
         public DynamicMethod AsDynamicMethod
         {
@@ -53,87 +51,80 @@ namespace FluentIL.Infos
                 if (DynamicTypeInfo != null)
                     throw new InvalidOperationException();
 
-                if (resultField == null)
+                if (_resultField != null) return _resultField;
+                var parameterTypes = _parametersField.Select(p => p.Type)
+                    .ToArray();
+
+                if (Owner != null)
                 {
-                    Type[] parameterTypes = parametersField.Select(p => p.Type)
-                        .ToArray();
-
-                    if (Owner != null)
-                    {
-                        resultField = new DynamicMethod(
-                            MethodName,
-                            ReturnType,
-                            parameterTypes,
-                            Owner,
-                            true
-                            );
-                    }
-                    else
-                    {
-                        resultField = new DynamicMethod(
-                            MethodName,
-                            ReturnType,
-                            parameterTypes
-                            );
-                    }
-
-                    ILGenerator ilgen = resultField.GetILGenerator();
-                    foreach (DynamicVariableInfo variable in Variables)
-                        ilgen.DeclareLocal(variable.Type);
+                    _resultField = new DynamicMethod(
+                        MethodName,
+                        ReturnType,
+                        parameterTypes,
+                        Owner,
+                        true
+                        );
                 }
-                return resultField;
+                else
+                {
+                    _resultField = new DynamicMethod(
+                        MethodName,
+                        ReturnType,
+                        parameterTypes
+                        );
+                }
+
+                var ilgen = _resultField.GetILGenerator();
+                foreach (var variable in Variables)
+                    ilgen.DeclareLocal(variable.Type);
+                return _resultField;
             }
         }
 
-        public DynamicTypeInfo DynamicTypeInfo { get; private set; }
+        public DynamicTypeInfo DynamicTypeInfo { get; }
 
-        public MethodBuilder MethodBuilder
-        {
-            get { return methodBuilderField; }
-        }
+        public MethodBuilder MethodBuilder { get; private set; }
 
         public ILEmitter GetILEmitter()
         {
-            if (emitterField != null)
-                return emitterField;
+            if (_emitterField != null)
+                return _emitterField;
 
             if (DynamicTypeInfo == null)
                 return new ReflectionILEmitter(AsDynamicMethod.GetILGenerator());
-            
-            if (methodBuilderField == null)
-            {
-                Type[] parameterTypes = parametersField.Select(p => p.Type)
-                    .ToArray();
 
-                methodBuilderField = DynamicTypeInfo.TypeBuilder.DefineMethod(
-                    MethodName,
-                    methodAttributesField,
-                    CallingConventions.HasThis,
-                    ReturnType,
-                    parameterTypes);
+            if (MethodBuilder != null) return new ReflectionILEmitter(MethodBuilder.GetILGenerator());
+            var parameterTypes = _parametersField.Select(p => p.Type)
+                .ToArray();
 
-                ILGenerator ilgen = methodBuilderField.GetILGenerator();
-                foreach (DynamicVariableInfo variable in Variables)
-                    ilgen.DeclareLocal(variable.Type);
-            }
-            return new ReflectionILEmitter(methodBuilderField.GetILGenerator());
+            MethodBuilder = DynamicTypeInfo.TypeBuilder.DefineMethod(
+                MethodName,
+                _methodAttributesField,
+                CallingConventions.HasThis,
+                ReturnType,
+                parameterTypes);
+
+            var ilgen = MethodBuilder.GetILGenerator();
+            foreach (var variable in Variables)
+                ilgen.DeclareLocal(variable.Type);
+            return new ReflectionILEmitter(MethodBuilder.GetILGenerator());
         }
 
         #endregion
 
         #region DSL
 
-        private MethodAttributes methodAttributesField = MethodAttributes.Public | MethodAttributes.Virtual;
+        private MethodAttributes _methodAttributesField = MethodAttributes.Public | MethodAttributes.Virtual;
 
         public DynamicMethodInfo TurnOnAttributes(MethodAttributes attributes)
         {
-            methodAttributesField |= attributes;
+            _methodAttributesField |= attributes;
             return this;
         }
 
         public DynamicMethodInfo TurnOffAttributes(MethodAttributes attributes)
         {
-            methodAttributesField &= ~attributes;
+            _methodAttributesField &= ~attributes;
             return this;
         }
 
@@ -164,9 +155,9 @@ namespace FluentIL.Infos
             Console.WriteLine(".param ({0}) [{1}] {2}",
                         Parameters.Count() + (DynamicTypeInfo == null ? 0 : 1),
                         parameterType,
-                        String.IsNullOrEmpty(parameterName) ? "no-name" : parameterName);
+                        string.IsNullOrEmpty(parameterName) ? "no-name" : parameterName);
 #endif
-            parametersField.Add(new DynamicVariableInfo(parameterName, parameterType));
+            _parametersField.Add(new DynamicVariableInfo(parameterName, parameterType));
             return this;
         }
 
@@ -181,9 +172,9 @@ namespace FluentIL.Infos
             Console.WriteLine(".local ({0}) [{1}] {2}",
                         Variables.Count(),
                         variableType,
-                        String.IsNullOrEmpty(variableName) ? "no-name" : variableName);
+                        string.IsNullOrEmpty(variableName) ? "no-name" : variableName);
 #endif
-            variablesField.Add(new DynamicVariableInfo(variableName, variableType));
+            _variablesField.Add(new DynamicVariableInfo(variableName, variableType));
             return this;
         }
 
@@ -227,22 +218,16 @@ namespace FluentIL.Infos
 
         #region Properties
 
-        private readonly List<DynamicVariableInfo> parametersField = new List<DynamicVariableInfo>();
-        private readonly List<DynamicVariableInfo> variablesField = new List<DynamicVariableInfo>();
+        private readonly List<DynamicVariableInfo> _parametersField = new List<DynamicVariableInfo>();
+        private readonly List<DynamicVariableInfo> _variablesField = new List<DynamicVariableInfo>();
         public Type ReturnType { get; private set; }
 
-        public DynamicMethodBody Body { get; private set; }
+        public DynamicMethodBody Body { get; }
 
-        public IEnumerable<DynamicVariableInfo> Parameters
-        {
-            get { return parametersField; }
-        }
+        public IEnumerable<DynamicVariableInfo> Parameters => _parametersField;
 
 
-        public IEnumerable<DynamicVariableInfo> Variables
-        {
-            get { return variablesField; }
-        }
+        public IEnumerable<DynamicVariableInfo> Variables => _variablesField;
 
         #endregion
 

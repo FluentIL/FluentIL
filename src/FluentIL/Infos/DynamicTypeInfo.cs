@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -11,10 +10,10 @@ namespace FluentIL.Infos
 {
     public class DynamicTypeInfo
     {
-        private readonly List<DynamicFieldInfo> fieldsField = new List<DynamicFieldInfo>();
-        private readonly List<Type> interfacesField = new List<Type>();
-        private Type parentField = typeof(object);
-        private TypeBuilder typeBuilderField;
+        private readonly List<DynamicFieldInfo> _fieldsField = new List<DynamicFieldInfo>();
+        private readonly List<Type> _interfacesField = new List<Type>();
+        private Type _parentField = typeof(object);
+        private TypeBuilder _typeBuilderField;
 
         public DynamicTypeInfo(string typeName)
         {
@@ -31,52 +30,47 @@ namespace FluentIL.Infos
             get
             {
                 EnsureTypeBuilder();
-                return typeBuilderField;
+                return _typeBuilderField;
             }
         }
 
-        public Type AsType
-        {
-            get { return TypeBuilder.CreateType(); }
-        }
+        public Type AsType => TypeBuilder.CreateType();
 
         private void EnsureTypeBuilder()
         {
-            if (typeBuilderField == null)
-            {
-                var assemblyName = new AssemblyName(
-                    string.Format("__assembly__{0}", DateTime.Now.Millisecond)
-                    );
+            if (_typeBuilderField != null) return;
+            var assemblyName = new AssemblyName(
+                $"__assembly__{DateTime.Now.Millisecond}"
+                );
 
-                AssemblyBuilder assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(
-                    assemblyName,
-                    AssemblyBuilderAccess.RunAndSave
-                    );
+            var assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(
+                assemblyName,
+                AssemblyBuilderAccess.RunAndSave
+                );
 
-                ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(
-                    assemblyBuilder.GetName().Name,
-                    false
-                    );
+            var moduleBuilder = assemblyBuilder.DefineDynamicModule(
+                assemblyBuilder.GetName().Name,
+                false
+                );
 
-                typeBuilderField = moduleBuilder.DefineType(TypeName,
-                                                            TypeAttributes.Public |
-                                                            TypeAttributes.Class |
-                                                            TypeAttributes.AutoClass |
-                                                            TypeAttributes.AnsiClass |
-                                                            TypeAttributes.BeforeFieldInit |
-                                                            TypeAttributes.AutoLayout,
-                                                            parentField,
-                                                            interfacesField.ToArray()
-                    );
+            _typeBuilderField = moduleBuilder.DefineType(TypeName,
+                TypeAttributes.Public |
+                TypeAttributes.Class |
+                TypeAttributes.AutoClass |
+                TypeAttributes.AnsiClass |
+                TypeAttributes.BeforeFieldInit |
+                TypeAttributes.AutoLayout,
+                _parentField,
+                _interfacesField.ToArray()
+                );
                 
-                foreach (DynamicFieldInfo field in fieldsField)
-                {
-                    field.FieldBuilder = typeBuilderField.DefineField(
-                        field.Name,
-                        field.Type,
-                        FieldAttributes.Private
-                        );
-                }
+            foreach (var field in _fieldsField)
+            {
+                field.FieldBuilder = _typeBuilderField.DefineField(
+                    field.Name,
+                    field.Type,
+                    FieldAttributes.Private
+                    );
             }
         }
 
@@ -92,7 +86,7 @@ namespace FluentIL.Infos
 
         public DynamicTypeInfo Implements<TInterface>()
         {
-            interfacesField.Add(typeof (TInterface));
+            _interfacesField.Add(typeof (TInterface));
 #if DEBUG
             Console.WriteLine("implements {0}", typeof (TInterface));
 #endif
@@ -102,7 +96,7 @@ namespace FluentIL.Infos
         public DynamicTypeInfo Inherits<TBaseClass>()
             where TBaseClass : class
         {
-            parentField = typeof(TBaseClass);
+            _parentField = typeof(TBaseClass);
 #if DEBUG
             Console.WriteLine("inherits {0}", typeof(TBaseClass));
 #endif
@@ -123,13 +117,13 @@ namespace FluentIL.Infos
             Console.WriteLine(".field ({0}) {1}", fieldType, fieldName);
 #endif
 
-            fieldsField.Add(
+            _fieldsField.Add(
                 value
                 );
 
-            if (typeBuilderField != null)
+            if (_typeBuilderField != null)
             {
-                value.FieldBuilder = typeBuilderField.DefineField(
+                value.FieldBuilder = _typeBuilderField.DefineField(
                     fieldName,
                     fieldType,
                     FieldAttributes.Private
@@ -140,7 +134,7 @@ namespace FluentIL.Infos
 
         public FieldInfo GetFieldInfo(string fieldName)
         {
-            DynamicFieldInfo result = fieldsField.First(f => f.Name.Equals(fieldName));
+            var result = _fieldsField.First(f => f.Name.Equals(fieldName));
             if (result == null) return null;
             EnsureTypeBuilder();
             return result.FieldBuilder;

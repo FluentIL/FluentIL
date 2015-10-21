@@ -1,7 +1,6 @@
 ﻿using System;
 
 // ReSharper disable CheckNamespace
-
 namespace FluentIL.Emitters
 // ReSharper restore CheckNamespace
 {
