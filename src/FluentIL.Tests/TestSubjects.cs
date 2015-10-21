@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FluentIL.Tests
 {
@@ -24,7 +21,7 @@ namespace FluentIL.Tests
 
         public ConcreteFoo2()
         {
-            FooProperty = Int32.MinValue;
+            FooProperty = int.MinValue;
         }
 
         public ConcreteFoo2(int value)

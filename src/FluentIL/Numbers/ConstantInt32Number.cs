@@ -9,7 +9,7 @@ namespace FluentIL.Numbers
             Value = value;
         }
 
-        public int Value { get; private set; }
+        public int Value { get; }
 
         public override void Emit(DynamicMethodBody generator)
         {

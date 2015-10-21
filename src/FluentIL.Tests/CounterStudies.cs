@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Reflection.Emit;
+using NUnit.Framework;
+using SharpTestsEx;
 
 //public class Counter
 //{
@@ -68,10 +68,6 @@ using System.Text;
 
 namespace FluentIL.Tests
 {
-    using NUnit.Framework;
-    using SharpTestsEx;
-    using System.Reflection.Emit;
-
     [TestFixture]
     public class CounterStudies
     {

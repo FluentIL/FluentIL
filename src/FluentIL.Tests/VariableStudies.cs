@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Reflection.Emit;
 using NUnit.Framework;
 using SharpTestsEx;
-using System.Reflection.Emit;
 
 namespace FluentIL.Tests
 {
@@ -48,8 +43,8 @@ namespace FluentIL.Tests
 
             var result = method.Invoke(null, null);
 
-            int expected = 0;
-            for (int i = 0; i <= 100; i++)
+            var expected = 0;
+            for (var i = 0; i <= 100; i++)
                 expected += i;
 
             result.Should().Be(expected); // expected = 5550;

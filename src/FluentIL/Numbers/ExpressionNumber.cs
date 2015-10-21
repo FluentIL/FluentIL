@@ -10,7 +10,7 @@ namespace FluentIL.Numbers
             Expression = expression;
         }
 
-        public Expression Expression { get; private set; }
+        public Expression Expression { get; }
 
         public override void Emit(DynamicMethodBody generator)
         {

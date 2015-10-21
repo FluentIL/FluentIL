@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NUnit.Framework;
+using SharpTestsEx;
 
 namespace FluentIL.Tests
 {
-    using NUnit.Framework;
-    using SharpTestsEx;
-
     [TestFixture]
     public class GetSetStudies
     {
@@ -111,18 +106,18 @@ namespace FluentIL.Tests
         public int PropGetCount { get; private set; }
         public int PropSetCount { get; private set; }
 
-        string prop;
+        string _prop;
         public string Prop
         {
             get
             {
                 PropGetCount++;
-                return prop;
+                return _prop;
             }
             set
             {
                 PropSetCount++;
-                prop = value;
+                _prop = value;
             }
         }
     }

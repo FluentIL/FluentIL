@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using Mono.Cecil.Cil;
-using FluentIL.Emitters;
-using Mono.Cecil;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FluentIL.Cecil.Emitters;
+using FluentIL.Emitters;
 using FluentIL.Infos;
-using System;
-using MethodAttributes = Mono.Cecil.MethodAttributes;
+using Mono.Cecil;
+using Mono.Cecil.Cil;
 
 namespace FluentIL.Cecil
 {
@@ -17,8 +16,8 @@ namespace FluentIL.Cecil
 
         static CecilExtensions()
         {
-            FieldInfo[] fields = typeof (OpCodes).GetFields();
-            foreach (FieldInfo field in fields)
+            var fields = typeof (OpCodes).GetFields();
+            foreach (var field in fields)
             {
                 CecilOpcodes.Add(field.Name.ToLower().Replace('_', '.')
                                  , (OpCode) field.GetValue(null));
@@ -36,7 +35,7 @@ namespace FluentIL.Cecil
         public static DynamicMethodBody InsertBefore
             (this MethodDefinition that)
         {
-            ILProcessor worker = that.Body.GetILProcessor();
+            var worker = that.Body.GetILProcessor();
 
             var firstInstruction = worker.Body.Instructions[0];
             var emitter = new CecilILEmitter(
@@ -53,19 +52,14 @@ namespace FluentIL.Cecil
         public static DynamicMethodBody InsertBeforeRet
             (this MethodDefinition that)
         {
-            ILProcessor worker = that.Body.GetILProcessor();
+            var worker = that.Body.GetILProcessor();
             var aggregator = new EmittersAggregator();
-            foreach (var instruction in worker.Body.Instructions)
+            foreach (var emitter in worker.Body.Instructions.Where(instruction => instruction.OpCode == OpCodes.Ret).Select(instruction1 => new CecilILEmitter(
+                that.Module.Assembly,
+                worker,
+                inst => worker.InsertBefore(instruction1, inst))))
             {
-                if (instruction.OpCode == OpCodes.Ret)
-                {
-                    Instruction instruction1 = instruction;
-                    var emitter = new CecilILEmitter(
-                        that.Module.Assembly,
-                        worker,
-                        inst => worker.InsertBefore(instruction1, inst));
-                    aggregator.Emitters.Add(emitter);
-                }
+                aggregator.Emitters.Add(emitter);
             }
             var dinfo = new DynamicMethodInfo(aggregator);
             that.LoadArgsTo(dinfo);
@@ -76,7 +70,7 @@ namespace FluentIL.Cecil
         public static DynamicMethodBody ReplaceWith
             (this MethodDefinition that)
         {
-            ILProcessor worker = that.Body.GetILProcessor();
+            var worker = that.Body.GetILProcessor();
             var emitter = new CecilILEmitter(
                 that.Module.Assembly, 
                 worker, 
@@ -98,7 +92,7 @@ namespace FluentIL.Cecil
             
             var method = new MethodDefinition(methodName, methodAttributes, typeReference);
             
-            ILProcessor worker = method.Body.GetILProcessor();
+            var worker = method.Body.GetILProcessor();
 
             var emitter = new CecilILEmitter(
                 assembly,

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FluentIL.Infos;
+using NUnit.Framework;
+using SharpTestsEx;
 
 namespace FluentIL.Tests
 {
-    using NUnit.Framework;
-    using SharpTestsEx;
-
     [TestFixture]
     class DynamicTypeInfoTests
     {

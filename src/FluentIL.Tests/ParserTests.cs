@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FluentIL.ExpressionParser;
+using NUnit.Framework;
 
 namespace FluentIL.Tests
 {
-    using NUnit.Framework;
-    using FluentIL.ExpressionParser;
-
     [TestFixture]
     public class ParserTests
     {

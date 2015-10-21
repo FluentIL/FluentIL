@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.Reflection.Emit;
+﻿using System.Reflection.Emit;
 using NUnit.Framework;
 using SharpTestsEx;
 
@@ -17,7 +12,7 @@ namespace FluentIL.Tests
         public void TwoPlusTwoWithParameters_Reference()
         {
             // arrange
-            DynamicMethod dm = new DynamicMethod("SomeName", typeof(int), new Type[] { typeof(int), typeof(int) });
+            var dm = new DynamicMethod("SomeName", typeof(int), new[] { typeof(int), typeof(int) });
 
             var ilgen = dm.GetILGenerator();
             ilgen.Emit(OpCodes.Ldarg_0);

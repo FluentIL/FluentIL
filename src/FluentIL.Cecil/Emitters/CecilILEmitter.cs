@@ -14,10 +14,10 @@ namespace FluentIL.Cecil.Emitters
 {
     public class CecilILEmitter : ILEmitter
     {
-        private readonly AssemblyDefinition assemblyDefinitionField;
-        private readonly ILProcessor ilProcessorField;
-        private readonly Action<Instruction> continuationField;
-        private int labelCountField;
+        private readonly AssemblyDefinition _assemblyDefinitionField;
+        private readonly ILProcessor _ilProcessorField;
+        private readonly Action<Instruction> _continuationField;
+        private int _labelCountField;
 
         public CecilILEmitter(
             AssemblyDefinition assemblyDefinition,
@@ -25,9 +25,9 @@ namespace FluentIL.Cecil.Emitters
             Action<Instruction> continuation
             )
         {
-            assemblyDefinitionField = assemblyDefinition;
-            ilProcessorField = ilProcessor;
-            continuationField = continuation;
+            _assemblyDefinitionField = assemblyDefinition;
+            _ilProcessorField = ilProcessor;
+            _continuationField = continuation;
         }
 
         protected override void OnDeclareLocal(Type type)
@@ -42,22 +42,22 @@ namespace FluentIL.Cecil.Emitters
                 .First()
                 .GetValue(label);
 
-            ProcessInstruction(labelsField[value].LabeledInstruction);
+            ProcessInstruction(_labelsField[value].LabeledInstruction);
         }
 
         protected override Label OnDefineLabel()
         {
-            labelsField.Add(new LabelInfo());
-            labelsField[labelCountField].LabeledInstruction = 
-                ilProcessorField.Create(OpCodes.Nop);
+            _labelsField.Add(new LabelInfo());
+            _labelsField[_labelCountField].LabeledInstruction = 
+                _ilProcessorField.Create(OpCodes.Nop);
 
             return (Label)typeof(Label).GetConstructor(
                     BindingFlags.NonPublic | BindingFlags.Instance,
-                    null, new Type[] { typeof(int) }, null
-                ).Invoke(new object[] { labelCountField++ });
+                    null, new[] { typeof(int) }, null
+                ).Invoke(new object[] { _labelCountField++ });
         }
 
-        readonly List<LabelInfo> labelsField = new List<LabelInfo>();
+        readonly List<LabelInfo> _labelsField = new List<LabelInfo>();
 
         class LabelInfo
         {
@@ -66,22 +66,22 @@ namespace FluentIL.Cecil.Emitters
 
         protected override void OnEmit(OpCode opcode)
         {
-            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil()));
+            ProcessInstruction(_ilProcessorField.Create(opcode.ToCecil()));
         }
 
         protected override void OnEmit(OpCode opcode, string arg)
         {
-            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), arg));
+            ProcessInstruction(_ilProcessorField.Create(opcode.ToCecil(), arg));
         }
 
         protected override void OnEmit(OpCode opcode, int arg)
         {
-            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), arg));
+            ProcessInstruction(_ilProcessorField.Create(opcode.ToCecil(), arg));
         }
 
         protected override void OnEmit(OpCode opcode, double arg)
         {
-            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), arg));
+            ProcessInstruction(_ilProcessorField.Create(opcode.ToCecil(), arg));
         }
 
         protected override void OnEmit(OpCode opcode, Label arg)
@@ -92,22 +92,22 @@ namespace FluentIL.Cecil.Emitters
                 .GetValue(arg);
 
             ProcessInstruction(
-                ilProcessorField.Create(
+                _ilProcessorField.Create(
                     opcode.ToCecil(), 
-                    labelsField[value].LabeledInstruction
+                    _labelsField[value].LabeledInstruction
                     ));
         }
 
         protected override void OnEmit(OpCode opcode, MethodInfo arg)
         {
-            var reference = assemblyDefinitionField.MainModule.Import(arg);
-            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), reference));
+            var reference = _assemblyDefinitionField.MainModule.Import(arg);
+            ProcessInstruction(_ilProcessorField.Create(opcode.ToCecil(), reference));
         }
 
         protected override void OnEmit(OpCode opcode, ConstructorInfo arg)
         {
-            var reference = assemblyDefinitionField.MainModule.Import(arg);
-            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), reference));
+            var reference = _assemblyDefinitionField.MainModule.Import(arg);
+            ProcessInstruction(_ilProcessorField.Create(opcode.ToCecil(), reference));
         }
 
         protected override void OnEmit(OpCode opcode, FieldInfo arg)
@@ -117,19 +117,19 @@ namespace FluentIL.Cecil.Emitters
 
         protected override void OnEmit(OpCode opcode, Type arg)
         {
-            var ts = assemblyDefinitionField.MainModule.TypeSystem;
+            var ts = _assemblyDefinitionField.MainModule.TypeSystem;
             TypeReference reference;
-            if (arg == typeof(Int32))
+            if (arg == typeof(int))
                 reference = ts.Int32;
             else 
                 throw  new NotSupportedException();
 
-            ProcessInstruction(ilProcessorField.Create(opcode.ToCecil(), reference));
+            ProcessInstruction(_ilProcessorField.Create(opcode.ToCecil(), reference));
         }
 
         private void ProcessInstruction(Instruction instruction)
         {
-            continuationField(instruction);
+            _continuationField(instruction);
         }
     }
 

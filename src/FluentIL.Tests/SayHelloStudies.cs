@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-
 using System.Reflection.Emit;
+using NUnit.Framework;
 using SharpTestsEx;
-using System.Reflection;
 
 namespace FluentIL.Tests
 {
@@ -236,7 +231,7 @@ public string SayHello(string a)
         public void CheckingEmptyParameterV3_PassingEmpty_ThrowsArgumentException()
         {
 
-            CheckingEmptyParameterV2().SayHello(String.Empty);
+            CheckingEmptyParameterV2().SayHello(string.Empty);
         }
 
         [Test]

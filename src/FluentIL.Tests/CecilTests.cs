@@ -4,7 +4,6 @@ using FluentIL.Cecil;
 using Mono.Cecil;
 using NUnit.Framework;
 using SharpTestsEx;
-using SharpTestsEx.Assertions;
 
 namespace FluentIL.Tests
 {
