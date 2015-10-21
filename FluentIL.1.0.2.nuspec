@@ -5,7 +5,7 @@
         <version>1.0.2</version>
         <title>FluentIL</title>
         <authors>ElemarJR</authors>
-        <projectUrl>http://elemarjr.net/tag/FluentIL</projectUrl>
+        <projectUrl>http://github.com/FluentIL</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>.NET Emitting Helper</description>
         <summary />
