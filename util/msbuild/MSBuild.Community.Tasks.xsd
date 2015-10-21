@@ -29,7 +29,10 @@
               <xs:documentation>[Optional] When , script maps are applied recursively under .</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="Version" type="xs:string">
             <xs:annotation>
@@ -47,6 +50,11 @@
     <xs:complexType>
       <xs:complexContent mixed="false">
         <xs:extension base="msb:TaskType">
+          <xs:attribute name="AllowPartiallyTrustedCallers" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets whether to allow strong-named assemblies to be called by partially trusted code.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="AssemblyCompany" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the assembly company.</xs:documentation>
@@ -166,6 +174,11 @@
               <xs:documentation>[Optional] Gets or sets the assembly delay sign value.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="UltimateResourceFallbackLocation" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the ultimate resource fallback location.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="UnmanagedCode" type="msb:non_empty_string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the assembly delay sign value.</xs:documentation>
@@ -266,6 +279,11 @@
               <xs:documentation>[Optional] [Output] Gets the IP address of the build computer.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="IPAddressV4" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets the IP v4 address of the build computer.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="Name" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the host name of the build computer.</xs:documentation>
@@ -305,6 +323,37 @@
           <xs:attribute name="Recursive" type="msb:non_empty_string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets a value indicating whether this  is recursive.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EmbedNativeResource" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>A task for embedded native resource.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="ResourceName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the resource name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ResourcePath" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>Gets or sets the resource path.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ResourceType" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the resource type.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="TargetAssemblyPath" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>Gets or sets the target assembly path.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
         </xs:extension>
@@ -352,6 +401,11 @@
           <xs:attribute name="ReplacementText" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the replacement text.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ReplacementTextEmpty" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets if replacement text is empty.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Singleline" type="msb:non_empty_string">
@@ -479,6 +533,11 @@
               <xs:documentation>[Optional] Gets or sets the size of the data buffer.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="FilesTransferType" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the type of files to be transferred. Accepts either 'BINARY' or 'ASCII' value.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="LastReply" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets the last recieved FTP response over the client socket.</xs:documentation>
@@ -530,6 +589,11 @@
     <xs:complexType>
       <xs:complexContent mixed="false">
         <xs:extension base="msb:TaskType">
+          <xs:attribute name="KeepAlive" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value that indicates whether to make a persistent connection to the Internet resource.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="LocalFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the single file to upload.  Use
@@ -556,6 +620,11 @@
           <xs:attribute name="RemoteUri" type="msb:non_empty_string" use="required">
             <xs:annotation>
               <xs:documentation>Gets or sets the remote URI to upload.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Timeout" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the time-out value in milliseconds</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="UsePassive" type="msb:non_empty_string">
@@ -597,6 +666,11 @@
             be applied to the analysis output before it is displayed in the console.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="CustomDictionary" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Specifies the custom dictionary.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="DependencyDirectories" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Specifies additional directories to search for assembly dependencies. 
@@ -618,6 +692,12 @@
               <xs:documentation>[Optional] Gets or sets a value indicating whether the build should
             fail if static code analysis reports errors. Defaults to 
             true.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="IgnoreGeneratedCode" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether FxCop should ignore 
+            generated code. Defaults to false.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="ImportFiles" type="xs:string">
@@ -666,12 +746,20 @@
               <xs:documentation>[Optional] Saves the results of the analysis in the project file.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="SearchGac" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Tells FxCop to search the GAC for assembly references. This parameter was added in FxCop 1.35</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetAssemblies" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Specifies the target assembly to analyze.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="TypeList" type="xs:string">
             <xs:annotation>
@@ -800,6 +888,288 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GitBranch" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>A task to get the name of the branch or tag of git repository</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="Arguments" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the raw arguments to pass to the git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Branch" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Return the branch or tag.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Command" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the command to run.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ConsoleOutput" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets command console output messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="LocalPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the local or working path for git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GitClient" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>A task for Git commands.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="Arguments" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the raw arguments to pass to the git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Command" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the command to run.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ConsoleOutput" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets command console output messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="LocalPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the local or working path for git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GitCommits" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>A task for git to retrieve the number of commits on a revision.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="Arguments" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the raw arguments to pass to the git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Command" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the command to run.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="CommitsCount" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets or sets the commitscount.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ConsoleOutput" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets command console output messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="LocalPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the local or working path for git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Revision" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the revision to get the total number of commits from. Default is HEAD.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GitDescribe" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>A task for git to get the most current tag, commit count since tag, and commit hash.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="Arguments" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the raw arguments to pass to the git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Command" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the command to run.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="CommitCount" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets the number of commits in this branch since the last tag</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="CommitHash" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets or sets the commit hash.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ConsoleOutput" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets command console output messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ErrorMessage" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Not active yet</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="LocalPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the local or working path for git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="SoftErrorMode" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] When true, any processing errors will push error status out into</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Tag" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets the last tagname for this branch</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GitPendingChanges" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>A task for git to detect if there are pending changes</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="Arguments" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the raw arguments to pass to the git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Command" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the command to run.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ConsoleOutput" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets command console output messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="HasPendingChanges" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets or sets whether the working directory has pending changes.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="LocalPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the local or working path for git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GitVersion" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>A task for git to get the current commit hash.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="Arguments" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the raw arguments to pass to the git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Command" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the command to run.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="CommitHash" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets or sets the commit hash.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ConsoleOutput" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets command console output messages.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="LocalPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the local or working path for git command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Revision" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the revision to get the version from. Default is HEAD.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Short" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether to abbreviate to a shorter unique name.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="ChmCompiler" substitutionGroup="msb:Task">
     <xs:annotation>
       <xs:documentation>Html Help 1x compiler task.</xs:documentation>
@@ -813,7 +1183,10 @@
               <xs:documentation>Gets or sets the project file path.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -867,7 +1240,10 @@
               <xs:documentation>[Optional] Gets or sets a value indicating quite mode.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="UncompileDirectory" type="xs:string">
             <xs:annotation>
@@ -1947,6 +2323,12 @@
     <xs:complexType>
       <xs:complexContent mixed="false">
         <xs:extension base="msb:TaskType">
+          <xs:attribute name="AllowDuplicateAttributes" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether to copy assembly attributes from all merged assemblies
+            into the unified assembly even if duplicate assembly attributes would result.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="AllowDuplicateTypes" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the names of public types
@@ -1955,7 +2337,7 @@
           </xs:attribute>
           <xs:attribute name="AllowZeroPeKind" type="msb:non_empty_string">
             <xs:annotation>
-              <xs:documentation>[Optional] Gets or sets the flag to treat an assembly 
+              <xs:documentation>[Optional] Gets or sets a value indicating whether to treat an assembly 
             with a zero PeKind flag 
             (this is the value of the field listed as .corflags in the Manifest)
             as if it was ILonly.</xs:documentation>
@@ -1971,30 +2353,30 @@
           </xs:attribute>
           <xs:attribute name="Closed" type="msb:non_empty_string">
             <xs:annotation>
-              <xs:documentation>[Optional] Gets or sets the flag to indicate
-            whether to augment the list of input assemblies
+              <xs:documentation>[Optional] Gets or sets a value indicating whether 
+            to augment the list of input assemblies
             to its "transitive closure".</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="CopyAttributes" type="msb:non_empty_string">
             <xs:annotation>
-              <xs:documentation>[Optional] Gets or sets the flag to indicate
-            whether to copy the assembly level attributes
+              <xs:documentation>[Optional] Gets or sets a value indicating whether 
+            to copy the assembly level attributes
             of each input assembly over into the target assembly.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="DebugInfo" type="msb:non_empty_string">
             <xs:annotation>
-              <xs:documentation>[Optional] Gets or sets the flag to indicate
-            whether to preserve any .pdb files
+              <xs:documentation>[Optional] Gets or sets a value indicating whether 
+            to preserve any .pdb files
             that are found for the input assemblies
             into a .pdb file for the target assembly.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="DelaySign" type="msb:non_empty_string">
             <xs:annotation>
-              <xs:documentation>[Optional] Gets or sets the flag to indicate
-            whether the target assembly will be delay signed.</xs:documentation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether 
+            the target assembly will be delay signed.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="ExcludeFile" type="xs:string">
@@ -2034,12 +2416,19 @@
           </xs:attribute>
           <xs:attribute name="PublicKeyTokens" type="msb:non_empty_string">
             <xs:annotation>
-              <xs:documentation>[Optional] Gets or sets the flag to indicate
-            whether external assembly references in the manifest
+              <xs:documentation>[Optional] Gets or sets a value indicating whether 
+            external assembly references in the manifest
             of the target assembly will use public keys (false)
             or public key tokens (true).</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="SearchDirectories" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the directories to be used to search for input assemblies.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetKind" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the indicator
@@ -2058,6 +2447,7 @@
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="Version" type="xs:string">
             <xs:annotation>
@@ -2066,8 +2456,8 @@
           </xs:attribute>
           <xs:attribute name="XmlDocumentation" type="msb:non_empty_string">
             <xs:annotation>
-              <xs:documentation>[Optional] Gets or sets the flag to indicate
-            whether to merge XML documentation files
+              <xs:documentation>[Optional] Gets or sets a value indicating whether 
+            to merge XML documentation files
             into one for the target assembly.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
@@ -2103,7 +2493,10 @@
               <xs:documentation>Filename of Inno Setup script (.iss)</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -2138,7 +2531,10 @@
              stack will be printed to the log.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -2173,7 +2569,10 @@
              stack will be printed to the log.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -2474,7 +2873,7 @@
       </xs:simpleType>
     </xs:union>
   </xs:simpleType>
-  <xs:element name="Move" substitutionGroup="msb:Task">
+  <xs:element name="MV" substitutionGroup="msb:Task">
     <xs:annotation>
       <xs:documentation>Moves files on the filesystem to a new location.</xs:documentation>
     </xs:annotation>
@@ -2523,7 +2922,10 @@
               <xs:documentation>Gets or sets the project file path.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="Verbose" type="msb:non_empty_string">
             <xs:annotation>
@@ -2556,14 +2958,280 @@
               <xs:documentation>[Optional] Default is true.  When true, if the web server returns a status code less than 200 or greater than 299 then the task fails.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="Method" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Optional, default is GET. The HTTP method to use for the request.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Password" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Optional. The password to use with basic authentication.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ReadRequestFrom" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Optional; the name of the file to reqd the request from.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="Url" type="msb:non_empty_string" use="required">
             <xs:annotation>
               <xs:documentation>The URL to make an HTTP request against.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="Username" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Optional. The username to use with basic authentication.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="WriteResponseTo" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Optional; the name of the file to write the response to.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NuGetInstall" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>Installs a package using the specified sources.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="ConfigFile" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The NuGet configuation file. If not specified, file %AppData%\NuGet\NuGet.config is used as configuration file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExcludeVersion" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] If set, the destination directory will contain only the package name, not the version number</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="NoCache" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Disable looking up packages from local machine cache.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="OutputDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The directory in which packages will be installed. If none specified, uses the current directory.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Package" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>Specify the id of the package to install. If a path to a packages.config file is used instead of an id, all the packages it contains are installed.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Prerelease" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Allows prerelease packages to be installed. This flag is not required when restoring packages by installing from packages.config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="SolutionDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Solution root for package restore.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Source" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] A list of packages sources to use for the install.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+          <xs:attribute name="Verbosity" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Display this amount of details in the output: normal, quiet, detailed.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Version" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The version of the package to install.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="WorkingDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the working directory.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NuGetPack" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>Creates a NuGet package based on the specified nuspec or project file.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="BasePath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The base path of the files defined in the nuspec file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="File" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>The location of the nuspec or project file to create a package.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="OutputDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Specifies the directory for the created NuGet package.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="OutputFilePath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] The full file path of the NuGet package created by the NuGetPack task</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Properties" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Provides the ability to specify a semicolon ";" delimited list of properties when creating a package.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Symbols" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Determines if a package containing sources and symbols should be created. When specified with a nuspec, 
+            creates a regular NuGet package file and the corresponding symbols package.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+          <xs:attribute name="Verbose" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Shows verbose output for package building.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Verbosity" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Display this amount of details in the output.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Version" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Overrides the version number from the nuspec file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="WorkingDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the working directory.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NuGetPush" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>Pushes a package to the server and optionally publishes it.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="APIKey" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The API key to use for push to the server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="CreateOnly" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Specifies if the package should be created and uploaded to the server but not published to the server. False by default.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="File" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>The path to the package to push the package to the server.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Source" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Specifies the server URL.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+          <xs:attribute name="WorkingDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the working directory.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NuGetRestore" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>Downloads and unzips (restores) any packages missing from the packages folder.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="ConfigFile" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The NuGet configuation file. If not specified, file %AppData%\NuGet\NuGet.config is used as configuration file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="DisableParallelProcessing" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Disable parallel nuget package restores.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="NoCache" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Disable looking up packages from local machine cache.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="PackagesDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The directory in which packages will be installed. If none specified, uses the current directory.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Solution" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>If a solution is specified, this command restores NuGet packages that are 
+            installed in the solution and in projects contained in the solution. Otherwise, 
+            the command restores packages listed in the specified packages.config file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="SolutionDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Solution root for package restore.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Source" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] A list of packages sources to use for the install.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+          <xs:attribute name="Verbosity" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Display this amount of details in the output: normal, quiet, detailed.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="WorkingDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the working directory.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
         </xs:extension>
@@ -2577,6 +3245,12 @@
     <xs:complexType>
       <xs:complexContent mixed="false">
         <xs:extension base="msb:TaskType">
+          <xs:attribute name="Apartment" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The /apartment option may be used to specify the ApartmentState (STA or MTA) of the test runner thread. Since the default is MTA, the option is only needed to force execution in the Single Threaded Apartment.
+            Note: If a given test must always run in a particular apartment, as is the case with many Gui tests, you should use an attribute on the test rather than specifying this option at the command line.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="Assemblies" type="msb:non_empty_string" use="required">
             <xs:annotation>
               <xs:documentation>Gets or sets the assemblies.</xs:documentation>
@@ -2585,6 +3259,15 @@
           <xs:attribute name="DisableShadowCopy" type="msb:non_empty_string">
             <xs:annotation>
               <xs:documentation>[Optional] Determines whether assemblies are copied to a shadow folder during testing.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Domain" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The /domain option controls of the creation of AppDomains for running tests. The following values are recognized:
+            None - No domain is created - the tests are run in the primary domain. This normally requires copying the NUnit assemblies into the same directory as your tests.
+            Single - A test domain is created - this is how NUnit worked prior to version 2.4
+            Multiple - A separate test domain is created for each assembly
+            The default is to use multiple domains if multiple assemblies are listed on the command line. Otherwise a single domain is used.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="ErrorOutputFile" type="xs:string">
@@ -2603,6 +3286,16 @@
               <xs:documentation>[Optional] Gets or sets the fixture.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="Force32Bit" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Determines whether the tests are run in a 32bit process on a 64bit OS.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Framework" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Determines the framework to run aganist.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="IncludeCategory" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the categories to include.</xs:documentation>
@@ -2613,17 +3306,39 @@
               <xs:documentation>[Optional] Gets or sets the output XML file.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="Process" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The /process option controls how NUnit loads tests in processes. The following values are recognized.
+            Single - All the tests are run in the nunit-console process. This is the default.
+            Separate - A separate process is created to run the tests.
+            Multiple - A separate process is created for each test assembly, whether specified on the command line or listed in an NUnit project file.
+            Note: This option is not available using the .NET 1.1 build of nunit-console.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="ProjectConfiguration" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] The project configuration to run.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="ShowLabels" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Whether or not to show test labels in output</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TestInNewThread" type="msb:non_empty_string">
             <xs:annotation>
               <xs:documentation>[Optional] Allows tests to be run in a new thread, allowing you to take advantage of ApartmentState and ThreadPriority settings in the config file.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="TextOutputFile" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The file to redirect standard output to.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="WorkingDirectory" type="xs:string">
             <xs:annotation>
@@ -2794,9 +3509,14 @@
               <xs:documentation>[Optional] [Output] Gets or sets the output file.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
-          <xs:attribute name="RegularExpressions" type="msb:non_empty_string" use="required">
+          <xs:attribute name="RegularExpressions" type="xs:string">
             <xs:annotation>
-              <xs:documentation>Gets or sets the regular expressions.</xs:documentation>
+              <xs:documentation>[Optional] Gets or sets the regular expressions.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="RegularExpressionsFile" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the file defining the regular expressions.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
         </xs:extension>
@@ -3130,12 +3850,15 @@
               <xs:documentation>Source directory</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Subdirectories" type="msb:non_empty_string">
             <xs:annotation>
               <xs:documentation>[Optional] /S	Copies subdirectories (excluding empty ones).</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="Verbose" type="msb:non_empty_string">
             <xs:annotation>
@@ -3179,7 +3902,10 @@
               <xs:documentation>[Optional] Gets or sets the sandcastle install root directory.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -3233,12 +3959,15 @@
               <xs:documentation>[Optional] Gets or sets the sandcastle install root directory.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
           <xs:attribute name="TocFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the toc file.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -3277,7 +4006,10 @@
               <xs:documentation>[Optional] Gets or sets the sandcastle install root directory.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -3331,7 +4063,10 @@
               <xs:documentation>[Optional] Gets or sets the sandcastle install root directory.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -3446,7 +4181,10 @@
               <xs:documentation>[Optional] Gets or sets the sandcastle install root directory.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="XmlFile" type="xs:string">
             <xs:annotation>
@@ -3829,464 +4567,6 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-  <xs:element name="VssAdd" substitutionGroup="msb:Task">
-    <xs:annotation>
-      <xs:documentation>Task that adds files to a Visual SourceSafe database.</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent mixed="false">
-        <xs:extension base="msb:TaskType">
-          <xs:attribute name="Comment" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The comment to be applied to the newly added file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="DatabasePath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the folder that contains the srcsafe.ini file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Files" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>List of files that should be added to SourceSafe.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Password" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The password to use to log in to SourceSafe.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Path" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The Visual SourceSafe project or file to perform the action
-            on (starts with "$/").</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="UserName" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name of the user accessing the SourceSafe database.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Version" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] A version of the  to reference.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="VssCheckin" substitutionGroup="msb:Task">
-    <xs:annotation>
-      <xs:documentation>Task that executes a checkin against a VSS Database.</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent mixed="false">
-        <xs:extension base="msb:TaskType">
-          <xs:attribute name="Comment" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The checkin comment.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="DatabasePath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the folder that contains the srcsafe.ini file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="LocalPath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the local working directory.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Password" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The password to use to log in to SourceSafe.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Path" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The Visual SourceSafe project or file to perform the action
-            on (starts with "$/").</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Recursive" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether to perform the SourceSafe operation
-            recursively. The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="UserName" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name of the user accessing the SourceSafe database.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Version" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] A version of the  to reference.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Writable" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether to leave the file(s) as writable once the
-            checkin is complete. The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="VssCheckout" substitutionGroup="msb:Task">
-    <xs:annotation>
-      <xs:documentation>Task that executes a checkout of files or projects
-            against a Visual SourceSafe database.</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent mixed="false">
-        <xs:extension base="msb:TaskType">
-          <xs:attribute name="DatabasePath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the folder that contains the srcsafe.ini file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="LocalPath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the local working directory.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Password" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The password to use to log in to SourceSafe.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Path" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The Visual SourceSafe project or file to perform the action
-            on (starts with "$/").</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Recursive" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether to perform the SourceSafe operation
-            recursively. The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="UserName" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name of the user accessing the SourceSafe database.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Version" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] A version of the  to reference.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Writable" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether files will be writable once retrieved from
-            the repository. The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="VssClean" substitutionGroup="msb:Task">
-    <xs:annotation>
-      <xs:documentation>Task that can strip the source control information from a
-            Visual Studio Solution and subprojects.</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent mixed="false">
-        <xs:extension base="msb:TaskType" />
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="VssDiff" substitutionGroup="msb:Task">
-    <xs:annotation>
-      <xs:documentation>Task that records differences between the latest version
-            of all the items in a Visual SourceSafe project and another version or label
-            to a file.</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent mixed="false">
-        <xs:extension base="msb:TaskType">
-          <xs:attribute name="DatabasePath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the folder that contains the srcsafe.ini file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Label" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The value of the label to compare to.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="OutputFile" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name of the file to send the output to.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Password" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The password to use to log in to SourceSafe.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Path" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The Visual SourceSafe project or file to perform the action
-            on (starts with "$/").</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="UserName" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name of the user accessing the SourceSafe database.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Version" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] A version of the  to reference.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="VssGet" substitutionGroup="msb:Task">
-    <xs:annotation>
-      <xs:documentation>Task that retireves an item or project from a Visual SourceSafe database.</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent mixed="false">
-        <xs:extension base="msb:TaskType">
-          <xs:attribute name="DatabasePath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the folder that contains the srcsafe.ini file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="LocalPath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the local working directory.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Password" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The password to use to log in to SourceSafe.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Path" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The Visual SourceSafe project or file to perform the action
-            on (starts with "$/").</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Recursive" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether to perform the SourceSafe operation
-            recursively. The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Replace" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether to replace writable files.
-            The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="UserName" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name of the user accessing the SourceSafe database.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Version" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] A version of the  to reference.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Writable" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether files will be writable once retrieved from
-            the repository. The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="VssHistory" substitutionGroup="msb:Task">
-    <xs:annotation>
-      <xs:documentation>Generates an XML file containing details of all changes made
-            to a Visual SourceSafe project or file between specified labels or dates.</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent mixed="false">
-        <xs:extension base="msb:TaskType">
-          <xs:attribute name="DatabasePath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the folder that contains the srcsafe.ini file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="FromDate" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The End Date for the history.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="FromLabel" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The label to compare up to.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="OutputFile" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name and path of the XML output file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Password" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The password to use to log in to SourceSafe.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Path" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The Visual SourceSafe project or file to perform the action
-            on (starts with "$/").</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Recursive" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether to perform the SourceSafe operation
-            recursively. The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="ToDate" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The Start Date for the history.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="ToLabel" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The label to start comparing to.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="User" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The name of the user whose changes should be listed in 
-            the history.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="UserName" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name of the user accessing the SourceSafe database.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Version" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] A version of the  to reference.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="VssLabel" substitutionGroup="msb:Task">
-    <xs:annotation>
-      <xs:documentation>Task that applies a label to a Visual SourceSafe item.</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent mixed="false">
-        <xs:extension base="msb:TaskType">
-          <xs:attribute name="Comment" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] An optional comment.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="DatabasePath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the folder that contains the srcsafe.ini file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Label" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The text of the label.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Password" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The password to use to log in to SourceSafe.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Path" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The Visual SourceSafe project or file to perform the action
-            on (starts with "$/").</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Recursive" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether to perform the SourceSafe operation
-            recursively. The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="UserName" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name of the user accessing the SourceSafe database.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Version" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] A version of the  to reference.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="VssUndoCheckout" substitutionGroup="msb:Task">
-    <xs:annotation>
-      <xs:documentation>Task that undoes a checkout of files or projects
-            against a Visual SourceSafe database.</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-      <xs:complexContent mixed="false">
-        <xs:extension base="msb:TaskType">
-          <xs:attribute name="DatabasePath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the folder that contains the srcsafe.ini file.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="LocalPath" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The path to the local working directory.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Password" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] The password to use to log in to SourceSafe.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Path" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The Visual SourceSafe project or file to perform the action
-            on (starts with "$/").</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Recursive" type="msb:non_empty_string">
-            <xs:annotation>
-              <xs:documentation>[Optional] Determines whether to perform the SourceSafe operation
-            recursively. The default is .</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="UserName" type="msb:non_empty_string" use="required">
-            <xs:annotation>
-              <xs:documentation>The name of the user accessing the SourceSafe database.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-          <xs:attribute name="Version" type="xs:string">
-            <xs:annotation>
-              <xs:documentation>[Optional] A version of the  to reference.</xs:documentation>
-            </xs:annotation>
-          </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="PdbStr" substitutionGroup="msb:Task">
     <xs:annotation>
       <xs:documentation>A task for the pdbstr from source server.</xs:documentation>
@@ -4305,6 +4585,8 @@
               <xs:documentation>[Optional] Gets or sets the PDB file.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="StreamFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the stream file.</xs:documentation>
@@ -4316,6 +4598,7 @@
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -4396,7 +4679,10 @@
               <xs:documentation>[Optional] Gets or sets a value indicating whether to dumps raw source data from the PDB. The -r switch.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
         </xs:extension>
       </xs:complexContent>
@@ -4409,6 +4695,21 @@
     <xs:complexType>
       <xs:complexContent mixed="false">
         <xs:extension base="msb:TaskType">
+          <xs:attribute name="FailOnNoSourceInformationFound" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the fail on no source information found flag.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="KeepTempFileForDebugging" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether to keep temporary source index file created during index for debugging purposes.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="NoSourceInformationInPdb" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets the no source information found in</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="SourceCommandFormat" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the source command format. The SRCSRVCMD environment variable.</xs:documentation>
@@ -4438,6 +4739,77 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
+  <xs:element name="TfsSourceIndex" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>Task to index pdb files and entries to retrieve source files from Team Foundation Server source control.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="ChangesetVersion" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the change set used to retrieve file information.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Collection" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the tfs collection uri to use. 
+            When this options is set pdb source information is retrieved from the server, rather
+            that using local workspace information.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="FailOnNoSourceInformationFound" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the fail on no source information found flag.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="KeepTempFileForDebugging" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether to keep temporary source index file created during index for debugging purposes.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="NoSourceInformationInPdb" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets the no source information found in</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ServerMode" />
+          <xs:attribute name="SourceCommandFormat" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the source command format. The SRCSRVCMD environment variable.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="SourceServerSdkPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the source server SDK path.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="SourceTargetFormat" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the source target format. The SRCSRVTRG environment variable.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="SymbolFiles" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>Gets or sets the symbol files to have to source index added.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="TeamProjectCollectionUri" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>Path to the root of the team collection hosting your project</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="TeamProjectName" type="msb:non_empty_string" use="required" />
+          <xs:attribute name="TeamProjectRootDirectory" type="msb:non_empty_string" use="required" />
+          <xs:attribute name="WorkspaceDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the root of the workspace where the .</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="SqlExecute" substitutionGroup="msb:Task">
     <xs:annotation>
       <xs:documentation>Executes a SQL command.</xs:documentation>
@@ -4448,6 +4820,11 @@
           <xs:attribute name="Command" type="msb:non_empty_string" use="required">
             <xs:annotation>
               <xs:documentation>The command to execute</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="CommandTimeout" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Command Timeout</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="ConnectionString" type="msb:non_empty_string" use="required">
@@ -4612,12 +4989,15 @@
               <xs:documentation>[Optional] Gets or sets the username on the hosting Web service endpoint.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetServer" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the target server the script should target.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="Username" type="xs:string">
             <xs:annotation>
@@ -4697,16 +5077,23 @@
               <xs:documentation>[Optional] [Output] Gets or sets the revision.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="SanitizePassword" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Allows to sanitize password string from svn command log output.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="StandardError" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the error output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
           <xs:attribute name="StandardOutput" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the target file.</xs:documentation>
@@ -4718,6 +5105,7 @@
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="TrustServerCert" type="msb:non_empty_string">
             <xs:annotation>
@@ -4806,16 +5194,23 @@
               <xs:documentation>[Optional] [Output] Gets or sets the revision.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="SanitizePassword" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Allows to sanitize password string from svn command log output.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="StandardError" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the error output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
           <xs:attribute name="StandardOutput" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the target file.</xs:documentation>
@@ -4827,6 +5222,7 @@
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="TrustServerCert" type="msb:non_empty_string">
             <xs:annotation>
@@ -4915,16 +5311,23 @@
               <xs:documentation>[Optional] [Output] Gets or sets the revision.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="SanitizePassword" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Allows to sanitize password string from svn command log output.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="StandardError" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the error output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
           <xs:attribute name="StandardOutput" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the target file.</xs:documentation>
@@ -4936,6 +5339,7 @@
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="TrustServerCert" type="msb:non_empty_string">
             <xs:annotation>
@@ -4971,6 +5375,12 @@
           <xs:attribute name="Arguments" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the arguments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="BuildTree" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Specifies whether to create any missing directories and subdirectories 
+            in the specified</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Command" type="xs:string">
@@ -5029,6 +5439,11 @@
               <xs:documentation>[Optional] [Output] Gets or sets the revision.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="SanitizePassword" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Allows to sanitize password string from svn command log output.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="SourcePath" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] The path of the source file or folder that should be copied</xs:documentation>
@@ -5039,11 +5454,13 @@
               <xs:documentation>[Optional] [Output] Gets the error output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
           <xs:attribute name="StandardOutput" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the target file.</xs:documentation>
@@ -5055,6 +5472,7 @@
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="TrustServerCert" type="msb:non_empty_string">
             <xs:annotation>
@@ -5143,16 +5561,23 @@
               <xs:documentation>[Optional] [Output] Gets or sets the revision.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="SanitizePassword" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Allows to sanitize password string from svn command log output.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="StandardError" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the error output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
           <xs:attribute name="StandardOutput" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the target file.</xs:documentation>
@@ -5164,6 +5589,7 @@
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="TrustServerCert" type="msb:non_empty_string">
             <xs:annotation>
@@ -5282,6 +5708,11 @@
               <xs:documentation>[Optional] [Output] Gets or sets the revision.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="SanitizePassword" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Allows to sanitize password string from svn command log output.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="Schedule" type="msb:ScheduleType">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] The Subversion schedule type.</xs:documentation>
@@ -5292,11 +5723,13 @@
               <xs:documentation>[Optional] [Output] Gets the error output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
           <xs:attribute name="StandardOutput" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the target file.</xs:documentation>
@@ -5308,6 +5741,7 @@
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="TrustServerCert" type="msb:non_empty_string">
             <xs:annotation>
@@ -5384,6 +5818,128 @@
       </xs:simpleType>
     </xs:union>
   </xs:simpleType>
+  <xs:element name="SvnStatus" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>Subversion status command.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="Arguments" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the arguments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Command" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Entries" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets or sets the entries.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="Force" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the force.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="LocalPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the local path.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Message" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the message.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="MessageFile" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the message file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="NoAuthCache" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating no auth cache.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="NonInteractive" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating the command is non interactive].</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Password" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the password.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="RepositoryPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets or sets the repository path.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Revision" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets or sets the revision.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="SanitizePassword" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Allows to sanitize password string from svn command log output.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardError" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets the error output of SVN command-line client.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutput" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets the output of SVN command-line client.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="TargetFile" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the target file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Targets" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the targets.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+          <xs:attribute name="TrustServerCert" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether to trust the server cert.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Username" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the username.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Verbose" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the verbose.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Xml" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating the output is XML.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="SvnUpdate" substitutionGroup="msb:Task">
     <xs:annotation>
       <xs:documentation>Subversion Update command</xs:documentation>
@@ -5447,16 +6003,23 @@
               <xs:documentation>[Optional] [Output] Gets or sets the revision.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="SanitizePassword" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Allows to sanitize password string from svn command log output.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="StandardError" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the error output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
           <xs:attribute name="StandardOutput" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] Gets the output of SVN command-line client.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="TargetFile" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the target file.</xs:documentation>
@@ -5468,6 +6031,7 @@
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="TrustServerCert" type="msb:non_empty_string">
             <xs:annotation>
@@ -5532,12 +6096,15 @@
               <xs:documentation>[Optional] [Output] Revision number of the local working repository.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Switched" type="msb:non_empty_string">
             <xs:annotation>
               <xs:documentation>[Optional] [Output] True if working copy is switched.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="UseLastCommittedRevision" type="msb:non_empty_string">
             <xs:annotation>
@@ -5637,12 +6204,15 @@
               <xs:documentation>[Optional] Gets or sets the server and share where the symbol files were originally stored.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
           <xs:attribute name="Store" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the root directory for the symbol store.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
           <xs:attribute name="ToolPath" type="xs:string" />
           <xs:attribute name="Verbose" type="msb:non_empty_string">
             <xs:annotation>
@@ -5725,41 +6295,183 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
-  <xs:element name="TfsVersion" substitutionGroup="msb:Task">
+  <xs:element name="TfsClient" substitutionGroup="msb:Task">
     <xs:annotation>
-      <xs:documentation>Determines the changeset in a local Team Foundation Server workspace</xs:documentation>
+      <xs:documentation>A task for Team Foundation Server version control.</xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:complexContent mixed="false">
         <xs:extension base="msb:TaskType">
+          <xs:attribute name="All" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is all.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Author" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the author.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="BatchRequired" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets a value determining if this command must be processed in batch mode, due
+            to the length of the commandline arguments.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Bypass" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is bypass.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="Changeset" type="xs:string">
             <xs:annotation>
-              <xs:documentation>[Optional] [Output] The latest changeset ID in the local path</xs:documentation>
+              <xs:documentation>[Optional] [Output] Gets or sets the changeset.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
-          <xs:attribute name="Domain" type="xs:string">
+          <xs:attribute name="ChangesetVersion" type="xs:string">
             <xs:annotation>
-              <xs:documentation>[Optional] The domain of the user to authenticate on the server</xs:documentation>
+              <xs:documentation>[Optional] Gets or sets the changeset version passed in the version spec parameter</xs:documentation>
             </xs:annotation>
           </xs:attribute>
-          <xs:attribute name="LocalPath" type="msb:non_empty_string" use="required">
+          <xs:attribute name="Collection" type="xs:string">
             <xs:annotation>
-              <xs:documentation>Path to local working copy.</xs:documentation>
+              <xs:documentation>[Optional] Gets or sets the collection.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Command" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the Team Foundation Server command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Comment" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the comment.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ExitCode" />
+          <xs:attribute name="Files" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the files.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Force" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is force.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Format" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the format.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Lock" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the lock.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Notes" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the notes.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Output" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets the output resulting from executing this command.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Override" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is override.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Overwrite" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is overwrite.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="Password" type="xs:string">
             <xs:annotation>
-              <xs:documentation>[Optional] The password for the user to authenticate on the server</xs:documentation>
+              <xs:documentation>[Optional] Gets or sets the password.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
-          <xs:attribute name="TfsLibraryLocation" type="xs:string">
+          <xs:attribute name="Preview" type="msb:non_empty_string">
             <xs:annotation>
-              <xs:documentation>[Optional] The location of the Team Foundation Server client assemblies. Leave empty when the client is installed in the Global Assembly Cache.</xs:documentation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is preview.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
-          <xs:attribute name="Username" type="xs:string">
+          <xs:attribute name="Recursive" type="msb:non_empty_string">
             <xs:annotation>
-              <xs:documentation>[Optional] The user to authenticate on the server</xs:documentation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is recursive.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Remap" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is remap.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Saved" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is saved.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ServerPath" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Output] Gets or sets the server path.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ShelveSetName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the name of the shelve set.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ShelveSetOwner" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the shelve set owner.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Silent" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is silent.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="StandardErrorImportance" type="xs:string" />
+          <xs:attribute name="StandardOutputImportance" type="xs:string" />
+          <xs:attribute name="Timeout" />
+          <xs:attribute name="ToolExe" type="xs:string" />
+          <xs:attribute name="ToolPath" type="xs:string" />
+          <xs:attribute name="Type" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the type.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="UserName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the name of the user.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Validate" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether this  is validate.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Version" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the version.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="WorkingDirectory" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the working directory used when executing this tool.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="WorkspaceName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the name of the workspace.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="WorkspaceOwner" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the workspace owner.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
         </xs:extension>
@@ -5902,6 +6614,11 @@
           <xs:attribute name="Overwrite" type="msb:non_empty_string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets a value indicating whether to overwrite any existing files on extraction. Defaults to true.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Quiet" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether to output less information. Defaults to false.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="TargetDirectory" type="msb:non_empty_string" use="required">
@@ -6076,6 +6793,47 @@
       </xs:complexContent>
     </xs:complexType>
   </xs:element>
+  <xs:element name="WebUpload" substitutionGroup="msb:Task">
+    <xs:annotation>
+      <xs:documentation>Upload a local file to a remote URI.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:complexContent mixed="false">
+        <xs:extension base="msb:TaskType">
+          <xs:attribute name="Domain" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The domain of the user being used to authenticate against the remote web server. A value for  must also be provided.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="FileName" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>Gets or sets the name of the local file that is to receive the data.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Password" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The password used to authenticate against the remote web server. A value for  must also be provided.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="RemoteUri" type="msb:non_empty_string" use="required">
+            <xs:annotation>
+              <xs:documentation>Gets or sets the URI from which to upload data to.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="UseDefaultCredentials" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] When true, the current user's credentials are used to authenticate against the remote web server</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Username" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] The username used to authenticate against the remote web server</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="XmlMassUpdate" substitutionGroup="msb:Task">
     <xs:annotation>
       <xs:documentation>Performs multiple updates on an XML file</xs:documentation>
@@ -6096,6 +6854,11 @@
           <xs:attribute name="ContentRoot" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] The XPath expression identifying root node that substitions are relative to</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="IgnoreMissingSubstitutionsRoot" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] If set to true, the task won't fail if the substitution root is missing</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="MergedFile" type="xs:string">
@@ -6292,6 +7055,13 @@
             around the merged xml input files.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="UseTrusted" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Enables a Trusted XSLT processor. Sepcifically enables scripts 
+            in the xsl transformation file
+            For example: UseTrusted="true"</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="Xsl" type="msb:non_empty_string" use="required">
             <xs:annotation>
               <xs:documentation>Gets or sets the path of the
@@ -6314,6 +7084,11 @@
               <xs:documentation>[Optional] Gets or sets the comment.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="Encryption" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the encryption algorithm.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="Files" type="msb:non_empty_string" use="required">
             <xs:annotation>
               <xs:documentation>Gets or sets the files to zip.</xs:documentation>
@@ -6324,9 +7099,35 @@
               <xs:documentation>[Optional] Gets or sets a value indicating whether this  is flatten.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
+          <xs:attribute name="MinimalLogging" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] [Obsolete] 'Add' statement won't be logged with MinimalLogging enabled.
+            The default value for MinimalLogging is false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="ParallelCompression" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets whether parallel compression is used</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Password" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets the password.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Quiet" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets a value indicating whether to output less information. Defaults to false.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
           <xs:attribute name="WorkingDirectory" type="xs:string">
             <xs:annotation>
               <xs:documentation>[Optional] Gets or sets the working directory for the zip file.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="Zip64" type="msb:non_empty_string">
+            <xs:annotation>
+              <xs:documentation>[Optional] Gets or sets whether to use ZIP64 extensions.</xs:documentation>
             </xs:annotation>
           </xs:attribute>
           <xs:attribute name="ZipFileName" type="msb:non_empty_string" use="required">

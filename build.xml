@@ -1,9 +1,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Test"> 
   <PropertyGroup> 
+    <MSBuildCommunityTasksPath>.</MSBuildCommunityTasksPath>
     <BuildDir>$(MSBuildProjectDirectory)\build\</BuildDir>
-
-	<TestAssembly>$(BuildDir)FluentIL.Tests.dll</TestAssembly>
-	
+	  <TestAssembly>$(BuildDir)FluentIL.Tests.dll</TestAssembly>
     <SourceDir>src\</SourceDir>
     <Configuration>Release</Configuration>
     <Platform>Any CPU</Platform>
@@ -34,7 +33,7 @@
   </Target>
 
   <Target Name="Build" DependsOnTargets="GenerateAssemblyInfo">
-    <MSBuild Projects="@(SolutionFile)" Properties="Configuration=$(Configuration);Platform=$(Platform);OutputPath=$(BuildDir)"/>
+      <MSBuild Projects="@(SolutionFile)" Properties="Configuration=$(Configuration);Platform=$(Platform);OutputPath=$(BuildDir)"/>
   </Target>
 
   <Target Name="Rebuild">

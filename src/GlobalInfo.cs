@@ -8,17 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-
-[assembly: AssemblyCompany("Elemar JR")]
-[assembly: AssemblyProduct("FluentIL")]
-[assembly: ComVisible(false)]
-[assembly: CLSCompliant(false)]
-[assembly: AssemblyVersion("1.01")]
-[assembly: AssemblyFileVersion("1.01")]
+[assembly: System.Reflection.AssemblyCompany("Elemar JR")]
+[assembly: System.Reflection.AssemblyProduct("FluentIL")]
+[assembly: System.Runtime.InteropServices.ComVisible(false)]
+[assembly: System.CLSCompliant(false)]
+[assembly: System.Reflection.AssemblyVersion("1.01")]
+[assembly: System.Reflection.AssemblyFileVersion("1.01")]
 
 
