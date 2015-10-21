@@ -128,3 +128,17 @@ public IPrimeChecker CreatePrimeCheckerV7()
 ````
 
 That's what you can do while using this FluentIL.
+
+There are a lot of samples in the test directory.
+
+## Build
+
+To build the source code:
+
+````
+git clone https://github.com/FluentIL/FluentIL.git
+cd FluentIL
+.\build.cmd
+````
+
+Be happy!
