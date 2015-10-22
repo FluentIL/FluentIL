@@ -14,6 +14,7 @@ x64/
 bld/
 [Bb]in/
 [Oo]bj/
+[Bb]uild/
 
 # Roslyn cache directories
 *.ide/

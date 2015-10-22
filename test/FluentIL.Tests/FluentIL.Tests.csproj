@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CecilTests.cs" />
     <Compile Include="ConditionalStudies.cs" />
     <Compile Include="CounterStudies.cs" />
     <Compile Include="DynamicTypeInfoTests.cs" />
@@ -71,10 +70,6 @@
     <Compile Include="VariableStudies.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FluentIL.Cecil\FluentIL.Cecil.csproj">
-      <Project>{449A3F1F-05FA-41CB-849A-66A0A3C4EF20}</Project>
-      <Name>FluentIL.Cecil</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\FluentIL\FluentIL.csproj">
       <Project>{3A793F01-7299-44F8-9BAF-0BACC23F4021}</Project>
       <Name>FluentIL</Name>
