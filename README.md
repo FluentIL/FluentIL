@@ -5,8 +5,8 @@ This is a community project, free and open source. Everyone is invited to contri
 
 [![Nuget count](http://img.shields.io/nuget/v/fluentil.svg)](https://www.nuget.org/packages/fluentil/)
 [![Nuget downloads](http://img.shields.io/nuget/dt/fluentil.svg)](https://www.nuget.org/packages/fluentil/)
-[![Issues open](http://img.shields.io/github/issues-raw/fluentil/fluenil.svg)](https://github.com/FluentIL/FluentIL/issues/)
 
+If you are looking for some Mono.Cecil integration, please check [FluentIL.Cecil](http://github.com/fluentil/fluentil.cecil) project.
 
 ## Installing
 
@@ -23,6 +23,7 @@ To build the source code:
 ````shell
 git clone https://github.com/FluentIL/FluentIL.git
 cd FluentIL
+nuget restore
 .\build.cmd
 ````
 
