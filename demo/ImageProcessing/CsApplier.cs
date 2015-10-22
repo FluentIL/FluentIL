@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-
 using ImageProcessing.Util;
 
 namespace ImageProcessing
@@ -15,7 +11,7 @@ namespace ImageProcessing
             Action<byte[], byte[]> action = (bytesSource, bytesDest) =>
             {
                 var stride = target.GetStride();
-                CsApplier.Run(bytesSource,
+                Run(bytesSource,
                     bytesDest, stride,
                     stride / target.Width,
                     filter.Matrix, filter.Size, filter.Bias);

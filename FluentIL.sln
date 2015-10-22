@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{4029E9F6-B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageProcessing", "demo\ImageProcessing\ImageProcessing.csproj", "{264C606D-EBF7-4F7C-B1FF-1D7CFFC5078C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicProxy", "demo\DynamicProxy\DynamicProxy.csproj", "{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,14 @@ Global
 		{264C606D-EBF7-4F7C-B1FF-1D7CFFC5078C}.Release|Any CPU.ActiveCfg = Release|x86
 		{264C606D-EBF7-4F7C-B1FF-1D7CFFC5078C}.Release|x86.ActiveCfg = Release|x86
 		{264C606D-EBF7-4F7C-B1FF-1D7CFFC5078C}.Release|x86.Build.0 = Release|x86
+		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}.Debug|x86.Build.0 = Debug|Any CPU
+		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}.Release|x86.ActiveCfg = Release|Any CPU
+		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,5 +63,6 @@ Global
 		{3A793F01-7299-44F8-9BAF-0BACC23F4021} = {806699B2-1027-43C9-A81C-514338A1777D}
 		{FB1104F9-C680-4C37-BC67-59A5B22D4549} = {3CA8E49B-07F8-477E-ABCB-6AAEB6D9AB2B}
 		{264C606D-EBF7-4F7C-B1FF-1D7CFFC5078C} = {4029E9F6-BF88-4927-AA9F-1EFE83B343FF}
+		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C} = {4029E9F6-BF88-4927-AA9F-1EFE83B343FF}
 	EndGlobalSection
 EndGlobal
