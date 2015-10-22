@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageProcessing", "demo\Ima
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicProxy", "demo\DynamicProxy\DynamicProxy.csproj", "{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloning", "Cloning\Cloning.csproj", "{4B0BCED8-9F48-461B-ADD4-7315737A8524}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloning", "demo\Cloning\Cloning.csproj", "{4B0BCED8-9F48-461B-ADD4-7315737A8524}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

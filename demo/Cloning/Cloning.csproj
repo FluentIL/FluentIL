@@ -53,7 +53,7 @@
     <Compile Include="ShallowTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\FluentIL\FluentIL.csproj">
+    <ProjectReference Include="..\..\src\FluentIL\FluentIL.csproj">
       <Project>{3a793f01-7299-44f8-9baf-0bacc23f4021}</Project>
       <Name>FluentIL</Name>
     </ProjectReference>
