@@ -189,6 +189,38 @@ public IPrimeChecker CreatePrimeCheckerV7()
 
 That's what you can do while using this FluentIL.
 
-There are a lot of samples in the test directory.
+There are a lot of samples in the test and demo directory.
 
+Why boring write a clone method again?!
+
+````csharp
+private static Func<T, T> GenerateConventionalCloner<T>()
+{
+    var type = typeof (T);
+
+    var method = IL.NewMethod()
+        .WithParameter(type, "source")
+        .WithVariable(type, "result")
+        .WithOwner(type)
+        .Returns(type)
+
+        .Newobj<T>()
+        .Stloc("result");
+
+    foreach (var field in type.GetAllFields())
+    {
+        method
+            .Ldloc("result")
+            .Ldarg("source")
+            .Ldfld(field)
+            .Stfld(field);
+    }
+
+    method
+        .Ldloc("result")
+        .Ret();
+
+    return (Func<T, T>) method.AsDynamicMethod.CreateDelegate(typeof(Func<T, T>));
+}
+````
 
