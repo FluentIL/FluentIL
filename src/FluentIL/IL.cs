@@ -40,6 +40,11 @@ namespace FluentIL
             return new DynamicTypeInfo(typeName);
         }
 
+        public static DynamicAssemblyInfo NewAssembly(string assemblyName)
+        {
+            return new DynamicAssemblyInfo(assemblyName);
+        }
+
         public static CatchBody<T> Catch<T>(Action<DynamicMethodBody> @body)
             where T : Exception
         {

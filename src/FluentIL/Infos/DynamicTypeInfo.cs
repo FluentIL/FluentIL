@@ -10,6 +10,7 @@ namespace FluentIL.Infos
 {
     public class DynamicTypeInfo
     {
+        private ModuleBuilder _moduleBuilder;
         private readonly List<DynamicFieldInfo> _fieldsField = new List<DynamicFieldInfo>();
         private readonly List<Type> _interfacesField = new List<Type>();
         private Type _parentField = typeof(object);
@@ -21,6 +22,12 @@ namespace FluentIL.Infos
 #if DEBUG
             Console.WriteLine(".class {0}", TypeName);
 #endif
+        }
+
+        internal DynamicTypeInfo(string typeName, ModuleBuilder moduleBuilder)
+            : this(typeName)
+        {
+            _moduleBuilder = moduleBuilder;
         }
 
         public string TypeName { get; private set; }
@@ -39,21 +46,24 @@ namespace FluentIL.Infos
         private void EnsureTypeBuilder()
         {
             if (_typeBuilderField != null) return;
-            var assemblyName = new AssemblyName(
-                $"__assembly__{DateTime.Now.Millisecond}"
-                );
+            if (_moduleBuilder == null)
+            {
+                var assemblyName = new AssemblyName(
+                    $"__assembly__{DateTime.Now.Millisecond}"
+                    );
 
-            var assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(
-                assemblyName,
-                AssemblyBuilderAccess.RunAndSave
-                );
+                var assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(
+                    assemblyName,
+                    AssemblyBuilderAccess.RunAndSave
+                    );
 
-            var moduleBuilder = assemblyBuilder.DefineDynamicModule(
-                assemblyBuilder.GetName().Name,
-                false
-                );
+                _moduleBuilder = assemblyBuilder.DefineDynamicModule(
+                    assemblyBuilder.GetName().Name,
+                    false
+                    );
+            }
 
-            _typeBuilderField = moduleBuilder.DefineType(TypeName,
+            _typeBuilderField = _moduleBuilder.DefineType(TypeName,
                 TypeAttributes.Public |
                 TypeAttributes.Class |
                 TypeAttributes.AutoClass |
