@@ -101,7 +101,7 @@ IL.WithMethod("IsPrime")
 While
 
 ````csharp
-var t = IL..WithMethod("IsPrime")
+var t = IL.WithMethod("IsPrime")
     .WithVariable<int>("i")
     .WithParameter<int>("number")
     .Returns<bool>()
@@ -124,7 +124,7 @@ Until
 Until?
 
 ````csharp
-var t = IL..WithMethod("IsPrime")
+var t = IL.WithMethod("IsPrime")
     .WithVariable<int>("i")
     .WithParameter<int>("number")
     .Returns<bool>()
