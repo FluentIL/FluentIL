@@ -1,6 +1,10 @@
 ﻿
 namespace Bellevue.Parser
 
+type Tokens =
+    | Literal of string
+    | Formula of string 
+
 module private Util =
     let toString chars =
        System.String(chars |> Array.ofList)
@@ -26,12 +30,21 @@ module private Util =
     let rec parse acc chars = seq {
         let emitLiteral() = seq {
             if acc <> [] then 
-                yield acc |> List.rev |> toString
+                yield acc |> List.rev |> toString |> Literal
+        }
+
+        let emitFormula body = seq {
+            if body <> [] then 
+                yield body |> toString |> Formula
         }
 
         match chars with 
         | Bracketed ['@'; '*' ] ['*'; '@' ] (body, chars) ->
             yield! emitLiteral() 
+            yield! parse [] chars
+        | Bracketed ['@'; '{' ] ['}'] (body, chars) ->
+            yield! emitLiteral()
+            yield! emitFormula body 
             yield! parse [] chars
         | h::t -> 
             yield! parse (h::acc) t

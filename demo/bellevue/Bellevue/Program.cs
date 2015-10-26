@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 using FluentIL;
@@ -44,12 +45,28 @@ namespace Bellevue
             var body = main.Returns(typeof (void));
             foreach (var block in TextParser.Parse(File.ReadAllText(input)))
             {
-                body.Write(block);
+                if (block.IsLiteral)
+                {
+                    body.Write(((Tokens.Literal) block).Item);
+                }
+                else if (block.IsFormula)
+                {
+                    var formula = ((Tokens.Formula) block).Item;
+                    // TODO: Which version of write should it use?!
+                    body
+                        .Parse(formula)
+                        .Write<int>();
+                }
             }
             body.Ret();
 
             assembly.SetEntryPoint(main);
             assembly.Save();
+        }
+
+        static string Number()
+        {
+            return (3.1415).ToString(CultureInfo.InvariantCulture);
         }
     }
 }
