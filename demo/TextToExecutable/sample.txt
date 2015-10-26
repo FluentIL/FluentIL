@@ -3,3 +3,5 @@ Hello World!
 This source text will be compiled into an executable.
 
 	Yeap. It works!
+
+Bye!

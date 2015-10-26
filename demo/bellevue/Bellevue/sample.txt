@@ -1,0 +1,7 @@
+Hello World! @*this is a comment*@
+
+This source text @*this is a comment*@will be compiled into an executable.
+
+	Yeap. It works!
+
+Bye!
