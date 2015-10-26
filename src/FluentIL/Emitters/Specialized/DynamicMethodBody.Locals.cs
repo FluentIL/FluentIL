@@ -9,7 +9,7 @@ namespace FluentIL.Emitters
     {
         public int GetVariableIndex(string varname)
         {
-            var variables = _methodInfoField.Variables.ToArray();
+            var variables = _methodInfo.Variables.ToArray();
 
             for (var i = 0; i < variables.Length; i++)
                 if (variables[i].Name == varname)
@@ -20,7 +20,7 @@ namespace FluentIL.Emitters
 
         public int GetParameterIndex(string parametername)
         {
-            var parameters = _methodInfoField.Parameters.ToArray();
+            var parameters = _methodInfo.Parameters.ToArray();
 
             for (var i = 0; i < parameters.Length; i++)
                 if (parameters[i].Name == parametername)

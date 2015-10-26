@@ -10,11 +10,11 @@ namespace FluentIL.Emitters
 {
 	public partial class DynamicMethodBody
 	{
-		readonly Stack<Action> preEmitActionsField = new Stack<Action>();
+		readonly Stack<Action> preEmitActions = new Stack<Action>();
 		private void ExecutePreEmitActions()
 		{
-			while ( preEmitActionsField.Count > 0 ) 
-                preEmitActionsField.Pop()();
+			while ( preEmitActions.Count > 0 ) 
+                preEmitActions.Pop()();
 		}
 
 		#region Emit (basic)
@@ -24,7 +24,7 @@ namespace FluentIL.Emitters
 			#if DEBUG
 			Console.WriteLine(string.Format("\t{0}", opcode));
 			#endif
-            _methodInfoField.GetILEmitter()
+            _methodInfo.GetILEmitter()
                 .Emit(opcode);
 
             return this;
@@ -39,7 +39,7 @@ namespace FluentIL.Emitters
 						Console.WriteLine("\t{0} \"{1}\"", opcode, arg);
 						#endif
 			
-			_methodInfoField.GetILEmitter()
+			_methodInfo.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -52,7 +52,7 @@ namespace FluentIL.Emitters
 						Console.WriteLine("\t{0} {1}", opcode, arg);
 						#endif
 			
-			_methodInfoField.GetILEmitter()
+			_methodInfo.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -65,7 +65,7 @@ namespace FluentIL.Emitters
 						Console.WriteLine("\t{0} {1}", opcode, arg);
 						#endif
 			
-			_methodInfoField.GetILEmitter()
+			_methodInfo.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -78,7 +78,7 @@ namespace FluentIL.Emitters
 						Console.WriteLine("\t{0} IL_{1}", opcode, arg.GetHashCode());
 						#endif
 			
-			_methodInfoField.GetILEmitter()
+			_methodInfo.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -91,7 +91,7 @@ namespace FluentIL.Emitters
 						Console.WriteLine("\t{0} {1}", opcode, arg);
 						#endif
 			
-			_methodInfoField.GetILEmitter()
+			_methodInfo.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -104,7 +104,7 @@ namespace FluentIL.Emitters
 						Console.WriteLine("\t{0} [{1}] {2}", opcode, arg.DeclaringType, arg);
 						#endif
 			
-			_methodInfoField.GetILEmitter()
+			_methodInfo.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -117,7 +117,7 @@ namespace FluentIL.Emitters
 						Console.WriteLine("\t{0} {1}", opcode, arg.Name);
 						#endif
 			
-			_methodInfoField.GetILEmitter()
+			_methodInfo.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;
@@ -130,7 +130,7 @@ namespace FluentIL.Emitters
 						Console.WriteLine("\t{0} {1}", opcode, arg);
 						#endif
 			
-			_methodInfoField.GetILEmitter()
+			_methodInfo.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;

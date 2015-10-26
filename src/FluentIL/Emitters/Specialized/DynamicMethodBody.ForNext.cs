@@ -9,7 +9,7 @@ namespace FluentIL.Emitters
 {
     partial class DynamicMethodBody
     {
-        private readonly Stack<ForInfo> _forsField = new Stack<ForInfo>();
+        private readonly Stack<ForInfo> _fors = new Stack<ForInfo>();
 
         public DynamicMethodBody Emit(params Number[] numbers)
         {
@@ -21,15 +21,15 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody For(string variable, Number from, Number to, int step = 1)
         {
-            var ilgen = _methodInfoField.GetILEmitter();
+            var ilgen = _methodInfo.GetILEmitter();
             var beginLabel = ilgen.DefineLabel();
             var comparasionLabel = ilgen.DefineLabel();
 
-            _forsField.Push(new ForInfo(variable, from, to, step,
+            _fors.Push(new ForInfo(variable, from, to, step,
                                        beginLabel, comparasionLabel));
             if (GetVariableIndex(variable) == -1)
             {
-                _methodInfoField.WithVariable(typeof (int), variable);
+                _methodInfo.WithVariable(typeof (int), variable);
                 ilgen.DeclareLocal(typeof (int));
             }
 
@@ -43,7 +43,7 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Next()
         {
-            var f = _forsField.Pop();
+            var f = _fors.Pop();
             Ldloc(f.Variable)
                 .Ldc(f.Step)
                 .Add()

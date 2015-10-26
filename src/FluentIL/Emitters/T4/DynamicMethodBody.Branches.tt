@@ -20,32 +20,32 @@ namespace FluentIL.Emitters
 {
 	public partial class DynamicMethodBody
 	{
-		readonly Stack<IfEmitter> ifEmittersField = new Stack<IfEmitter>();
+		readonly Stack<IfEmitter> ifEmitters = new Stack<IfEmitter>();
 		public DynamicMethodBody Else()
 		{
-			ifEmittersField.Peek().EmitElse();
+			ifEmitters.Peek().EmitElse();
 			return this;
 		}
 
 		public DynamicMethodBody EndIf()
 		{
-			ifEmittersField.Pop().EmitEndIf();
+			ifEmitters.Pop().EmitEndIf();
 			return this;
 		}
 		
 		private void SaveLeftSideToVariable(Type t)
 		{
-			var emitter = ifEmittersField.Peek();
+			var emitter = ifEmitters.Peek();
 			var variable = emitter.LeftSideVarName;
 
 			if (!emitter.MultipleConditions)
 			{
 				if (GetVariableIndex(variable) == -1)
 				{
-					methodInfoField.WithVariable(typeof(int), variable);
-					methodInfoField.GetILEmitter().DeclareLocal(t);
+					methodInfo.WithVariable(typeof(int), variable);
+					methodInfo.GetILEmitter().DeclareLocal(t);
 				}
-				preEmitActionsField.Push( () =>
+				preEmitActions.Push( () =>
 				{
 					Stloc(variable);
 					Ldloc(variable);
@@ -57,13 +57,13 @@ namespace FluentIL.Emitters
 
 		private DynamicMethodBody And(Number right, OpCode opcode, bool not = false)
 		{
-			var emitter = ifEmittersField.Peek();
+			var emitter = ifEmitters.Peek();
 			var variable = emitter.LeftSideVarName;
-			var a = preEmitActionsField.Pop();
+			var a = preEmitActions.Pop();
 
 			SaveLeftSideToVariable(typeof(int));
 
-			preEmitActionsField.Push( () =>
+			preEmitActions.Push( () =>
 				{
 					a();
 					Ldloc(variable);
@@ -110,7 +110,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.C<#= opcode.Substring(1) #>);
 			return this;
 		}
@@ -128,8 +128,8 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
-			preEmitActionsField.Push( () => 
+			ifEmitters.Push(emitter);
+			preEmitActions.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.C<#= opcode.Substring(1) #>);
@@ -157,7 +157,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.C<#= opcode.Substring(1) #>, true);
 			return this;
 		}

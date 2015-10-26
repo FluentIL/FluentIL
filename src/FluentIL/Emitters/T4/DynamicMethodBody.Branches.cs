@@ -10,50 +10,49 @@ namespace FluentIL.Emitters
 {
 	public partial class DynamicMethodBody
 	{
-		readonly Stack<IfEmitter> ifEmittersField = new Stack<IfEmitter>();
+		readonly Stack<IfEmitter> ifEmitters = new Stack<IfEmitter>();
 		public DynamicMethodBody Else()
 		{
-			ifEmittersField.Peek().EmitElse();
+			ifEmitters.Peek().EmitElse();
 			return this;
 		}
 
 		public DynamicMethodBody EndIf()
 		{
-			ifEmittersField.Pop().EmitEndIf();
+			ifEmitters.Pop().EmitEndIf();
 			return this;
 		}
 		
 		private void SaveLeftSideToVariable(Type t)
 		{
-			var emitter = ifEmittersField.Peek();
+			var emitter = ifEmitters.Peek();
 			var variable = emitter.LeftSideVarName;
 
-			if (!emitter.MultipleConditions)
-			{
-				if (GetVariableIndex(variable) == -1)
-				{
-					_methodInfoField.WithVariable(typeof(int), variable);
-					_methodInfoField.GetILEmitter().DeclareLocal(t);
-				}
-				preEmitActionsField.Push( () =>
-				{
-					Stloc(variable);
-					Ldloc(variable);
-				} );
+		    if (emitter.MultipleConditions) return;
 
-				emitter.MultipleConditions = true;
-			}
+		    if (GetVariableIndex(variable) == -1)
+		    {
+		        _methodInfo.WithVariable(typeof(int), variable);
+		        _methodInfo.GetILEmitter().DeclareLocal(t);
+		    }
+		    preEmitActions.Push( () =>
+		    {
+		        Stloc(variable);
+		        Ldloc(variable);
+		    } );
+
+		    emitter.MultipleConditions = true;
 		}
 
 		private DynamicMethodBody And(Number right, OpCode opcode, bool not = false)
 		{
-			var emitter = ifEmittersField.Peek();
+			var emitter = ifEmitters.Peek();
 			var variable = emitter.LeftSideVarName;
-			var a = preEmitActionsField.Pop();
+			var a = preEmitActions.Pop();
 
 			SaveLeftSideToVariable(typeof(int));
 
-			preEmitActionsField.Push( () =>
+			preEmitActions.Push( () =>
 				{
 					a();
 					Ldloc(variable);
@@ -91,7 +90,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Ceq);
 			return this;
 		}
@@ -109,8 +108,8 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
-			preEmitActionsField.Push( () => 
+			ifEmitters.Push(emitter);
+			preEmitActions.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Ceq);
@@ -138,7 +137,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Ceq, true);
 			return this;
 		}
@@ -307,7 +306,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Cgt);
 			return this;
 		}
@@ -325,8 +324,8 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
-			preEmitActionsField.Push( () => 
+			ifEmitters.Push(emitter);
+			preEmitActions.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Cgt);
@@ -354,7 +353,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Cgt, true);
 			return this;
 		}
@@ -421,7 +420,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Cgt_Un);
 			return this;
 		}
@@ -439,8 +438,8 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
-			preEmitActionsField.Push( () => 
+			ifEmitters.Push(emitter);
+			preEmitActions.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Cgt_Un);
@@ -468,7 +467,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Cgt_Un, true);
 			return this;
 		}
@@ -603,7 +602,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Clt);
 			return this;
 		}
@@ -621,8 +620,8 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
-			preEmitActionsField.Push( () => 
+			ifEmitters.Push(emitter);
+			preEmitActions.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Clt);
@@ -650,7 +649,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Clt, true);
 			return this;
 		}
@@ -717,7 +716,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Clt_Un);
 			return this;
 		}
@@ -735,8 +734,8 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
-			preEmitActionsField.Push( () => 
+			ifEmitters.Push(emitter);
+			preEmitActions.Push( () => 
 				{
 					LdcI4(right);
 					emitter.EmitIf(OpCodes.Clt_Un);
@@ -764,7 +763,7 @@ namespace FluentIL.Emitters
 		// ReSharper restore InconsistentNaming
 		{
 			var emitter = new IfEmitter(this);
-			ifEmittersField.Push(emitter);
+			ifEmitters.Push(emitter);
 			emitter.EmitIf(OpCodes.Clt_Un, true);
 			return this;
 		}

@@ -10,11 +10,11 @@ namespace FluentIL.Emitters
 {
 	public partial class DynamicMethodBody
 	{
-		readonly Stack<Action> preEmitActionsField = new Stack<Action>();
+		readonly Stack<Action> preEmitActions = new Stack<Action>();
 		private void ExecutePreEmitActions()
 		{
-			while ( preEmitActionsField.Count > 0 ) 
-                preEmitActionsField.Pop()();
+			while ( preEmitActions.Count > 0 ) 
+                preEmitActions.Pop()();
 		}
 
 		#region Emit (basic)
@@ -24,7 +24,7 @@ namespace FluentIL.Emitters
 			#if DEBUG
 			Console.WriteLine(string.Format("\t{0}", opcode));
 			#endif
-            methodInfoField.GetILEmitter()
+            _methodInfo.GetILEmitter()
                 .Emit(opcode);
 
             return this;
@@ -54,7 +54,7 @@ namespace FluentIL.Emitters
 			<#}#>
 			#endif
 			
-			methodInfoField.GetILEmitter()
+			_methodInfo.GetILEmitter()
                 .Emit(opcode, arg);
 
             return this;

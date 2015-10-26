@@ -6,11 +6,11 @@ namespace FluentIL.Emitters
 {
     internal class PropertyEmitter
     {
-        private readonly DynamicTypeInfo _dynamicTypeInfoField;
+        private readonly DynamicTypeInfo _dynamicTypeInfo;
 
         public PropertyEmitter(DynamicTypeInfo dynamicTypeInfo)
         {
-            _dynamicTypeInfoField = dynamicTypeInfo;
+            _dynamicTypeInfo = dynamicTypeInfo;
         }
 
         public void Emit(
@@ -20,14 +20,14 @@ namespace FluentIL.Emitters
             Action<DynamicMethodBody> setmethod = null
             )
         {
-            var property = _dynamicTypeInfoField.TypeBuilder.DefineProperty(
+            var property = _dynamicTypeInfo.TypeBuilder.DefineProperty(
                 propertyName,
                 PropertyAttributes.None,
                 propertyType,
                 new Type[] {}
                 );
 
-            var getMethodinfo = _dynamicTypeInfoField
+            var getMethodinfo = _dynamicTypeInfo
                 .WithMethod($"get_{propertyName}")
                 .TurnOnAttributes(MethodAttributes.RTSpecialName)
                 .TurnOnAttributes(MethodAttributes.SpecialName);
@@ -36,7 +36,7 @@ namespace FluentIL.Emitters
             property.SetGetMethod(getMethodinfo.MethodBuilder);
 
             if (setmethod == null) return;
-            var setMethodinfo = _dynamicTypeInfoField
+            var setMethodinfo = _dynamicTypeInfo
                 .WithMethod($"set_{propertyName}")
                 .TurnOnAttributes(MethodAttributes.RTSpecialName)
                 .TurnOnAttributes(MethodAttributes.SpecialName)
@@ -53,7 +53,7 @@ namespace FluentIL.Emitters
             )
         {
             var fieldName = $"_{Guid.NewGuid()}";
-            _dynamicTypeInfoField
+            _dynamicTypeInfo
                 .WithField(fieldName, propertyType)
                 .WithProperty(
                     propertyName,

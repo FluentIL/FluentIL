@@ -6,13 +6,15 @@ namespace FluentIL.Infos
 {
     public class DynamicAssemblyInfo
     {
+        private readonly string _assemblyFileName;
         private readonly ModuleBuilder _moduleBuilder;
         private readonly AssemblyBuilder _assemblyBuilder;
 
-        public DynamicAssemblyInfo(string name)
+        public DynamicAssemblyInfo(string assemblyFileName)
         {
+            _assemblyFileName = assemblyFileName;
             var assemblyName = new AssemblyName(
-                name
+                assemblyFileName
                 );
 
             _assemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(
@@ -22,6 +24,7 @@ namespace FluentIL.Infos
 
             _moduleBuilder = _assemblyBuilder.DefineDynamicModule(
                 _assemblyBuilder.GetName().Name,
+                assemblyFileName,
                 false
                 );
         }
@@ -31,9 +34,9 @@ namespace FluentIL.Infos
             return new DynamicTypeInfo(typeName, _moduleBuilder);
         }
 
-        public void Save(string assemblyFileName)
+        public void Save()
         {
-            _assemblyBuilder.Save(assemblyFileName);
+            _assemblyBuilder.Save(_assemblyFileName);
         }
     }
 }

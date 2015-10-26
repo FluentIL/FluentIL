@@ -36,8 +36,8 @@ namespace FluentIL.Emitters
 
         public DynamicMethodBody Ldarg(params string[] args)
         {
-            var parameters = _methodInfoField.Parameters.ToArray();
-            var offset = (uint) (_methodInfoField.DynamicTypeInfo != null ? 1 : 0);
+            var parameters = _methodInfo.Parameters.ToArray();
+            var offset = (uint) (_methodInfo.DynamicTypeInfo != null ? 1 : 0);
 
             foreach (var arg in args)
                 for (uint i = 0; i < parameters.Length; i++)

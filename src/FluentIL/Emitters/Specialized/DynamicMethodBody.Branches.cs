@@ -15,7 +15,7 @@ namespace FluentIL.Emitters
                 "op_Equality", new[] {typeof (string), typeof (string)});
 
             var emitter = new IfEmitter(this);
-            ifEmittersField.Push(emitter);
+            ifEmitters.Push(emitter);
             Ldsfld(stringEmpty)
                 .Call(stringOpEqualityMethod);
 
@@ -94,7 +94,7 @@ namespace FluentIL.Emitters
         public DynamicMethodBody IfNull(bool not)
         {
             var emitter = new IfEmitter(this);
-            ifEmittersField.Push(emitter);
+            ifEmitters.Push(emitter);
             emitter.EmitBranch(!not);
             return this;
         }
@@ -170,7 +170,7 @@ namespace FluentIL.Emitters
         public DynamicMethodBody If(Expression expression)
         {
             var emitter = new IfEmitter(this);
-            ifEmittersField.Push(emitter);
+            ifEmitters.Push(emitter);
             Expression(expression);
             emitter.EmitBranch();
             return this;
@@ -206,7 +206,7 @@ namespace FluentIL.Emitters
         public DynamicMethodBody If(string expression)
         {
             var emitter = new IfEmitter(this);
-            ifEmittersField.Push(emitter);
+            ifEmitters.Push(emitter);
             Parser.Parse(expression, this);
             emitter.EmitBranch();
             return this;

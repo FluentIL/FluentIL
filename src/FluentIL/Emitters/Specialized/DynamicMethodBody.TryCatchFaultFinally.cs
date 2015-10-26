@@ -12,7 +12,7 @@ namespace FluentIL.Emitters
             params CatchBody[] catches
             )
         {
-            var il = (ReflectionILEmitter)_methodInfoField.GetILEmitter();
+            var il = (ReflectionILEmitter)_methodInfo.GetILEmitter();
             var @tryLabel = il.BeginExceptionBlock();
 
 #if DEBUG
@@ -45,7 +45,7 @@ namespace FluentIL.Emitters
             params CatchBody[] catches
             )
         {
-            var il = (ReflectionILEmitter)_methodInfoField.GetILEmitter();
+            var il = (ReflectionILEmitter)_methodInfo.GetILEmitter();
 
             var tryFinally = il.BeginExceptionBlock();
 #if DEBUG

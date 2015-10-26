@@ -6,8 +6,8 @@ namespace FluentIL.ExpressionParser
 {
     internal class Parser : IDisposable
     {
-        private IEnumerator<Token> _sourceEnumeratorField;
-        private Token _inputTokenField;
+        private IEnumerator<Token> _sourceEnumerator;
+        private Token _inputToken;
 
         internal Parser(IEnumerable<Token> source,
                         DynamicMethodBody body = null)
@@ -23,16 +23,16 @@ namespace FluentIL.ExpressionParser
 
         public void Dispose()
         {
-            _sourceEnumeratorField.Dispose();
+            _sourceEnumerator.Dispose();
         }
 
         #endregion
 
         private Token GetNextToken()
         {
-            while (_sourceEnumeratorField.MoveNext())
+            while (_sourceEnumerator.MoveNext())
             {
-                var result = _sourceEnumeratorField.Current;
+                var result = _sourceEnumerator.Current;
                 if (result.Id != "white_space" &&
                     result.Id != "comment")
                     return result;
@@ -53,10 +53,10 @@ namespace FluentIL.ExpressionParser
 
         public void Parse()
         {
-            _sourceEnumeratorField?.Dispose();
+            _sourceEnumerator?.Dispose();
 
-            _sourceEnumeratorField = Source.GetEnumerator();
-            _inputTokenField = GetNextToken();
+            _sourceEnumerator = Source.GetEnumerator();
+            _inputToken = GetNextToken();
             Begin("Expression");
             LogicalExpression();
             Match("EOP");
@@ -66,7 +66,7 @@ namespace FluentIL.ExpressionParser
         private void LogicalExpression()
         {
             Begin("Logical");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "integer":
                 case "float":
@@ -78,7 +78,7 @@ namespace FluentIL.ExpressionParser
                     BooleanExpressionTail();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -86,7 +86,7 @@ namespace FluentIL.ExpressionParser
         private void BooleanAndExpression()
         {
             Begin("BooleanAnd");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "integer":
                 case "float":
@@ -98,7 +98,7 @@ namespace FluentIL.ExpressionParser
                     EqualityExpressionTail();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -107,7 +107,7 @@ namespace FluentIL.ExpressionParser
         private void BooleanAndExpressionTail()
         {
             Begin("BooleanAndTail");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "and":
                     AndOp();
@@ -127,20 +127,20 @@ namespace FluentIL.ExpressionParser
                     Skip();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
 
         private void AndOp()
         {
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "and":
-                    Match(_inputTokenField.Id);
+                    Match(_inputToken.Id);
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
         }
 
@@ -148,7 +148,7 @@ namespace FluentIL.ExpressionParser
         private void EqualityExpression()
         {
             Begin("Equality");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "integer":
                 case "float":
@@ -160,7 +160,7 @@ namespace FluentIL.ExpressionParser
                     RelationalExpressionTail();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -169,11 +169,11 @@ namespace FluentIL.ExpressionParser
         private void EqualityExpressionTail()
         {
             Begin("EqualityTail");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "eq":
                 case "neq":
-                    var op = _inputTokenField.Id;
+                    var op = _inputToken.Id;
                     EqualOp();
                     EqualityExpression();
                     EqualityExpressionTail();
@@ -186,21 +186,21 @@ namespace FluentIL.ExpressionParser
                     Skip();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
 
         private void EqualOp()
         {
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "eq":
                 case "neq":
-                    Match(_inputTokenField.Id);
+                    Match(_inputToken.Id);
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
         }
 
@@ -208,7 +208,7 @@ namespace FluentIL.ExpressionParser
         private void RelationalExpression()
         {
             Begin("Relational");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "integer":
                 case "not":
@@ -220,7 +220,7 @@ namespace FluentIL.ExpressionParser
                     AdditiveExpressionTail();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -229,13 +229,13 @@ namespace FluentIL.ExpressionParser
         private void RelationalExpressionTail()
         {
             Begin("RelationalTail");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "lt":
                 case "leq":
                 case "gt":
                 case "geq":
-                    var op = _inputTokenField.Id;
+                    var op = _inputToken.Id;
                     RelationalOp();
                     RelationalExpression();
                     RelationalExpressionTail();
@@ -250,23 +250,23 @@ namespace FluentIL.ExpressionParser
                     Skip();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
 
         private void RelationalOp()
         {
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "lt":
                 case "leq":
                 case "gt":
                 case "geq":
-                    Match(_inputTokenField.Id);
+                    Match(_inputToken.Id);
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
         }
 
@@ -274,7 +274,7 @@ namespace FluentIL.ExpressionParser
         private void AdditiveExpression()
         {
             Begin("Additive");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "integer":
                 case "float":
@@ -286,7 +286,7 @@ namespace FluentIL.ExpressionParser
                     MultiplicativeExpressionTail();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -295,11 +295,11 @@ namespace FluentIL.ExpressionParser
         private void AdditiveExpressionTail()
         {
             Begin("AdditiveTail");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "plus":
                 case "minus":
-                    var op = _inputTokenField.Id;
+                    var op = _inputToken.Id;
                     AdditiveOp();
                     AdditiveExpression();
                     AdditiveExpressionTail();
@@ -318,7 +318,7 @@ namespace FluentIL.ExpressionParser
                     Skip();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -373,21 +373,21 @@ namespace FluentIL.ExpressionParser
 
         private void AdditiveOp()
         {
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "plus":
                 case "minus":
-                    Match(_inputTokenField.Id);
+                    Match(_inputToken.Id);
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
         }
 
         private void MultiplicativeExpression()
         {
             Begin("Multiplicative");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "integer":
                 case "float":
@@ -399,7 +399,7 @@ namespace FluentIL.ExpressionParser
                     PowerExpressionTail();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -408,12 +408,12 @@ namespace FluentIL.ExpressionParser
         private void MultiplicativeExpressionTail()
         {
             Begin("MultiplicativeTail");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "times":
                 case "divide":
                 case "mod":
-                    var op = _inputTokenField.Id;
+                    var op = _inputToken.Id;
                     MultiplicativeOp();
                     MultiplicativeExpression();
                     MultiplicativeExpressionTail();
@@ -434,29 +434,29 @@ namespace FluentIL.ExpressionParser
                     Skip();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
 
         private void MultiplicativeOp()
         {
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "times":
                 case "divide":
                 case "mod":
-                    Match(_inputTokenField.Id);
+                    Match(_inputToken.Id);
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
         }
 
         private void PowerExpression()
         {
             Begin("Power");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "integer":
                 case "float":
@@ -467,7 +467,7 @@ namespace FluentIL.ExpressionParser
                     UnaryExpression();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -476,7 +476,7 @@ namespace FluentIL.ExpressionParser
         private void PowerExpressionTail()
         {
             Begin("PowerTail");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "pow":
                     PowerOp();
@@ -501,27 +501,27 @@ namespace FluentIL.ExpressionParser
                     Skip();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
 
         private void PowerOp()
         {
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "pow":
-                    Match(_inputTokenField.Id);
+                    Match(_inputToken.Id);
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
         }
 
         private void UnaryExpression()
         {
             Begin("Unary");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "not":
                     Match("not");
@@ -540,7 +540,7 @@ namespace FluentIL.ExpressionParser
                     PrimaryExpression();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -548,7 +548,7 @@ namespace FluentIL.ExpressionParser
         private void PrimaryExpression()
         {
             Begin("Primary");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "lparen":
                     Match("lparen");
@@ -556,19 +556,19 @@ namespace FluentIL.ExpressionParser
                     Match("rparen");
                     break;
                 case "float":
-                    MethodBody?.Ldc(float.Parse(_inputTokenField.Value));
+                    MethodBody?.Ldc(float.Parse(_inputToken.Value));
                     Match("float");
                     break;
                 case "integer":
-                    MethodBody?.Ldc(int.Parse(_inputTokenField.Value));
+                    MethodBody?.Ldc(int.Parse(_inputToken.Value));
                     Match("integer");
                     break;
                 case "identifier":
-                    MethodBody?.LdArgOrLoc(_inputTokenField.Value);
+                    MethodBody?.LdArgOrLoc(_inputToken.Value);
                     Match("identifier");
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -582,14 +582,14 @@ namespace FluentIL.ExpressionParser
 
         private void Match(string tokenType)
         {
-            if (_inputTokenField.Id == tokenType)
+            if (_inputToken.Id == tokenType)
             {
-                Begin(_inputTokenField.ToString());
-                _inputTokenField = GetNextToken();
+                Begin(_inputToken.ToString());
+                _inputToken = GetNextToken();
                 End();
             }
             else
-                throw new UnexpectedTokenException(_inputTokenField);
+                throw new UnexpectedTokenException(_inputToken);
         }
 
         private static void End()
@@ -610,7 +610,7 @@ namespace FluentIL.ExpressionParser
         private void BooleanExpression()
         {
             Begin("Boolean");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "integer":
                 case "float":
@@ -622,7 +622,7 @@ namespace FluentIL.ExpressionParser
                     BooleanAndExpressionTail();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
@@ -631,7 +631,7 @@ namespace FluentIL.ExpressionParser
         private void BooleanExpressionTail()
         {
             Begin("BooleanTail");
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "or":
                     OrOp();
@@ -650,20 +650,20 @@ namespace FluentIL.ExpressionParser
                     Skip();
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
             End();
         }
 
         private void OrOp()
         {
-            switch (_inputTokenField.Id)
+            switch (_inputToken.Id)
             {
                 case "or":
-                    Match(_inputTokenField.Id);
+                    Match(_inputToken.Id);
                     break;
                 default:
-                    throw new UnexpectedTokenException(_inputTokenField);
+                    throw new UnexpectedTokenException(_inputToken);
             }
         }
 

@@ -6,32 +6,32 @@ namespace FluentIL.Emitters
 {
     public partial class DynamicMethodBody
     {
-        private readonly IDynamicMethodInfo _methodInfoField;
+        private readonly IDynamicMethodInfo _methodInfo;
 
         internal DynamicMethodBody(IDynamicMethodInfo methodInfo)
         {
-            _methodInfoField = methodInfo;
+            _methodInfo = methodInfo;
         }
 
-        public DynamicMethod AsDynamicMethod => _methodInfoField.AsDynamicMethod;
-        public Type AsType => _methodInfoField.DynamicTypeInfo.AsType;
+        public DynamicMethod AsDynamicMethod => _methodInfo.AsDynamicMethod;
+        public Type AsType => _methodInfo.DynamicTypeInfo.AsType;
 
 
         public DynamicMethodInfo WithMethod(string methodName)
         {
-            return _methodInfoField.DynamicTypeInfo.WithMethod(methodName);
+            return _methodInfo.DynamicTypeInfo.WithMethod(methodName);
         }
 
         public object Invoke(params object[] args)
         {
-            return _methodInfoField.AsDynamicMethod.Invoke(null, args);
+            return _methodInfo.AsDynamicMethod.Invoke(null, args);
         }
 
         #region static
 
         public static implicit operator DynamicMethod(DynamicMethodBody body)
         {
-            return body._methodInfoField.AsDynamicMethod;
+            return body._methodInfo.AsDynamicMethod;
         }
 
         #endregion

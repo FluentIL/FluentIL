@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Threading;
 using FluentIL;
 
 namespace HelloWorld
@@ -11,7 +14,7 @@ namespace HelloWorld
                 "WriteLine",
                 new[] { typeof(string) });
 
-            var assembly = IL.NewAssembly("hello");
+            var assembly = IL.NewAssembly("hello.exe");
             var program = assembly.WithType("Program");
             //var program = IL.NewType("Program");
 
@@ -24,7 +27,7 @@ namespace HelloWorld
                     .Ret();
 
             var type = program.AsType;
-            assembly.Save("hello.exe");
+            assembly.Save();
         }
     }
 }

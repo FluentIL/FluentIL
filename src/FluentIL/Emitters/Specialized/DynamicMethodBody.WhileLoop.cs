@@ -12,7 +12,7 @@ namespace FluentIL.Emitters
         
         private DynamicMethodBody WhileOrUntil(string condition, bool isWhile)
         {
-            var ilgen = _methodInfoField.GetILEmitter();
+            var ilgen = _methodInfo.GetILEmitter();
             var beginLabel = ilgen.DefineLabel();
             var comparasionLabel = ilgen.DefineLabel();
 
