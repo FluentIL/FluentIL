@@ -22,6 +22,14 @@ namespace FluentIL.Emitters
             return _methodInfo.DynamicTypeInfo.WithMethod(methodName);
         }
 
+        public DynamicMethodBody WriteLine(string message)
+        {
+            var minfo = typeof(Console).GetMethod(
+                "WriteLine",
+                new[] { typeof(string) });
+            return Ldstr(message).Call(minfo);
+        }
+
         public object Invoke(params object[] args)
         {
             return _methodInfo.AsDynamicMethod.Invoke(null, args);
@@ -33,6 +41,7 @@ namespace FluentIL.Emitters
         {
             return body._methodInfo.AsDynamicMethod;
         }
+
 
         #endregion
     }

@@ -1,5 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
+using System.Security.Policy;
 using System.Threading;
 
 namespace FluentIL.Infos
@@ -9,6 +11,7 @@ namespace FluentIL.Infos
         private readonly string _assemblyFileName;
         private readonly ModuleBuilder _moduleBuilder;
         private readonly AssemblyBuilder _assemblyBuilder;
+        private readonly List<DynamicTypeInfo> _types = new List<DynamicTypeInfo>();
 
         public DynamicAssemblyInfo(string assemblyFileName)
         {
@@ -31,11 +34,19 @@ namespace FluentIL.Infos
 
         public DynamicTypeInfo WithType(string typeName)
         {
-            return new DynamicTypeInfo(typeName, _moduleBuilder);
+            var result = new DynamicTypeInfo(typeName, _moduleBuilder);
+            _types.Add(result);
+            return result;
+
+        }
+
+        public void SetEntryPoint(DynamicMethodInfo method) {
+            _assemblyBuilder.SetEntryPoint(method.MethodBuilder);
         }
 
         public void Save()
         {
+            _types.ForEach(t => t.Complete());
             _assemblyBuilder.Save(_assemblyFileName);
         }
     }

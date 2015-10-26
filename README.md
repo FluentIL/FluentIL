@@ -29,6 +29,120 @@ nuget restore
 
 Be happy!
 
+## Hello World
+
+If you want to create a new assembly...
+
+````csharp
+var assembly = IL.NewAssembly("hello.exe");
+var program = assembly.WithType("Program");
+var main = program.WithStaticMethod("Main");
+
+main
+    .Returns(typeof(void))
+    .WriteLine("Hello World from FluentIL!")
+    .Ret();
+
+assembly.SetEntryPoint(main);
+assembly.Save();
+````
+
+A dynamic method...
+
+````csharp
+var dm = IL.NewMethod()
+    .WithParameter<int>("a")
+    .WithParameter<int>("b")
+    .Returns<int>()
+
+    .Ldarg("a", "b")
+    .Add()
+    .Ret();
+
+var result = dm.Invoke(2, 2);
+````
+
+## Why FluentIL is amazing!?
+
+With FluentIL you don't need to think how to write complex conditionals and loops just with jumps and comparisons. FluentIL encapsulates all the complexity with high level abstractions.
+
+If-Else
+
+````csharp
+var dm = IL.NewMethod()
+    .WithParameter(typeof(int), "a")
+    .Returns(typeof(int))
+    .If("a>=10&&a<=20")
+        .Ldc(2)
+    .Else()
+        .Ldc(4)
+    .EndIf()
+    .Ret(); 
+````
+
+For
+
+````csharp
+IL.WithMethod("IsPrime")
+    .WithVariable(typeof(int), "i")
+    .WithParameter(typeof(int), "number")
+    .Returns(typeof(bool))
+    .If("number<=1")
+        .Ret(false)
+    .EndIf()
+    .For("i", 2, "number/2")
+        .If("(number%i)==0")
+            .Ret(false)
+        .EndIf()
+    .Next()
+    .Ret(true)
+````
+
+While
+
+````csharp
+var t = IL..WithMethod("IsPrime")
+    .WithVariable<int>("i")
+    .WithParameter<int>("number")
+    .Returns<bool>()
+    .If("number<=1", @then: m => m
+        .Ret(false)
+    )
+    .Stloc(2, "i")
+    .While("i <= number/2", @do: m => m
+        .If("(number%i)==0", @then: b => b
+            .Ret(false)
+        )
+        .Inc("i")
+    )
+    .Ret(true)
+````
+
+Until
+
+````
+Until?
+
+````csharp
+var t = IL..WithMethod("IsPrime")
+    .WithVariable<int>("i")
+    .WithParameter<int>("number")
+    .Returns<bool>()
+    .If("number<=1", @then: m => m
+        .Ret(false)
+    )
+    .Stloc(2, "i")
+    .Until("i > number/2", @do: m => m
+        .If("(number%i)==0", @then: b => b
+            .Ret(false)
+        )
+        .Inc("i")
+    )
+    .Ret(true)
+````
+
+
+
 ## Contributing
 
 Questions, comments, bug reports, and pull requests are all welcome. Bug reports that include steps-to-reproduce (including code) are preferred. Even better, make them in the form of pull requests. Before you start to work on an existing issue, check if it is not assigned to anyone yet, and if it is, talk to that person.
@@ -62,134 +176,6 @@ After your pull request is accepted you may delete your local branch if you want
 If your pull request is denied try to understand why. It is not uncommon that PRs are denied but after some discussing and fixing they are accepted. Work with the community to get it to be the best 
 
 ## Samples
-````csharp
-[Test]
-public void TwoPlusTwoWithNamedParameters()
-{
-    // arrange
-    var dm = IL.NewMethod()
-        .WithParameter<int>("a")
-        .WithParameter<int>("b")
-        .Returns<int>()
-  
-        .Ldarg("a", "b")
-        .Add()
-        .Ret();
-  
-    // act
-    var result = dm.Invoke(2, 2);
-  
-    // assert
-    result.Should().Be(4);
-}
-````
-
-It's really simple to emit a method with two arguments? Isn't it?
-
-Conditionals?
-
-````csharp
-[Test]
-public void MultipleConditions_4()
-{
-    var dm = IL.NewMethod()
-        .WithParameter(typeof(int), "a")
-        .Returns(typeof(int))
-        .If("a>=10&&a<=20")
-            .Ldc(2)
-        .Else()
-            .Ldc(4)
-        .EndIf()
-        .Ret();
- 
-    dm.Invoke(10).Should().Be(2);
-    dm.Invoke(9).Should().Be(4);
-    dm.Invoke(21).Should().Be(4);
-}
-````
-
-For?
-
-````csharp
-public IPrimeChecker CreatePrimeCheckerV4()
-{
-    var t = IL.NewType().Implements<IPrimeChecker>()
-        .WithMethod("IsPrime")
-        .WithVariable(typeof(int), "i")
-        .WithParameter(typeof(int), "number")
-        .Returns(typeof(bool))
-            .If("number<=1")
-                .Ret(false)
-            .EndIf()
-            .For("i", 2, "number/2")
-                .If("(number%i)==0")
-                    .Ret(false)
-                .EndIf()
-            .Next()
-            .Ret(true)
-        .AsType;
- 
-    return (IPrimeChecker)Activator.CreateInstance(t);
-}
-````
-
-While?
-
-````csharp
-public IPrimeChecker CreatePrimeCheckerV6()
-{
-    var t = IL.NewType().Implements<IPrimeChecker>()
-        .WithMethod("IsPrime")
-        .WithVariable<int>("i")
-        .WithParameter<int>("number")
-        .Returns<bool>()
-            .If("number<=1", @then: m => m
-                .Ret(false)
-            )
-            .Stloc(2, "i")
-            .While("i <= number/2", @do: m => m
-                .If("(number%i)==0", @then: b => b
-                    .Ret(false)
-                )
-                .Inc("i")
-            )
-            .Ret(true)
-        .AsType;
- 
-    return (IPrimeChecker)Activator.CreateInstance(t);
-}
-````
-
-Until?
-
-````csharp
-public IPrimeChecker CreatePrimeCheckerV7()
-{
-    var t = IL.NewType().Implements<IPrimeChecker>()
-        .WithMethod("IsPrime")
-        .WithVariable<int>("i")
-        .WithParameter<int>("number")
-        .Returns<bool>()
-            .If("number<=1", @then: m => m
-                .Ret(false)
-            )
-            .Stloc(2, "i")
-            .Until("i > number/2", @do: m => m
-                .If("(number%i)==0", @then: b => b
-                    .Ret(false)
-                )
-                .Inc("i")
-            )
-            .Ret(true)
-        .AsType;
- 
-    return (IPrimeChecker)Activator.CreateInstance(t);
-}
-````
-
-That's what you can do while using this FluentIL.
-
-There are a lot of samples in the test and demo directory.
 
 Why boring write a clone method again?!
 

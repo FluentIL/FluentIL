@@ -11,10 +11,10 @@ namespace FluentIL.Infos
     public class DynamicTypeInfo
     {
         private ModuleBuilder _moduleBuilder;
-        private readonly List<DynamicFieldInfo> _fieldsField = new List<DynamicFieldInfo>();
-        private readonly List<Type> _interfacesField = new List<Type>();
-        private Type _parentField = typeof(object);
-        private TypeBuilder _typeBuilderField;
+        private readonly List<DynamicFieldInfo> _fields = new List<DynamicFieldInfo>();
+        private readonly List<Type> _interfaces = new List<Type>();
+        private Type _parent = typeof(object);
+        private TypeBuilder _typeBuilder;
 
         public DynamicTypeInfo(string typeName)
         {
@@ -37,15 +37,15 @@ namespace FluentIL.Infos
             get
             {
                 EnsureTypeBuilder();
-                return _typeBuilderField;
+                return _typeBuilder;
             }
         }
 
-        public Type AsType => TypeBuilder.CreateType();
+        public Type AsType => Complete();
 
         private void EnsureTypeBuilder()
         {
-            if (_typeBuilderField != null) return;
+            if (_typeBuilder != null) return;
             if (_moduleBuilder == null)
             {
                 var assemblyName = new AssemblyName(
@@ -63,20 +63,20 @@ namespace FluentIL.Infos
                     );
             }
 
-            _typeBuilderField = _moduleBuilder.DefineType(TypeName,
+            _typeBuilder = _moduleBuilder.DefineType(TypeName,
                 TypeAttributes.Public |
                 TypeAttributes.Class |
                 TypeAttributes.AutoClass |
                 TypeAttributes.AnsiClass |
                 TypeAttributes.BeforeFieldInit |
                 TypeAttributes.AutoLayout,
-                _parentField,
-                _interfacesField.ToArray()
+                _parent,
+                _interfaces.ToArray()
                 );
                 
-            foreach (var field in _fieldsField)
+            foreach (var field in _fields)
             {
-                field.FieldBuilder = _typeBuilderField.DefineField(
+                field.FieldBuilder = _typeBuilder.DefineField(
                     field.Name,
                     field.Type,
                     FieldAttributes.Private
@@ -96,7 +96,7 @@ namespace FluentIL.Infos
 
         public DynamicTypeInfo Implements<TInterface>()
         {
-            _interfacesField.Add(typeof (TInterface));
+            _interfaces.Add(typeof (TInterface));
 #if DEBUG
             Console.WriteLine("implements {0}", typeof (TInterface));
 #endif
@@ -106,7 +106,7 @@ namespace FluentIL.Infos
         public DynamicTypeInfo Inherits<TBaseClass>()
             where TBaseClass : class
         {
-            _parentField = typeof(TBaseClass);
+            _parent = typeof(TBaseClass);
 #if DEBUG
             Console.WriteLine("inherits {0}", typeof(TBaseClass));
 #endif
@@ -127,13 +127,13 @@ namespace FluentIL.Infos
             Console.WriteLine(".field ({0}) {1}", fieldType, fieldName);
 #endif
 
-            _fieldsField.Add(
+            _fields.Add(
                 value
                 );
 
-            if (_typeBuilderField != null)
+            if (_typeBuilder != null)
             {
-                value.FieldBuilder = _typeBuilderField.DefineField(
+                value.FieldBuilder = _typeBuilder.DefineField(
                     fieldName,
                     fieldType,
                     FieldAttributes.Private
@@ -144,7 +144,7 @@ namespace FluentIL.Infos
 
         public FieldInfo GetFieldInfo(string fieldName)
         {
-            var result = _fieldsField.First(f => f.Name.Equals(fieldName));
+            var result = _fields.First(f => f.Name.Equals(fieldName));
             if (result == null) return null;
             EnsureTypeBuilder();
             return result.FieldBuilder;
@@ -161,8 +161,15 @@ namespace FluentIL.Infos
         {
             return new DynamicMethodInfo(this, methodName);
         }
+
+        public DynamicMethodInfo WithStaticMethod(string methodName)
+        {
+            return new DynamicMethodInfo(this, methodName)
+                .TurnOnAttributes(MethodAttributes.HideBySig | MethodAttributes.Static)
+                .TurnOffAttributes(MethodAttributes.Virtual);
+        }
         
-        public DynamicTypeInfo WithMethod(string methodName,Action<DynamicMethodInfo> methodDefinition)
+        public DynamicTypeInfo WithMethod(string methodName, Action<DynamicMethodInfo> methodDefinition)
         {
             var newMethodInfo = new DynamicMethodInfo(this, methodName);
             methodDefinition(newMethodInfo);
@@ -193,6 +200,11 @@ namespace FluentIL.Infos
                 .Emit(propertyName, propertyType);
             
             return this;
+        }
+
+        public Type Complete()
+        {
+            return TypeBuilder.CreateType();
         }
     }
 }

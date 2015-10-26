@@ -23,11 +23,11 @@ namespace FluentIL.Infos
             MethodName = methodName;
         }
 
-        private readonly ILEmitter _emitterField;
+        private readonly ILEmitter _emitter;
         public DynamicMethodInfo(ILEmitter emitter)
         {
             Body = new DynamicMethodBody(this);
-            _emitterField = emitter;
+            _emitter = emitter;
         }
 
         public DynamicMethodInfo()
@@ -42,7 +42,7 @@ namespace FluentIL.Infos
 
         #region DynamicMethod Gen
 
-        private DynamicMethod _resultField;
+        private DynamicMethod _result;
 
         public DynamicMethod AsDynamicMethod
         {
@@ -51,13 +51,13 @@ namespace FluentIL.Infos
                 if (DynamicTypeInfo != null)
                     throw new InvalidOperationException();
 
-                if (_resultField != null) return _resultField;
+                if (_result != null) return _result;
                 var parameterTypes = _parametersField.Select(p => p.Type)
                     .ToArray();
 
                 if (Owner != null)
                 {
-                    _resultField = new DynamicMethod(
+                    _result = new DynamicMethod(
                         MethodName,
                         ReturnType,
                         parameterTypes,
@@ -67,17 +67,17 @@ namespace FluentIL.Infos
                 }
                 else
                 {
-                    _resultField = new DynamicMethod(
+                    _result = new DynamicMethod(
                         MethodName,
                         ReturnType,
                         parameterTypes
                         );
                 }
 
-                var ilgen = _resultField.GetILGenerator();
+                var ilgen = _result.GetILGenerator();
                 foreach (var variable in Variables)
                     ilgen.DeclareLocal(variable.Type);
-                return _resultField;
+                return _result;
             }
         }
 
@@ -87,8 +87,8 @@ namespace FluentIL.Infos
 
         public ILEmitter GetILEmitter()
         {
-            if (_emitterField != null)
-                return _emitterField;
+            if (_emitter != null)
+                return _emitter;
 
             if (DynamicTypeInfo == null)
                 return new ReflectionILEmitter(AsDynamicMethod.GetILGenerator());
@@ -97,12 +97,24 @@ namespace FluentIL.Infos
             var parameterTypes = _parametersField.Select(p => p.Type)
                 .ToArray();
 
-            MethodBuilder = DynamicTypeInfo.TypeBuilder.DefineMethod(
-                MethodName,
-                _methodAttributesField,
-                CallingConventions.HasThis,
-                ReturnType,
-                parameterTypes);
+            if ((_methodAttributes & MethodAttributes.Static) == MethodAttributes.Static)
+            {
+                MethodBuilder = DynamicTypeInfo.TypeBuilder.DefineMethod(
+                    MethodName,
+                    _methodAttributes,
+                    ReturnType,
+                    parameterTypes);
+            }
+            else
+            {
+                MethodBuilder = DynamicTypeInfo.TypeBuilder.DefineMethod(
+                    MethodName,
+                    _methodAttributes,
+                    CallingConventions.HasThis,
+                    ReturnType,
+                    parameterTypes);
+            }
+            
 
             var ilgen = MethodBuilder.GetILGenerator();
             foreach (var variable in Variables)
@@ -114,17 +126,17 @@ namespace FluentIL.Infos
 
         #region DSL
 
-        private MethodAttributes _methodAttributesField = MethodAttributes.Public | MethodAttributes.Virtual;
+        private MethodAttributes _methodAttributes = MethodAttributes.Public | MethodAttributes.Virtual;
 
         public DynamicMethodInfo TurnOnAttributes(MethodAttributes attributes)
         {
-            _methodAttributesField |= attributes;
+            _methodAttributes |= attributes;
             return this;
         }
 
         public DynamicMethodInfo TurnOffAttributes(MethodAttributes attributes)
         {
-            _methodAttributesField &= ~attributes;
+            _methodAttributes &= ~attributes;
             return this;
         }
 

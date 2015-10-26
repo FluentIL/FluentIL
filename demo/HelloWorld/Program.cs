@@ -1,32 +1,21 @@
-﻿using System;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Threading;
-using FluentIL;
+﻿using FluentIL;
 
 namespace HelloWorld
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            var minfo = typeof(System.Console).GetMethod(
-                "WriteLine",
-                new[] { typeof(string) });
-
             var assembly = IL.NewAssembly("hello.exe");
             var program = assembly.WithType("Program");
-            //var program = IL.NewType("Program");
+            var main = program.WithStaticMethod("Main");
 
-            program.WithMethod("Main")
-                //.TurnOnAttributes(MethodAttributes.Static)
-                //.TurnOffAttributes(MethodAttributes.Virtual)
+            main
                 .Returns(typeof(void))
-                    .Ldstr("Hello World")
-                    .Call(minfo)
-                    .Ret();
+                .WriteLine("Hello World from FluentIL!")
+                .Ret();
 
-            var type = program.AsType;
+            assembly.SetEntryPoint(main);
             assembly.Save();
         }
     }
