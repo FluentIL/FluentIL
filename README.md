@@ -118,9 +118,6 @@ var t = IL..WithMethod("IsPrime")
     .Ret(true)
 ````
 
-Until
-
-````
 Until?
 
 ````csharp
@@ -140,7 +137,6 @@ var t = IL..WithMethod("IsPrime")
     )
     .Ret(true)
 ````
-
 
 
 ## Contributing
