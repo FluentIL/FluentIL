@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloning", "demo\Cloning\Clo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld", "demo\HelloWorld\HelloWorld.csproj", "{80AF98C1-30F6-48A3-A0D9-00EEA97AA27C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextToExecutable", "demo\TextToExecutable\TextToExecutable.csproj", "{A80CA0A0-7995-4877-9B89-1ECA458A1E3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,14 @@ Global
 		{80AF98C1-30F6-48A3-A0D9-00EEA97AA27C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{80AF98C1-30F6-48A3-A0D9-00EEA97AA27C}.Release|x86.ActiveCfg = Release|Any CPU
 		{80AF98C1-30F6-48A3-A0D9-00EEA97AA27C}.Release|x86.Build.0 = Release|Any CPU
+		{A80CA0A0-7995-4877-9B89-1ECA458A1E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A80CA0A0-7995-4877-9B89-1ECA458A1E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A80CA0A0-7995-4877-9B89-1ECA458A1E3D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A80CA0A0-7995-4877-9B89-1ECA458A1E3D}.Debug|x86.Build.0 = Debug|Any CPU
+		{A80CA0A0-7995-4877-9B89-1ECA458A1E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A80CA0A0-7995-4877-9B89-1ECA458A1E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A80CA0A0-7995-4877-9B89-1ECA458A1E3D}.Release|x86.ActiveCfg = Release|Any CPU
+		{A80CA0A0-7995-4877-9B89-1ECA458A1E3D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,5 +96,6 @@ Global
 		{FD4BACBC-BCD2-4833-8E27-9FFB8FF0176C} = {4029E9F6-BF88-4927-AA9F-1EFE83B343FF}
 		{4B0BCED8-9F48-461B-ADD4-7315737A8524} = {4029E9F6-BF88-4927-AA9F-1EFE83B343FF}
 		{80AF98C1-30F6-48A3-A0D9-00EEA97AA27C} = {4029E9F6-BF88-4927-AA9F-1EFE83B343FF}
+		{A80CA0A0-7995-4877-9B89-1ECA458A1E3D} = {4029E9F6-BF88-4927-AA9F-1EFE83B343FF}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>FluentIL</id>
+        <version>1.0.3</version>
+        <title>FluentIL</title>
+        <authors>ElemarJR</authors>
+        <projectUrl>http://github.com/FluentIL</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>.NET Emitting Helper</description>
+        <summary />
+        <tags>Emit IL Reflection</tags>
+    </metadata>
+    <files>
+        <file src="build\FluentIL.dll" target="lib\FluentIL.dll" />
+    </files>
+</package>

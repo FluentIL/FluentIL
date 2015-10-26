@@ -30,6 +30,14 @@ namespace FluentIL.Emitters
             return Ldstr(message).Call(minfo);
         }
 
+        public DynamicMethodBody Write(string message)
+        {
+            var minfo = typeof(Console).GetMethod(
+                "Write",
+                new[] { typeof(string) });
+            return Ldstr(message).Call(minfo);
+        }
+
         public object Invoke(params object[] args)
         {
             return _methodInfo.AsDynamicMethod.Invoke(null, args);
