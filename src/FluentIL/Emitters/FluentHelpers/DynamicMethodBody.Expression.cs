@@ -14,6 +14,12 @@ namespace FluentIL.Emitters
             return this;
         }
 
+        public DynamicMethodBody Parse(string expression, out ParseResult result)
+        {
+            result = Parser.Parse(expression, this);
+            return this;
+        }
+
         public DynamicMethodBody Expression(Expression expression)
         {
             expression = new ExpressionSimplifierVisitor().Visit(expression);

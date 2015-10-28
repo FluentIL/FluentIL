@@ -55,6 +55,13 @@ namespace FluentIL.Emitters
 
         protected abstract void OnEmit(OpCode opcode, double arg);
 
+        public void Emit(OpCode opcode, float arg)
+        {
+            OnEmit(opcode, arg);
+        }
+
+        protected abstract void OnEmit(OpCode opcode, float arg);
+
         public void Emit(OpCode opcode, Label arg)
         {
             OnEmit(opcode, arg);

@@ -2,6 +2,8 @@ Hello World! @*this is a comment*@
 
 This source text @*this is a comment*@will be compiled into an executable.
 
-	Yeap. It works! @{2+2/2}
+    Int operation: @{2+2/2}
+    Int operation: @{5/2}
+    Float operation: @{7.0/2}
 
 Bye!

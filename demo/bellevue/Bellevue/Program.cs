@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
-
-using FluentIL;
-
 using Bellevue.Parser;
+using FluentIL;
+using FluentIL.ExpressionParser;
 
 namespace Bellevue
 {
@@ -51,11 +49,11 @@ namespace Bellevue
                 }
                 else if (block.IsFormula)
                 {
+                    ParseResult result;
                     var formula = ((Tokens.Formula) block).Item;
-                    // TODO: Which version of write should it use?!
                     body
-                        .Parse(formula)
-                        .Write<int>();
+                        .Parse(formula, out result)
+                        .Write(result.ExpressionType);
                 }
             }
             body.Ret();
@@ -64,9 +62,11 @@ namespace Bellevue
             assembly.Save();
         }
 
-        static string Number()
+        public float Print(float input)
         {
-            return (3.1415).ToString(CultureInfo.InvariantCulture);
+            return input/2;
         }
+
+        
     }
 }

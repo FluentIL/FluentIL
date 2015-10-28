@@ -27,6 +27,11 @@ namespace FluentIL.Emitters
             _ilGenerator.Emit(opcode, arg);
         }
 
+        protected override void OnEmit(OpCode opcode, float arg)
+        {
+            _ilGenerator.Emit(opcode, arg);
+        }
+
         protected override void OnEmit(OpCode opcode, double arg)
         {
             _ilGenerator.Emit(opcode, arg);

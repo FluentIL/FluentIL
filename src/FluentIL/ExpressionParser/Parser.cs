@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using FluentIL.Emitters;
 
 namespace FluentIL.ExpressionParser
@@ -41,17 +42,17 @@ namespace FluentIL.ExpressionParser
             return new Token("EOP", "EOP");
         }
 
-
-        public static void Parse(string expression,
+        public static ParseResult Parse(string expression,
                                  DynamicMethodBody methodBody = null)
         {
-            new Parser(
+            return new Parser(
                 new ExpressionScanner().Scan(expression),
                 methodBody
                 ).Parse();
         }
 
-        public void Parse()
+        readonly ParseResult _result = new ParseResult();
+        public ParseResult Parse()
         {
             _sourceEnumerator?.Dispose();
 
@@ -61,6 +62,8 @@ namespace FluentIL.ExpressionParser
             LogicalExpression();
             Match("EOP");
             End();
+
+            return _result;
         }
 
         private void LogicalExpression()
@@ -347,20 +350,26 @@ namespace FluentIL.ExpressionParser
                     break;
                 case "lt":
                     MethodBody.Clt();
+                    _result.AnalyzeType(typeof(bool));
                     break;
                 case "leq":
                     MethodBody.Cle();
+                    _result.AnalyzeType(typeof(bool));
                     break;
                 case "gt":
                     MethodBody.Cgt();
+                    _result.AnalyzeType(typeof(bool));
                     break;
                 case "geq":
                     MethodBody.Cge();
+                    _result.AnalyzeType(typeof(bool));
                     break;
                 case "eq":
                     MethodBody.Ceq();
+                    _result.AnalyzeType(typeof(bool));
                     break;
                 case "neq":
+                    _result.AnalyzeType(typeof(bool));
                     MethodBody
                         .Ceq()
                         .Ldc(0)
@@ -526,6 +535,7 @@ namespace FluentIL.ExpressionParser
                 case "not":
                     Match("not");
                     PrimaryExpression();
+                    _result.AnalyzeType(typeof(bool));
                     MethodBody?.Ldc(0).Ceq();
                     break;
                 case "minus":
@@ -556,12 +566,14 @@ namespace FluentIL.ExpressionParser
                     Match("rparen");
                     break;
                 case "float":
-                    MethodBody?.Ldc(float.Parse(_inputToken.Value));
+                    MethodBody?.Ldc(float.Parse(_inputToken.Value, CultureInfo.InvariantCulture));
                     Match("float");
+                    _result.AnalyzeType(typeof(float));
                     break;
                 case "integer":
                     MethodBody?.Ldc(int.Parse(_inputToken.Value));
                     Match("integer");
+                    _result.AnalyzeType(typeof(int));
                     break;
                 case "identifier":
                     MethodBody?.LdArgOrLoc(_inputToken.Value);

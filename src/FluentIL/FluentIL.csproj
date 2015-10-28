@@ -46,6 +46,7 @@
     <Compile Include="Emitters\ReflectionILEmitter.cs" />
     <Compile Include="Emitters\Specialized\DynamicMethodBody.TryCatchFaultFinally.cs" />
     <Compile Include="Emitters\Specialized\DynamicMethodBody.WhileLoop.cs" />
+    <Compile Include="ExpressionParser\ParseResult.cs" />
     <Compile Include="Infos\DynamicAssemblyInfo.cs" />
     <Compile Include="Infos\DynamicConstructorInfo.cs" />
     <Compile Include="Infos\DynamicFieldInfo.cs" />

@@ -375,6 +375,20 @@ namespace FluentIL.Tests
 
             result.Should().Be(25);
         }
+
+        [Test]
+        public void SevenByTwo()
+        {
+            var result = IL.NewMethod()
+                .Returns<float>()
+                .Ldc(7f)
+                .Ldc(2f)
+                .Div()
+                .Ret()
+                .Invoke();
+
+            result.Should().Be(3.5f);
+        }
     
     }
 }
