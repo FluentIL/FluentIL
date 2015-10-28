@@ -3,7 +3,16 @@ namespace Bellevue.Parser
 
 type Tokens =
     | Literal of string
-    | Formula of string 
+    | Formula of string
+    member x.TryLiteral(literal:string byref) = 
+        match x with
+        | Literal(l) -> literal <- l; true
+        | _ -> false
+    member x.TryFormula(formula:string byref) = 
+        match x with
+        | Formula(f) -> formula <- f; true
+        | _ -> false
+        
 
 module private Util =
     let toString chars =

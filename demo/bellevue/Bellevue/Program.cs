@@ -43,16 +43,16 @@ namespace Bellevue
             var body = main.Returns(typeof (void));
             foreach (var block in TextParser.Parse(File.ReadAllText(input)))
             {
-                if (block.IsLiteral)
+                string s = null;
+                if (block.TryLiteral(ref s))
                 {
-                    body.Write(((Tokens.Literal) block).Item);
+                    body.Write(s);
                 }
-                else if (block.IsFormula)
+                else if (block.TryFormula(ref s))
                 {
                     ParseResult result;
-                    var formula = ((Tokens.Formula) block).Item;
                     body
-                        .Parse(formula, out result)
+                        .Parse(s, out result)
                         .Write(result.ExpressionType);
                 }
             }
