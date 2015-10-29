@@ -51,10 +51,13 @@ namespace Bellevue
                 }
                 else if (block.TryFormula(ref s))
                 {
-                    ParseResult result;
-                    body
-                        .Parse(s, out result)
-                        .Write(result.ExpressionType);
+                    if (!string.IsNullOrWhiteSpace(s))
+                    {
+                        ParseResult result;
+                        body
+                            .Parse(s, out result)
+                            .Write(result.ExpressionType);
+                    }
                 }
                 else if (block.TryAssignment(ref v, ref s))
                 {
