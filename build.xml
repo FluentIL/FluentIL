@@ -6,7 +6,7 @@
     <SourceDir>src\</SourceDir>
     <Configuration>Release</Configuration>
     <Platform>Any CPU</Platform>
-    <ProductVersion>1.03</ProductVersion>
+    <ProductVersion>1.04</ProductVersion>
     <BuildPackage>true</BuildPackage>
     <DistDirectory>dist\</DistDirectory>
   </PropertyGroup>
@@ -50,7 +50,7 @@
   <Target Name="nuget">
     <CallTarget Targets="Clean; Build"></CallTarget>
     <MakeDir Directories="$(DistDirectory)"/>
-    <Exec Command=".\util\nuget\nuget.exe pack .\FluentIL.1.0.3.nuspec -OutputDirectory dist"></Exec>
+    <Exec Command=".\util\nuget\nuget.exe pack .\FluentIL.1.0.4.nuspec -OutputDirectory dist"></Exec>
   </Target>
 
 </Project>

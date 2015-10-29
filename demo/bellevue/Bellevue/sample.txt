@@ -5,5 +5,10 @@ This source text @*this is a comment*@will be compiled into an executable.
     Int operation: @{2+2/2}
     Int operation: @{5/2}
     Float operation: @{7.0/2}
+    3 < 2  : @{3<2}
+    3 > 2  : @{3>2}
+    3 == 3 : @{3==3}
+    3 != 3 : @{3!=3}
+    !(2==2): @{!(2==2)}
 
 Bye!

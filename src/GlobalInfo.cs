@@ -13,7 +13,7 @@
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
 [assembly: System.CLSCompliant(false)]
 [assembly: System.Reflection.AssemblyDescription(".NET Emitting Helper")]
-[assembly: System.Reflection.AssemblyVersion("1.03")]
-[assembly: System.Reflection.AssemblyFileVersion("1.03")]
+[assembly: System.Reflection.AssemblyVersion("1.04")]
+[assembly: System.Reflection.AssemblyFileVersion("1.04")]
 
 
