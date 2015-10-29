@@ -576,7 +576,9 @@ namespace FluentIL.ExpressionParser
                     _result.AnalyzeType(typeof(int));
                     break;
                 case "identifier":
-                    MethodBody?.LdArgOrLoc(_inputToken.Value);
+                    Type t = null;
+                    MethodBody?.LdArgOrLoc(_inputToken.Value, ref t);
+                    _result.AnalyzeType(t);
                     Match("identifier");
                     break;
                 default:

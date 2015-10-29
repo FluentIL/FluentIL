@@ -44,6 +44,7 @@ namespace Bellevue
             foreach (var block in TextParser.Parse(File.ReadAllText(input)))
             {
                 string s = null;
+                string v = null;
                 if (block.TryLiteral(ref s))
                 {
                     body.Write(s);
@@ -54,6 +55,18 @@ namespace Bellevue
                     body
                         .Parse(s, out result)
                         .Write(result.ExpressionType);
+                }
+                else if (block.TryAssignment(ref v, ref s))
+                {
+                    ParseResult result;
+                    body.Parse(s, out result);
+
+                    if (body.GetVariableIndex(v) == -1)
+                    {
+                        main.WithVariable(typeof(int), v);
+                        main.GetILEmitter().DeclareLocal(typeof(int));
+                    }
+                    body.Stloc(v);
                 }
             }
             body.Ret();

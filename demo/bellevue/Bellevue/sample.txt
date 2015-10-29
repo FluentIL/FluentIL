@@ -1,4 +1,4 @@
-Hello World! @*this is a comment*@
+Hello World! @*this is a comment*@ @{a=10}
 
 This source text @*this is a comment*@will be compiled into an executable.
 
@@ -10,5 +10,10 @@ This source text @*this is a comment*@will be compiled into an executable.
     3 == 3 : @{3==3}
     3 != 3 : @{3!=3}
     !(2==2): @{!(2==2)}
-
+    Value of a is @{a}
+    a + 2  : @{a + 2}
+    Then "a" is incremented @{a=a+1}
+    Value of a is @a
+    a + 2  : @{a + 2}
+    
 Bye!

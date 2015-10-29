@@ -1,4 +1,6 @@
-﻿using System.Reflection.Emit;
+﻿using System;
+using System.Linq;
+using System.Reflection.Emit;
 
 // ReSharper disable CheckNamespace
 namespace FluentIL.Emitters
@@ -51,21 +53,40 @@ namespace FluentIL.Emitters
             return LdcI4(args);
         }
 
-        public DynamicMethodBody LdLocOrArg(string name)
+        public DynamicMethodBody LdLocOrArg(string name, ref Type varType)
         {
-            if (GetVariableIndex(name) > -1)
+            int index; 
+            if ((index = GetVariableIndex(name)) > -1)
+            {
+                varType = _methodInfo.Variables.ToArray()[index].Type;
                 return Ldloc(name);
+            }
 
-            if (GetParameterIndex(name) > -1)
+            if ((index = GetParameterIndex(name)) > -1)
+            {
+                varType = _methodInfo.Parameters.ToArray()[index].Type;
                 return Ldarg(name);
+            }
 
             return Ldarg(0)
                 .Ldfld(name);
         }
 
+        public DynamicMethodBody LdLocOrArg(string name)
+        {
+            Type t = null;
+            return LdLocOrArg(name, ref t);
+        }
+
+
         public DynamicMethodBody LdArgOrLoc(string name)
         {
             return LdLocOrArg(name);
+        }
+
+        public DynamicMethodBody LdArgOrLoc(string name, ref Type varType)
+        {
+            return LdLocOrArg(name, ref varType);
         }
 
         public DynamicMethodBody LdcI4(params int[] args)
