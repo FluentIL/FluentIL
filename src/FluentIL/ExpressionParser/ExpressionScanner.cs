@@ -9,7 +9,7 @@
 
         private static StateTable BuildTable()
         {
-            const string whitespaces = " \t\n";
+            const string whitespaces = " \t\n\r";
             const string digits = "0123456789";
             const string letters = "qwertyuiopasdfghjklzxcvbnm";
 

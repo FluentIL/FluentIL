@@ -70,6 +70,13 @@ module private Util =
             | _ -> None
         loop chars
     
+    let (|Ignorables|) chars =
+        let rec loop = function
+            | ' '::xs -> (loop xs)
+            | '\t'::xs -> (loop xs)
+            | xs -> xs
+        loop chars
+
     let rec parse acc chars = seq {
         let emitLiteral() = seq {
             if acc <> [] then 
@@ -85,10 +92,10 @@ module private Util =
             let (|Instruction|_|) chars = 
                 let rec loop acc chars =
                     match chars with 
-                    | x::xs when x = ';' -> 
+                    | x::xs when x = ';' || x = '\n' -> 
                         if acc <> [] 
                         then Some((acc |> List.rev), xs)
-                        else None
+                        else loop [] xs
                     | x::xs -> loop (x::acc) xs
                     | [] ->
                         if acc <> [] 
@@ -100,7 +107,7 @@ module private Util =
             match chars with 
             | Instruction(instruction, body) ->
                 match instruction with 
-                | Id(variable, Equals(value)) -> 
+                | Ignorables(Id(variable, Equals(value))) -> 
                     yield Assignment(variable, value |> toString)
                 | _ -> yield! emitFormula instruction
 

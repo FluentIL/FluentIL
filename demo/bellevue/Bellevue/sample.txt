@@ -15,5 +15,10 @@ This source text @*this is a comment*@will be compiled into an executable.
     Then "a" is incremented @{a=a+1}
     Value of a is @a
     a + 2  : @{a + 2}
+@{
+    c = a
+    d = 7
+}
+    c, d   : @c, @d
     
 Bye!

@@ -6,5 +6,8 @@ open Bellevue.Parser
 
 // Define your library scripting code here
 
-TextParser.Parse("sample @{a=10;a+2} @a")
+TextParser.Parse("@{
+    c = a
+    d = 7
+}")
 
