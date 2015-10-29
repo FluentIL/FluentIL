@@ -66,8 +66,8 @@ namespace Bellevue
 
                     if (body.GetVariableIndex(v) == -1)
                     {
-                        main.WithVariable(typeof(int), v);
-                        main.GetILEmitter().DeclareLocal(typeof(int));
+                        main.WithVariable(result.ExpressionType, v);
+                        main.GetILEmitter().DeclareLocal(result.ExpressionType);
                     }
                     body.Stloc(v);
                 }
@@ -77,12 +77,5 @@ namespace Bellevue
             assembly.SetEntryPoint(main);
             assembly.Save();
         }
-
-        public float Print(float input)
-        {
-            return input/2;
-        }
-
-        
     }
 }

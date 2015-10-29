@@ -1,6 +1,6 @@
 Hello World! @*this is a comment*@ @{a=10}
 
-This source text @*this is a comment*@will be compiled into an executable.
+Welcome @*this is a comment*@ to FluentIL.
 
     Int operation: @{2+2/2}
     Int operation: @{5/2}
