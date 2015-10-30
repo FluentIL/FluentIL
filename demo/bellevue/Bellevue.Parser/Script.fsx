@@ -6,8 +6,7 @@ open Bellevue.Parser
 
 // Define your library scripting code here
 
-TextParser.Parse("@{
-    c = a
-    d = 7
-}")
+TextParser.Parse("This is a @hello() 
+@section hello
+")
 

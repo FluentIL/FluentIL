@@ -5,6 +5,8 @@ type Tokens =
     | Literal of string
     | Formula of string
     | Assignment of string * string
+    | MethodCall of string
+    | Section of string
     member x.TryLiteral(literal:string byref) = 
         match x with
         | Literal(l) -> literal <- l; true
@@ -17,6 +19,15 @@ type Tokens =
         match x with 
         | Assignment(var, v) -> variable <- var; value <- v; true
         | _ -> false
+    member x.TryMethodCall(methodName:string byref) = 
+        match x with
+        | MethodCall(mn) -> methodName <- mn; true
+        | _ -> false
+    member x.TrySection(sectionName:string byref) = 
+        match x with
+        | Section(mn) -> sectionName <- mn; true
+        | _ -> false
+
         
 
 module private Util =
@@ -69,13 +80,23 @@ module private Util =
             | '='::xs -> Some(xs)
             | _ -> None
         loop chars
-    
+
+    let (|NewLine|_|) = function
+    | '\r'::'\n'::xs -> Some(xs)
+    | '\n'::xs -> Some(xs)
+    | _ -> None
+
     let (|Ignorables|) chars =
         let rec loop = function
             | ' '::xs -> (loop xs)
             | '\t'::xs -> (loop xs)
             | xs -> xs
         loop chars
+
+    let (|Section|_|) = function
+    | NewLine('@'::'s'::'e'::'c'::'t'::'i'::'o'::'n'::Ignorables(Id(name, NewLine(xs)))) ->
+        Some(name, xs)
+    | _ -> None
 
     let rec parse acc chars = seq {
         let emitLiteral() = seq {
@@ -122,6 +143,14 @@ module private Util =
         | Bracketed ['@'; '{' ] ['}'] (body, xs) ->
             yield! emitLiteral()
             yield! parseInstructions body
+            yield! parse [] xs
+        | Section(id, xs) ->
+            yield! emitLiteral()
+            yield Section(id)
+            yield! parse [] xs
+        | '@'::Id(id, '('::')'::xs) ->
+            yield! emitLiteral()
+            yield MethodCall(id)
             yield! parse [] xs
         | '@'::Id(id, xs) ->
             yield! emitLiteral()

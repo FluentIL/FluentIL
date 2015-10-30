@@ -1,15 +1,27 @@
-Hello World! @*this is a comment*@ @{a=10}
+Hello World! @*this is a comment*@ 
 
 Welcome @*this is a comment*@ to FluentIL.
 
+@basicmath()
+@booloperations()
+@variables()    
+
+Bye!
+
+@section basicmath
     Int operation: @{2+2/2}
     Int operation: @{5/2}
     Float operation: @{7.0/2}
+
+@section booloperations
     3 < 2  : @{3<2}
     3 > 2  : @{3>2}
     3 == 3 : @{3==3}
     3 != 3 : @{3!=3}
     !(2==2): @{!(2==2)}
+
+@section variables
+    @{a=10}
     Value of a is @{a}
     a + 2  : @{a + 2}
     Then "a" is incremented @{a=a+1}
@@ -20,5 +32,3 @@ Welcome @*this is a comment*@ to FluentIL.
     d = 7
 }
     c, d   : @c, @d
-    
-Bye!

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Bellevue.Parser;
 using FluentIL;
+using FluentIL.Infos;
 using FluentIL.ExpressionParser;
 
 namespace Bellevue
@@ -40,21 +42,22 @@ namespace Bellevue
             var program = assembly.WithType("Program");
             var main = program.WithStaticMethod("Main");
 
-            var body = main.Returns(typeof (void));
+            var current = main;
+            var methods = new Dictionary<string, DynamicMethodInfo>();
             foreach (var block in TextParser.Parse(File.ReadAllText(input)))
             {
                 string s = null;
                 string v = null;
                 if (block.TryLiteral(ref s))
                 {
-                    body.Write(s);
+                    current.Body.Write(s);
                 }
                 else if (block.TryFormula(ref s))
                 {
                     if (!string.IsNullOrWhiteSpace(s))
                     {
                         ParseResult result;
-                        body
+                        current.Body
                             .Parse(s, out result)
                             .Write(result.ExpressionType);
                     }
@@ -62,17 +65,37 @@ namespace Bellevue
                 else if (block.TryAssignment(ref v, ref s))
                 {
                     ParseResult result;
-                    body.Parse(s, out result);
+                    current.Body.Parse(s, out result);
 
-                    if (body.GetVariableIndex(v) == -1)
+                    if (current.Body.GetVariableIndex(v) == -1)
                     {
-                        main.WithVariable(result.ExpressionType, v);
-                        main.GetILEmitter().DeclareLocal(result.ExpressionType);
+                        current.WithVariable(result.ExpressionType, v);
+                        current.GetILEmitter().DeclareLocal(result.ExpressionType);
                     }
-                    body.Stloc(v);
+                    current.Body.Stloc(v);
+                }
+                else if (block.TryMethodCall(ref s))
+                {
+                    if (!methods.ContainsKey(s))
+                    {
+                        methods.Add(s, program.WithStaticMethod(s));
+                    }
+                    var minfo = methods[s];
+                    minfo.GetILEmitter();
+                    current.Body.Call(minfo.MethodBuilder);
+                }
+                else if (block.TrySection(ref s))
+                {
+                    if (!methods.ContainsKey(s))
+                    {
+                        methods.Add(s, program.WithStaticMethod(s));
+                    }
+
+                    current.Body.Ret();
+                    current = methods[s];
                 }
             }
-            body.Ret();
+            current.Body.Ret();
 
             assembly.SetEntryPoint(main);
             assembly.Save();
