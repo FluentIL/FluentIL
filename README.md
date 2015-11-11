@@ -206,3 +206,10 @@ private static Func<T, T> GenerateConventionalCloner<T>()
 }
 ````
 
+## License
+
+This software is open source, licensed under the Apache License, Version 2.0.
+See [LICENSE.txt](https://github.com/FluentIL/FluentIL/blob/master/LICENSE.txt) for details.
+Check out the terms of the license before you contribute, fork, copy or do anything
+with the code. If you decide to contribute you agree to grant copyright of all your contribution to this project, and agree to
+mention clearly if do not agree to these terms. Your work will be licensed with the project at Apache V2, along the rest of the code.
