@@ -94,27 +94,36 @@ namespace FluentIL.Infos
             return this;
         }
 
-        public DynamicTypeInfo Implements<TInterface>()
+        public DynamicTypeInfo Implements(Type interfaceType)
         {
-            _interfaces.Add(typeof (TInterface));
+            _interfaces.Add(interfaceType);
 #if DEBUG
-            Console.WriteLine("implements {0}", typeof (TInterface));
+            Console.WriteLine("implements {0}", interfaceType);
 #endif
             return this;
+        }
+
+        public DynamicTypeInfo Implements<TInterface>()
+        {
+            return Implements(typeof(TInterface));
         }
 
         public DynamicTypeInfo Inherits<TBaseClass>()
             where TBaseClass : class
         {
-            _parent = typeof(TBaseClass);
+            return Inherits(typeof(TBaseClass));
+        }
+
+        public DynamicTypeInfo Inherits(Type baseClass)
+        {
+            _parent = baseClass;
 #if DEBUG
-            Console.WriteLine("inherits {0}", typeof(TBaseClass));
+            Console.WriteLine("inherits {0}", baseClass);
 #endif
             return this;
         }
 
-
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public DynamicTypeInfo WithField(string fieldName, Type fieldType)
 // ReSharper restore InconsistentNaming
         {
@@ -175,7 +184,7 @@ namespace FluentIL.Infos
             methodDefinition(newMethodInfo);
             
             return this;
-        }        
+        }
 
         public DynamicTypeInfo WithProperty(
             string propertyName,
@@ -189,7 +198,6 @@ namespace FluentIL.Infos
 
             return this;
         }
-
 
         public DynamicTypeInfo WithAutoProperty(
             string propertyName,
