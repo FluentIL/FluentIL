@@ -50,6 +50,24 @@ namespace FluentIL.Tests
         }
 
         [Test]
+        public void EmitingTypeThatSupportsReadOnlyExplicitlyImplementedProperty()
+        {
+            var newType = IL.NewType()
+                .Implements<IFoo2>()
+                .WithProperty("ReadOnlyProperty", typeof(int))
+                .ImplementsExplicitly<IFoo2>()
+                .WithGetter()
+                    .Ldc(10)
+                    .Ret()
+                .AsType;
+
+            var f = Activator.CreateInstance(newType);
+            var p = newType.GetProperty("ReadOnlyProperty");
+            ((IFoo2)f).ReadOnlyProperty.Should().Be(10);
+            p.Should().Be.Null();
+        }
+
+        [Test]
         public void EmitingTypeThatSupportsReadOnlyPropertyWithoutInterface()
         {
             var newType = IL.NewType()
