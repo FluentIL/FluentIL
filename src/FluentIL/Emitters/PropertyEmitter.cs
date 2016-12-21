@@ -6,68 +6,32 @@ namespace FluentIL.Emitters
 {
     internal class PropertyEmitter
     {
-        private readonly DynamicTypeInfo _dynamicTypeInfo;
+        private readonly DynamicPropertyInfo _dynamicPropertyInfo;
 
-        public PropertyEmitter(DynamicTypeInfo dynamicTypeInfo)
+        public PropertyEmitter(DynamicPropertyInfo dynamicPropertyInfo)
         {
-            _dynamicTypeInfo = dynamicTypeInfo;
+            _dynamicPropertyInfo = dynamicPropertyInfo;
         }
 
-        public void Emit(
-            string propertyName,
-            Type propertyType,
-            Action<DynamicMethodBody> getmethod,
-            Action<DynamicMethodBody> setmethod = null
-            )
-        {
-            var property = _dynamicTypeInfo.TypeBuilder.DefineProperty(
-                propertyName,
-                PropertyAttributes.None,
-                propertyType,
-                new Type[] {}
-                );
-
-            var getMethodinfo = _dynamicTypeInfo
-                .WithMethod($"get_{propertyName}")
-                .TurnOnAttributes(MethodAttributes.RTSpecialName)
-                .TurnOnAttributes(MethodAttributes.SpecialName);
-
-            getmethod(getMethodinfo.Returns(propertyType));
-            property.SetGetMethod(getMethodinfo.MethodBuilder);
-
-            if (setmethod == null) return;
-            var setMethodinfo = _dynamicTypeInfo
-                .WithMethod($"set_{propertyName}")
-                .TurnOnAttributes(MethodAttributes.RTSpecialName)
-                .TurnOnAttributes(MethodAttributes.SpecialName)
-                .WithParameter(propertyType, "value");
-
-            setmethod(setMethodinfo.Returns(typeof (void)));
-            property.SetSetMethod(setMethodinfo.MethodBuilder);
-        }
-
-
-        public void Emit(
-            string propertyName,
-            Type propertyType
-            )
+        public void EmitAuto()
         {
             var fieldName = $"_{Guid.NewGuid()}";
-            _dynamicTypeInfo
-                .WithField(fieldName, propertyType)
-                .WithProperty(
-                    propertyName,
-                    propertyType,
-                    mget => mget
-                                .Ldarg(0) // this;
-                                .Ldfld(fieldName)
-                                .Ret(),
-                    mset => mset
-                                .Ldarg(0) // this;
-                                .Ldarg("value")
-                                .Stfld(fieldName)
-                                .Ret()
-                );
+            _dynamicPropertyInfo
+                .Owner
+                .WithField(fieldName, _dynamicPropertyInfo.Type);
+
+            _dynamicPropertyInfo
+                .WithGetter()
+                    .Ldarg(0) // this;
+                    .Ldfld(fieldName)
+                    .Ret();
+
+            _dynamicPropertyInfo
+                .WithSetter()
+                    .Ldarg(0) // this;
+                    .Ldarg("value")
+                    .Stfld(fieldName)
+                    .Ret();
         }
     }
 }

@@ -186,6 +186,11 @@ namespace FluentIL.Infos
             return this;
         }
 
+        public DynamicPropertyInfo WithProperty(string propertyName, Type propertyType)
+        {
+            return new DynamicPropertyInfo(this, propertyName, propertyType);
+        }
+
         public DynamicTypeInfo WithProperty(
             string propertyName,
             Type propertyType,
@@ -193,8 +198,9 @@ namespace FluentIL.Infos
             Action<DynamicMethodBody> setmethod = null
             )
         {
-            new PropertyEmitter(this)
-                .Emit(propertyName, propertyType, getmethod, setmethod);
+            var propertyInfo = new DynamicPropertyInfo(this, propertyName, propertyType);
+            getmethod(propertyInfo.WithGetter());
+            setmethod?.Invoke(propertyInfo.WithSetter());
 
             return this;
         }
@@ -204,8 +210,8 @@ namespace FluentIL.Infos
             Type propertyType
             )
         {
-            new PropertyEmitter(this)
-                .Emit(propertyName, propertyType);
+            var propertyInfo = new DynamicPropertyInfo(this, propertyName, propertyType);
+            propertyInfo.WithAutoGetterSetter();
             
             return this;
         }

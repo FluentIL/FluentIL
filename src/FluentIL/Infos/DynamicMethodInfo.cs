@@ -36,9 +36,18 @@ namespace FluentIL.Infos
             MethodName = "DynMethod";
         }
 
-
         public Type Owner { get; private set; }
         public string MethodName { get; private set; }
+        public string RealMethodName
+        {
+            get
+            {
+                if (ExplImplementedInterface != null)
+                    return $"{ExplImplementedInterface.FullName}.{MethodName}";
+
+                return MethodName;
+            }
+        }
 
         #region DynamicMethod Gen
 
@@ -58,7 +67,7 @@ namespace FluentIL.Infos
                 if (Owner != null)
                 {
                     _result = new DynamicMethod(
-                        MethodName,
+                        RealMethodName,
                         ReturnType,
                         parameterTypes,
                         Owner,
@@ -68,7 +77,7 @@ namespace FluentIL.Infos
                 else
                 {
                     _result = new DynamicMethod(
-                        MethodName,
+                        RealMethodName,
                         ReturnType,
                         parameterTypes
                         );
@@ -108,13 +117,18 @@ namespace FluentIL.Infos
             else
             {
                 MethodBuilder = DynamicTypeInfo.TypeBuilder.DefineMethod(
-                    MethodName,
+                    RealMethodName,
                     _methodAttributes,
                     CallingConventions.HasThis,
                     ReturnType,
                     parameterTypes);
+
+                if (ExplImplementedInterface != null)
+                {
+                    var interfaceMethod = ExplImplementedInterface.GetMethod(MethodName);
+                    DynamicTypeInfo.TypeBuilder.DefineMethodOverride(MethodBuilder, interfaceMethod);
+                }
             }
-            
 
             var ilgen = MethodBuilder.GetILGenerator();
             foreach (var variable in Variables)
@@ -233,6 +247,7 @@ namespace FluentIL.Infos
         private readonly List<DynamicVariableInfo> _parametersField = new List<DynamicVariableInfo>();
         private readonly List<DynamicVariableInfo> _variablesField = new List<DynamicVariableInfo>();
         public Type ReturnType { get; private set; }
+        public Type ExplImplementedInterface { get; private set; }
 
         public DynamicMethodBody Body { get; }
 
@@ -251,6 +266,18 @@ namespace FluentIL.Infos
         }
 
         #endregion
+
+        DynamicMethodInfo ImplementsExplicitly(Type interfaceType)
+        {
+            ExplImplementedInterface = interfaceType;
+            
+            return this;
+        }
+
+        DynamicMethodInfo ImplementsExplicitly<TInterface>() where TInterface : class
+        {
+            return ImplementsExplicitly(typeof(TInterface));
+        }
 
         IDynamicMethodInfo IDynamicMethodInfo.WithVariable(Type variableType, string variableName)
         {
