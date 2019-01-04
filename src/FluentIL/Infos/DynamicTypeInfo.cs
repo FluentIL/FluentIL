@@ -94,27 +94,36 @@ namespace FluentIL.Infos
             return this;
         }
 
-        public DynamicTypeInfo Implements<TInterface>()
+        public DynamicTypeInfo Implements(Type interfaceType)
         {
-            _interfaces.Add(typeof (TInterface));
+            _interfaces.Add(interfaceType);
 #if DEBUG
-            Console.WriteLine("implements {0}", typeof (TInterface));
+            Console.WriteLine("implements {0}", interfaceType);
 #endif
             return this;
+        }
+
+        public DynamicTypeInfo Implements<TInterface>()
+        {
+            return Implements(typeof(TInterface));
         }
 
         public DynamicTypeInfo Inherits<TBaseClass>()
             where TBaseClass : class
         {
-            _parent = typeof(TBaseClass);
+            return Inherits(typeof(TBaseClass));
+        }
+
+        public DynamicTypeInfo Inherits(Type baseClass)
+        {
+            _parent = baseClass;
 #if DEBUG
-            Console.WriteLine("inherits {0}", typeof(TBaseClass));
+            Console.WriteLine("inherits {0}", baseClass);
 #endif
             return this;
         }
 
-
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public DynamicTypeInfo WithField(string fieldName, Type fieldType)
 // ReSharper restore InconsistentNaming
         {
@@ -175,7 +184,12 @@ namespace FluentIL.Infos
             methodDefinition(newMethodInfo);
             
             return this;
-        }        
+        }
+
+        public DynamicPropertyInfo WithProperty(string propertyName, Type propertyType)
+        {
+            return new DynamicPropertyInfo(this, propertyName, propertyType);
+        }
 
         public DynamicTypeInfo WithProperty(
             string propertyName,
@@ -184,20 +198,20 @@ namespace FluentIL.Infos
             Action<DynamicMethodBody> setmethod = null
             )
         {
-            new PropertyEmitter(this)
-                .Emit(propertyName, propertyType, getmethod, setmethod);
+            var propertyInfo = new DynamicPropertyInfo(this, propertyName, propertyType);
+            getmethod(propertyInfo.WithGetter());
+            setmethod?.Invoke(propertyInfo.WithSetter());
 
             return this;
         }
-
 
         public DynamicTypeInfo WithAutoProperty(
             string propertyName,
             Type propertyType
             )
         {
-            new PropertyEmitter(this)
-                .Emit(propertyName, propertyType);
+            var propertyInfo = new DynamicPropertyInfo(this, propertyName, propertyType);
+            propertyInfo.WithAutoGetterSetter();
             
             return this;
         }
